@@ -1,26 +1,42 @@
 let modInfo = {
-	name: "The ??? Tree",
+	name: "The Function of Time Tree",
 	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	author: "mikosss",
+	pointsName: "time",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (1), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.3.0",
+	name: "Time Machine Update",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #D0B49F">v0.3.0</h3><br>
+		- Added Time Machine Layer. (Work in Progress)<br><br><br>
+	<h3 style="color: #234F1E">v0.2.17</h3><br>
+		- Added 5 Research Upgrades.<br>
+		- Added 5 Upgrades.<br><br>
+	<h3 style="color: #234F1E">v0.2.7</h3><br>
+		- Added 2 'Research' Upgrade Buyable.<br>
+		- Added 1 'Upgrade' Upgrade Buyable.<br>
+		- Added 4 'Variable' Upgrade Buyable.<br><br>
+	<h3 style="color: #234F1E">v0.2.0</h3><br>
+		- Added Research Layer.<br><br><br>
+	<h3 style="color: #FFE338">v0.1.5</h3><br>
+		- Added 5 Upgades.<br><br>
+	<h3 style="color: #FFE338">v0.1.0</h3><br>
+		- Added Upgrade Layer.<br><br><br>
+	<h3 style="color: #63C5DA">v0.0.4</h3><br>
+		- Added 4 variables.<br><br>
+	<h3 style="color: #63C5DA">v0.0.0</h3><br>
+		- Added f(t) Layer.`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -36,6 +52,7 @@ function getStartPoints(){
 function canGenPoints(){
 	return true
 }
+
 
 // Calculate points/sec!
 function getPointGen() {
