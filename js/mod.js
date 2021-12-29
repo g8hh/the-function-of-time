@@ -3,7 +3,7 @@ let modInfo = {
 	id: "mymod",
 	author: "mikosss",
 	pointsName: "time",
-	modFiles: ["layers.js", "tree.js"],
+	modFiles: ["tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -13,13 +13,26 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3.0",
+	num: "0.3.7",
 	name: "Time Machine Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #D0B49F">v0.3.7</h3><br>
+		- Added current endgame. [ f(t) = 1e18 ]<br><br>
+	<h3 style="color: #D0B49F">v0.3.6</h3><br>
+		- Fixed Warp Warp Time bug.<br><br>
+	<h3 style="color: #D0B49F">v0.3.5</h3><br>
+		- Added Warp Warp Time.<br><br>
+	<h3 style="color: #D0B49F">v0.3.4</h3><br>
+		- Res-Upgrade 1.4 is boosted.<br><br>
+	<h3 style="color: #D0B49F">v0.3.3</h3><br>
+		- Fixed f(t) layer formula display.<br><br>
+	<h3 style="color: #D0B49F">v0.3.2</h3><br>
+		- Added Time Machine Generator.<br>
+		- Added Wrap Time.<br><br>
 	<h3 style="color: #D0B49F">v0.3.0</h3><br>
-		- Added Time Machine Layer. (Work in Progress)<br><br><br>
+		- Added Time Machine Layer.<br><br><br>
 	<h3 style="color: #234F1E">v0.2.17</h3><br>
 		- Added 5 Research Upgrades.<br>
 		- Added 5 Upgrades.<br><br>
@@ -38,7 +51,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 	<h3 style="color: #63C5DA">v0.0.0</h3><br>
 		- Added f(t) Layer.`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Shubadubidadamirunadudarinanawakawakahehenros...`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -60,6 +73,7 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+	gain = gain.mul(tmp.tmach.buyables[12].effect)
 	return gain
 }
 
@@ -73,7 +87,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player["f"].points.gte(new Decimal("1e18"))
 }
 
 

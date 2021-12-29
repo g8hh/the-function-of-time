@@ -5,7 +5,36 @@ addLayer("f", {
                 "main-display",
                 ["display-text", function() { return "You Are Gaining <h2><b>" + format(getResetGain("f")) + "</b></h2> f(t) Per Second" },],
                 "blank",
-                ["display-text", function() { return "f(time+1) = f(time) + abcd(U)"},],
+                ["display-text", function() {
+                if (player["f"].best.gte(100000) && hasUpgrade("res", 15)) {
+                    return "f(time+WT) = f(time) + abcd(U)(WT)" 
+                }
+                else if (player["f"].best.gte(10000) && hasUpgrade("res", 15)) {
+                    return "f(time+WT) = f(time) + abc(U)(WT)" 
+                }
+                else if (player["f"].best.gte(1000) && hasUpgrade("res", 15)) {
+                    return "f(time+WT) = f(time) + abc(WT)" 
+                }
+                else if (player["f"].best.gte(10) && hasUpgrade("res", 15)) {
+                    return "f(time+WT) = f(time) + ab(WT)" 
+                }
+                else if (hasUpgrade("res", 15)) {
+                    return "f(time+WT) = f(time) + a(WT)" 
+                }
+                else if (player["f"].best.gte(100000)) {
+                    return "f(time+1) = f(time) + abcd(U)" 
+                }
+                else if (player["f"].best.gte(10000)) {
+                    return "f(time+1) = f(time) + abc(U)" 
+                }
+                else if (player["f"].best.gte(1000)) {
+                    return "f(time+1) = f(time) + abc" 
+                }
+                else if (player["f"].best.gte(10)) {
+                    return "f(time+1) = f(time) + ab" 
+                }
+                return "f(time+1) = f(time) + a"
+                },],
                 "blank",
                 "buyables"
             ],
@@ -38,6 +67,7 @@ addLayer("f", {
         mult = mult.mul(tmp.f.buyables[21].effect)
         mult = mult.mul(tmp.f.buyables[22].effect)
         mult = mult.mul(player["u"].points)
+        mult = mult.mul(tmp.tmach.buyables[12].effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

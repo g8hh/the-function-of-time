@@ -207,7 +207,7 @@ addLayer("res", {
             cost: new Decimal(10000),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 14)) eff = eff.mul((((player["res"].points).pow(0.5)).add(10)).log10())
+                if (hasUpgrade("res", 14)) eff = eff.mul((((player["res"].points).pow(0.8)).add(10)).log10())
                 return eff
             },
             effectDisplay() {
