@@ -49,8 +49,15 @@ addLayer("u", {
     },
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    layerShown(){return player["f"].best.gte(10000)}, 
+    displayRow: 0,
+    layerShown(){return player["f"].best.gte(10000) || player["p"].total.gte(1)}, 
     branches: ["f"],
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("u", keep);
+        if (player["p"].total.gte(1)) player[this.layer].upgrades = player[this.layer].upgrades.concat([14]);
+        }
+    },
     upgrades: {
         11: {
             title: "Upgrade 1.1",
@@ -147,7 +154,7 @@ addLayer("u", {
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 21))
             },
-            unlocked() {return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
+            unlocked() {return player["p"].total.gte(1) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         22: {
             title: "Upgrade 2.2",
@@ -164,7 +171,7 @@ addLayer("u", {
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 22))
             },
-            unlocked() {return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
+            unlocked() {return player["p"].total.gte(1) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         23: {
             title: "Upgrade 2.3",
@@ -187,7 +194,7 @@ addLayer("u", {
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 23))
             },
-            unlocked() {return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
+            unlocked() {return player["p"].total.gte(1) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         24: {
             title: "Upgrade 2.4",
@@ -204,7 +211,7 @@ addLayer("u", {
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 24))
             },
-            unlocked() {return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
+            unlocked() {return player["p"].total.gte(1) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         25: {
             title: "Upgrade 2.5",
@@ -218,7 +225,7 @@ addLayer("u", {
                 if (hasUpgrade("u", 25)) eff = eff.mul(1.05)
                 return eff
             },
-            unlocked() {return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
+            unlocked() {return player["p"].total.gte(1) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
     },
 })

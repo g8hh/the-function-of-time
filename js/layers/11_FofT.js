@@ -6,26 +6,41 @@ addLayer("f", {
                 ["display-text", function() { return "You Are Gaining <h2><b>" + format(getResetGain("f")) + "</b></h2> f(t) Per Second" },],
                 "blank",
                 ["display-text", function() {
-                if (player["f"].best.gte(100000) && hasUpgrade("res", 15)) {
-                    return "f(time+WT) = f(time) + abcd(U)(WT)" 
+                if (player["f"].best.gte(100000) && player["p"].total.gte(1)) {
+                    return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10000) && hasUpgrade("res", 15)) {
-                    return "f(time+WT) = f(time) + abc(U)(WT)" 
+                else if (player["f"].best.gte(10000) && player["p"].total.gte(1)) {
+                    return "f(time+WT) = f(time) + abc⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(1000) && hasUpgrade("res", 15)) {
-                    return "f(time+WT) = f(time) + abc(WT)" 
+                else if (player["f"].best.gte(1000) && player["p"].total.gte(1)) {
+                    return "f(time+WT) = f(time) + abc⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10) && hasUpgrade("res", 15)) {
-                    return "f(time+WT) = f(time) + ab(WT)" 
+                else if (player["f"].best.gte(10) && player["p"].total.gte(1)) {
+                    return "f(time+WT) = f(time) + ab⋅WT⋅g(t)" 
+                }
+                else if (player["p"].total.gte(1)) {
+                    return "f(time+WT) = f(time) + a⋅WT⋅g(t)" 
+                }
+                else if (player["f"].best.gte(100000) && (hasUpgrade("res", 15))) {
+                    return "f(time+WT) = f(time) + abcd⋅U⋅WT" 
+                }
+                else if (player["f"].best.gte(10000) && (hasUpgrade("res", 15))) {
+                    return "f(time+WT) = f(time) + abc⋅U⋅WT" 
+                }
+                else if (player["f"].best.gte(1000) && (hasUpgrade("res", 15))) {
+                    return "f(time+WT) = f(time) + abc⋅WT" 
+                }
+                else if (player["f"].best.gte(10) && (hasUpgrade("res", 15))) {
+                    return "f(time+WT) = f(time) + ab⋅WT" 
                 }
                 else if (hasUpgrade("res", 15)) {
-                    return "f(time+WT) = f(time) + a(WT)" 
+                    return "f(time+WT) = f(time) + a⋅WT" 
                 }
                 else if (player["f"].best.gte(100000)) {
-                    return "f(time+1) = f(time) + abcd(U)" 
+                    return "f(time+1) = f(time) + abcd⋅U" 
                 }
                 else if (player["f"].best.gte(10000)) {
-                    return "f(time+1) = f(time) + abc(U)" 
+                    return "f(time+1) = f(time) + abc⋅U" 
                 }
                 else if (player["f"].best.gte(1000)) {
                     return "f(time+1) = f(time) + abc" 
@@ -68,13 +83,15 @@ addLayer("f", {
         mult = mult.mul(tmp.f.buyables[22].effect)
         mult = mult.mul(player["u"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
+        mult = mult.mul(player["g"].points)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
     passiveGeneration() { return true },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    displayRow: 1,
     layerShown(){return true},
     buyables: {
         11: {

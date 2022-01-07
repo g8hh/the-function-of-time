@@ -13,11 +13,24 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3.7",
-	name: "Time Machine Update",
+	num: "1.0.10",
+	name: "Function of 'g' and Prestige Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #BF40BF">v1.0.10</h3><br>
+		- Added 4 variables.<br>
+		- Added achievement for prestige.<br>
+		- Changed current endgame. [ f(t) = 1e30 ]<br><br>
+	<h3 style="color: #BF40BF">v1.0.0</h3><br>
+		- Added g(t) Layer.<br>
+		- Added Prestige Layer.<br><br>
+	<h2 style="color: #BF40BF">Function of 'g' <br> and Prestige Update</h2><br><br>
+	<h3 style="color: #FFE4B5">v0.4.21</h3><br>
+		- Added 21 achievements.<br><br>
+	<h3 style="color: #FFE4B5">v0.4.0</h3><br>
+		- Added Achievements.<br><br>
+	<h2 style="color: #FFE4B5">Achievements Update</h2><br><br>
 	<h3 style="color: #D0B49F">v0.3.7</h3><br>
 		- Added current endgame. [ f(t) = 1e18 ]<br><br>
 	<h3 style="color: #D0B49F">v0.3.6</h3><br>
@@ -32,7 +45,8 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added Time Machine Generator.<br>
 		- Added Wrap Time.<br><br>
 	<h3 style="color: #D0B49F">v0.3.0</h3><br>
-		- Added Time Machine Layer.<br><br><br>
+		- Added Time Machine Layer.<br><br>
+	<h2 style="color: #D0B49F">Time Machine Update</h2><br><br>
 	<h3 style="color: #234F1E">v0.2.17</h3><br>
 		- Added 5 Research Upgrades.<br>
 		- Added 5 Upgrades.<br><br>
@@ -41,17 +55,20 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added 1 'Upgrade' Upgrade Buyable.<br>
 		- Added 4 'Variable' Upgrade Buyable.<br><br>
 	<h3 style="color: #234F1E">v0.2.0</h3><br>
-		- Added Research Layer.<br><br><br>
+		- Added Research Layer.<br><br>
+	<h2 style="color: #234F1E">Research Update</h2><br><br>
 	<h3 style="color: #FFE338">v0.1.5</h3><br>
 		- Added 5 Upgades.<br><br>
 	<h3 style="color: #FFE338">v0.1.0</h3><br>
-		- Added Upgrade Layer.<br><br><br>
+		- Added Upgrade Layer.<br><br>
+	<h2 style="color: #FFE338">Upgrade Update</h2><br><br>
 	<h3 style="color: #63C5DA">v0.0.4</h3><br>
 		- Added 4 variables.<br><br>
 	<h3 style="color: #63C5DA">v0.0.0</h3><br>
-		- Added f(t) Layer.`
+		- Added f(t) Layer.<br><br>
+	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `Shubadubidadamirunadudarinanawakawakahehenros...`
+let winText = `WOWERS!!!!!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -87,7 +104,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player["f"].points.gte(new Decimal("1e18"))
+	return player["f"].points.gte(new Decimal("1e30"))
 }
 
 

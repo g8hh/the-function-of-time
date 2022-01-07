@@ -38,7 +38,8 @@ addLayer("tmach", {
         return new Decimal(1)
     },
     passiveGeneration() { return true },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    displayRow: 1,
     layerShown(){return hasUpgrade("res", 15)}, 
     branches: ["f"],
     buyables: {
