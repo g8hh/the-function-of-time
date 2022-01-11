@@ -7,7 +7,12 @@ addLayer("g", {
                 "blank",
                 ["display-text", function() { return "You Have <h2><b>" + format(player["p"].points) + " PP</b></h2>" },],
                 "blank",
-                ["display-text", function() { return "g(time+WT) = f(time) + wxyz⋅WT⋅0.01"}],
+                ["display-text", function() {
+                    if (hasUpgrade("p", 14)) {
+                        return "g(time+WT) = f(time) + wxyz⋅WT" 
+                    }
+                    return "g(time+WT) = f(time) + wxyz⋅WT⋅0.01"
+                }],
                 "blank",
                 "buyables"
             ],
@@ -29,7 +34,7 @@ addLayer("g", {
     exponent: 1, // Prestige currency exponent
     getResetGain() {
         gain = new Decimal(1)
-        gain = gain.mul(0.01)
+        gain = gain.mul(tmp.p.upgrades[14].effect)
         gain = gain.mul(tmp.g.gainMult)
         gain = gain.pow(tmp.g.gainExp)
         return gain
@@ -49,7 +54,7 @@ addLayer("g", {
     passiveGeneration() { return true },
     row: 1, // Row the layer is in on the tree (0 is the first row)
     displayRow: 2,
-    layerShown(){return player["p"].total.gte(1)},
+    layerShown(){return player["f"].best.gte(1e18) || player["p"].total.gte(1)},
     branches: ["p","f"],
     doReset(resettingLayer) {
         let keep=[];

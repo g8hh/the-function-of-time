@@ -72,7 +72,7 @@ addLayer("A", {
         22: {
             name: "more 'U'",
             done() { return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15) },
-            tooltip: "<b>more more more more more...</b><br><br> Buy all of the upgrades in the first row.",
+            tooltip: "<b>more more more more more...</b><br><br> Buy all of the 'U' upgrades in the first row.",
             style: {'height': '64px', 'width': '64px'}
         },
         23: {
@@ -99,6 +99,18 @@ addLayer("A", {
             tooltip: "<b>Its billion, duh...</b><br><br> 'U' value is more than 1e9.",
             style: {'height': '64px', 'width': '64px'}
         },
+        27: {
+            name: "p-U-wer of 15",
+            done() { return player["u"].best.gte(1e15) },
+            tooltip: "<b>sigh...</b><br><br> 'U' value is more than 1e15.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        28: {
+            name: "It's done right?",
+            done() { return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15) && hasUpgrade("u", 21) && hasUpgrade("u", 22) && hasUpgrade("u", 23) && hasUpgrade("u", 24) && hasUpgrade("u", 25) && hasUpgrade("u", 31) && hasUpgrade("u", 32) && hasUpgrade("u", 33) && hasUpgrade("u", 34) && hasUpgrade("u", 35) },
+            tooltip: "<b>no(?)</b><br><br> Buy all of the 'U' upgrades from the first to third row.",
+            style: {'height': '64px', 'width': '64px'}
+        },
         31: {
             name: "Research",
             done() { return hasUpgrade("u", 14) },
@@ -107,8 +119,8 @@ addLayer("A", {
         },
         32: {
             name: "smart",
-            done() { return tmp.res.getResetGain.gte(1) },
-            tooltip: "<b>but no yet smart</b><br><br> Gain 1 Knowledge per second.",
+            done() { return player["res"].best.gte(1) },
+            tooltip: "<b>but no smart</b><br><br> Have 1 Knowledge.",
             style: {'height': '64px', 'width': '64px'}
         },
         33: {
@@ -119,8 +131,32 @@ addLayer("A", {
         },
         34: {
             name: "very smort",
-            done() { return tmp.res.getResetGain.gte(1000) },
-            tooltip: "<b>but yet again no smart enough</b><br><br> Gain 1,000 Knowledge per second.",
+            done() { return player["res"].best.gte(1000000) },
+            tooltip: "<b>yet again no smart enough</b><br><br> Have 1,000,000 Knowledge.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        35: {
+            name: "very very smort",
+            done() { return player["res"].best.gte(1e9) },
+            tooltip: "<b>but yet again no smart enough</b><br><br> Have 1e9 Knowledge.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        36: {
+            name: "very very very smort",
+            done() { return player["res"].best.gte(1e15) },
+            tooltip: "<b>and but yet again no smart enough</b><br><br> Have 1e15 Knowledge.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        37: {
+            name: "very very very very",
+            done() { return player["res"].best.gte(1e24) },
+            tooltip: "<b>and again, and but yet again no smart enough</b><br><br> Have 1e24 Knowledge.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        38: {
+            name: "veryyyyy yyyyyyyy yyyyyyyy yyyyyyyy",
+            done() { return player["res"].best.gte(1e36) },
+            tooltip: "<b>hmmmmmm, ok</b><br><br> Have 1e36 Knowledge.",
             style: {'height': '64px', 'width': '64px'}
         },
         41: {
@@ -139,6 +175,30 @@ addLayer("A", {
             name: "speed of potato",
             done() { return tmp.pointGen.gte(1024) },
             tooltip: "<b>what even is the speed of potatoes?</b><br><br> Gain 1,024 time per second",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        44: {
+            name: "a super long named thing",
+            done() { return hasUpgrade("p", 12)},
+            tooltip: "<b>what does it even mean</b><br><br> Unlock Time Machine Genarator Enchancer (T.M.G.E.)",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        45: {
+            name: "speed of potato squared",
+            done() { return tmp.pointGen.gte(1048576) },
+            tooltip: "<b>wow faster potato</b><br><br> Gain 1,048,576 time per second",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        46: {
+            name: "speed of light",
+            done() { return tmp.pointGen.gte(29979245800) },
+            tooltip: "<b>in cm.</b><br><br> Gain 29,979,245,800 time per second",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        47: {
+            name: "senior",
+            done() { return getBuyableAmount("tmach", 12).gte(60) },
+            tooltip: "<b>very old</b><br><br> Warp Time 60 times",
             style: {'height': '64px', 'width': '64px'}
         },
         51: {
@@ -169,6 +229,12 @@ addLayer("A", {
             name: "z",
             done() { return getBuyableAmount("g", 22).gte(1) },
             tooltip: "<b>'i' to 'v' pls</b><br><br> Have 1 'z' variable amount.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        56: {
+            name: "prestiged",
+            done() { return hasUpgrade("p", 11) && hasUpgrade("p", 12) && hasUpgrade("p", 13) && hasUpgrade("p", 14) && hasUpgrade("p", 15) },
+            tooltip: "<b>more more more more more?</b><br><br> Buy all first row of Pres-Upgrades",
             style: {'height': '64px', 'width': '64px'}
         },
     },

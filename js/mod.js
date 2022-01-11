@@ -13,11 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0.10",
-	name: "Function of 'g' and Prestige Update",
+	num: "1.1.30",
+	name: "Upgradey pdate",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #BF40BF">v1.1.30</h3><br>
+		- Added 5 Upgrades<br>
+		- Added 5 Res-Upgrades<br>
+		- Added 5 Pres-Upgrades<br>
+		- Added another Time Machine content<br>
+		- Added buy max button in Research and f(t) layer<br>
+		- Added more achievements<br>
+		- Changed current endgame to 'purchase 'U' Upgrade 3.5'<br><br>
+	<h3 style="color: #BF40BF">v1.1.0</h3><br>
+		- Added Pres-Upgrades<br><br>
+	<h2 style="color: #BF40BF">g(t) & Prestige Update II: <br> Upgradey Update</h2><br><br>
 	<h3 style="color: #BF40BF">v1.0.10</h3><br>
 		- Added 4 variables.<br>
 		- Added achievement for prestige.<br>
@@ -104,7 +115,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player["f"].points.gte(new Decimal("1e30"))
+	return hasUpgrade("u", 35)
 }
 
 

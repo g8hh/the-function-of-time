@@ -54,7 +54,7 @@ addLayer("tmach", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("tmach", 11).sub(1)).pow(2)
+                eff = eff.add(getBuyableAmount("tmach", 11).sub(1)).pow(tmp.tmach.buyables[22].effect)
                 return eff
             },
         },
@@ -86,10 +86,29 @@ addLayer("tmach", {
                 setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(1))
             },
             effect() { 
-                eff = new Decimal(0)
-                eff = eff.add(1).add((getBuyableAmount("tmach", 21)).mul(0.5))
+                eff = new Decimal(1)
+                eff = eff.add((getBuyableAmount("tmach", 21)).mul(0.5))
                 return eff
             },
+        },
+        22: {
+            title() {return "T.M.G.E."},
+            cost(x) { return new Decimal(15).add(6*x)},
+            display() { return "Name is too long, so I acronymed it. Basically increase the power of Time Machine Generator.<br><b>WARNING: Resets 'Time Fragments', 'f(t) value', 'Time Machine Generator' Buyable, & 'Warp Time' Buyable</b><br> Currently: " + format(tmp.tmach.buyables[22].effect) + " (bought:" + format(getBuyableAmount("tmach", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 22))) + " Time Machine Generators"},
+            canAfford() { return getBuyableAmount("tmach", 11).gte(this.cost()) },
+            buy() {
+                player["f"].points = player["f"].points.mul(0)
+                player["tmach"].points = player["tmach"].points.mul(0)
+                setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).mul(0))
+                setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).mul(0))
+                setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(1))
+            },
+            effect() { 
+                eff = new Decimal(2)
+                eff = eff.add(getBuyableAmount("tmach", 22).mul(2/3))
+                return eff
+            },
+            unlocked() {return hasUpgrade("p", 12)},
         },
     }
 })
