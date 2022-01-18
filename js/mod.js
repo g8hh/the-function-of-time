@@ -13,11 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.1.30",
-	name: "Upgradey Update",
+	num: "1.2.17",
+	name: "Another Upgrade Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #970439">v1.2.17</h3><br>
+		- Added 5 'pU' Upgrades as usual...<br>
+		- Changed tree design<br>
+		- Time Machine buy max button<br>
+		- Added additional Research and Time Machine content<br>
+		- Added caps to various upgrades<br>
+		- Added more achievements<br>
+		- Changed current [ f(t) = 1.79e308 ]<br><br>
+	<h3 style="color: #970439">v1.2.0</h3><br>
+		- Added 'pU' Upgrades<br><br>
+	<h2 style="color: #970439">Another Upgrade Update</h2><br><br>
 	<h3 style="color: #BF40BF">v1.1.30</h3><br>
 		- Added 5 Upgrades<br>
 		- Added 5 Res-Upgrades<br>
@@ -79,7 +90,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added f(t) Layer.<br><br>
 	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `Shubadubidadamirunadudarinanawakawakahehenros...`
+let winText = `WOWERS!!!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -115,7 +126,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("u", 35)
+	return player["f"].best.gte(new Decimal(2).pow(1024))
 }
 
 

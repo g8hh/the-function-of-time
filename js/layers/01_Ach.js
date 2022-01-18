@@ -66,7 +66,7 @@ addLayer("A", {
         21: {
             name: "U",
             done() { return hasUpgrade("u", 11) },
-            tooltip: "<b>vroom vroom...</b><br><br> Buy the first upgrade.",
+            tooltip: "<b>vroom vroom...</b><br><br> Buy the first 'U' upgrade.",
             style: {'height': '64px', 'width': '64px'}
         },
         22: {
@@ -201,6 +201,12 @@ addLayer("A", {
             tooltip: "<b>very old</b><br><br> Warp Time 60 times",
             style: {'height': '64px', 'width': '64px'}
         },
+        48: {
+            name: "capped",
+            done() { return getBuyableAmount("tmach", 21).gte(32) && getBuyableAmount("tmach", 22).gte(32)},
+            tooltip: "<b>as for now</b><br><br> Get the second cap of Warp Warp Time and T.M.G.E.",
+            style: {'height': '64px', 'width': '64px'}
+        },
         51: {
             name: "PP???",
             done() { return player["p"].best.gte(1) },
@@ -235,6 +241,24 @@ addLayer("A", {
             name: "prestiged",
             done() { return hasUpgrade("p", 11) && hasUpgrade("p", 12) && hasUpgrade("p", 13) && hasUpgrade("p", 14) && hasUpgrade("p", 15) },
             tooltip: "<b>more more more more more?</b><br><br> Buy all first row of Pres-Upgrades",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        61: {
+            name: "déjà vu",
+            done() { return hasUpgrade("pu", 11)},
+            tooltip: "<b>seems familliar</b><br><br> Buy the first 'pU' upgrade.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        62: {
+            name: "'pU'-wer of 15'",
+            done() { return player["pu"].best.gte(1e15)},
+            tooltip: "<b>copy cat of 'U' Variable, smh</b><br><br> 'U' value is more than 1e15.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        71: {
+            name: "∞",
+            done() { return player["f"].best.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>WOW</b><br><br> reach f(t) = 1.79e308",
             style: {'height': '64px', 'width': '64px'}
         },
     },

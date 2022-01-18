@@ -21,7 +21,7 @@ addLayer("res", {
     },
     name: "research", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "R", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
@@ -155,6 +155,31 @@ addLayer("res", {
                 return eff
             },
             style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#FFE338',} }
+        },
+        22: {
+            title() {return "'pU' Variable Upgrade"},
+            cost(x) { return new Decimal(1e60).mul(1000**x)},
+            display() { return "x2 'pU' variable value  <br> Currently: " + format(tmp.res.buyables[22].effect) + " (bought:" + format(getBuyableAmount("res", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 22))) + " Knowledge"},
+            canAfford() { return player["res"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("res", 11) == false) {
+                    player["res"].points = player["res"].points.sub(this.cost())
+                    setBuyableAmount("res", 22, getBuyableAmount("res", 22).add(1))
+                }
+                else if (getClickableState("res", 11) == true) {
+                    max = new Decimal(0)
+                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(999).add(1)).log10()).div(new Decimal(1000).log10()))))
+                    player["res"].points = player["res"].points.sub(new Decimal(1000).pow(getBuyableAmount("res", 22).add(max)).sub(1).div(999).sub(new Decimal(1000).pow(getBuyableAmount("res", 22)).sub(1).div(999)).mul(1e60))
+                    setBuyableAmount("res", 22, getBuyableAmount("res", 22).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.mul(new Decimal(2).pow(getBuyableAmount("res", 22)))
+                return eff
+            },
+            unlocked() {return hasUpgrade("pu", 15)},
+            style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#970439',} }
         },
         31: {
             title() {return "'a' Variable Upgrade"},
@@ -377,11 +402,16 @@ addLayer("res", {
         },
         25: {
             title: "Res-Upgrade 2.5",
-            description: "+ x0.0001 Multiplicative Research Upgrade every Additive Research Upgrade.",
+            description: "+ x0.0001 Multiplicative Research Upgrade every Additive Research Upgrade. <br> (Cap = + ^0.1)",
             cost: new Decimal(10000000000),
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res", 25)) eff = eff.add(getBuyableAmount("res", 11).mul(0.0001))
+                if (getBuyableAmount("res", 11).lte(1000)) {
+                    if (hasUpgrade("res", 25)) eff = eff.add(getBuyableAmount("res", 11).mul(0.0001))
+                }
+                else if (getBuyableAmount("res", 11).gte(1000)) {
+                    if (hasUpgrade("res", 25)) eff = eff.add(0.1)
+                }
                 return eff
             },
             effectDisplay() {

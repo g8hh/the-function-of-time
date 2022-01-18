@@ -92,7 +92,7 @@ addLayer("f", {
     },
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 1,
+    displayRow: 0,
     layerShown(){return true},
     clickables: {
         11: {

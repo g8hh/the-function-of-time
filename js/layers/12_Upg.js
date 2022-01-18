@@ -9,7 +9,7 @@ addLayer("u", {
             ],
         },
     },
-    name: "upgrades", // This is optional, only used in a few places, If absent it just uses the layer id.
+    name: "'U' upgrades", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "U", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
@@ -35,7 +35,7 @@ addLayer("u", {
         player["u"].points = player["u"].points.mul(tmp.u.upgrades[24].effect)
         player["u"].points = player["u"].points.mul(tmp.u.upgrades[33].effect)
         player["u"].points = player["u"].points.mul(buyableEffect("res", 21))
-        player["u"].points = player["u"].points.pow(tmp.u.upgrades[25].effect.add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect))
+        player["u"].points = player["u"].points.pow(new Decimal(1).add(tmp.u.upgrades[25].effect).add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect))
     },
     getResetGain() {
         gain = new Decimal(0)
@@ -50,18 +50,19 @@ addLayer("u", {
     },
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 0,
+    displayRow: 1,
     layerShown(){return player["f"].best.gte(10000) || player["p"].total.gte(1)}, 
     branches: ["f"],
     doReset(resettingLayer) {
         let keep=[];
         if (layers[resettingLayer].row > this.row) {layerDataReset("u", keep);
         if (player["p"].total.gte(1)) player[this.layer].upgrades = player[this.layer].upgrades.concat([14]);
+        if (hasAchievement("A", 28)) player[this.layer].upgrades = player[this.layer].upgrades.concat([35])
         }
     },
     upgrades: {
         11: {
-            title: "Upgrade 1.1",
+            title: "'U' Upgrade 1.1",
             description: "x3 'U' value",
             cost: new Decimal(100000),
             currencyDisplayName: "f(t)",
@@ -74,7 +75,7 @@ addLayer("u", {
             }
         },
         12: {
-            title: "Upgrade 1.2",
+            title: "'U' Upgrade 1.2",
             description: "x1.5 your 'U' value every 'U' Upgrades bought",
             cost: new Decimal(1000000),
             currencyDisplayName: "f(t)",
@@ -106,7 +107,7 @@ addLayer("u", {
             }
         },
         13: {
-            title: "Upgrade 1.3",
+            title: "'U' Upgrade 1.3",
             description: "x1.01 'U' value every 'a' Variable bought.",
             cost: new Decimal(10000000),
             currencyDisplayName: "f(t)",
@@ -122,7 +123,7 @@ addLayer("u", {
             }
         },
         14: {
-            title: "Upgrade 1.4",
+            title: "'U' Upgrade 1.4",
             description: "Unlock Research",
             cost: new Decimal(100000000),
             currencyDisplayName: "f(t)",
@@ -130,7 +131,7 @@ addLayer("u", {
             currencyLayer: "f",
         },
         15: {
-            title: "Upgrade 1.5",
+            title: "'U' Upgrade 1.5",
             description: "x1.01 'U' value every 'b' Variable bought.",
             cost: new Decimal(1e9),
             currencyDisplayName: "f(t)",
@@ -146,7 +147,7 @@ addLayer("u", {
             }
         },
         21: {
-            title: "Upgrade 2.1",
+            title: "'U' Upgrade 2.1",
             description: "x1.002 'U' value every 'a, b, c & d' Variable Upgrade bought.",
             cost: new Decimal(1e10),
             currencyDisplayName: "f(t)",
@@ -163,7 +164,7 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         22: {
-            title: "Upgrade 2.2",
+            title: "'U' Upgrade 2.2",
             description: "x1.01 'U' value every 'c' Variable bought.",
             cost: new Decimal(1e11),
             currencyDisplayName: "f(t)",
@@ -180,7 +181,7 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         23: {
-            title: "Upgrade 2.3",
+            title: "'U' Upgrade 2.3",
             description: "x1.5 'U' value every Res-Upgrade bought.",
             cost: new Decimal(1e12),
             currencyDisplayName: "f(t)",
@@ -208,7 +209,7 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         24: {
-            title: "Upgrade 2.4",
+            title: "'U' Upgrade 2.4",
             description: "x1.01 'U' value every 'd' Variable bought.",
             cost: new Decimal(1e13),
             currencyDisplayName: "f(t)",
@@ -225,21 +226,21 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         25: {
-            title: "Upgrade 2.5",
+            title: "'U' Upgrade 2.5",
             description: "^1.05 'U' value.",
             cost: new Decimal(1e14),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
             currencyLayer: "f",
             effect() {
-                eff = new Decimal(1)
-                if (hasUpgrade("u", 25)) eff = eff.mul(1.05)
+                eff = new Decimal(0)
+                if (hasUpgrade("u", 25)) eff = eff.add(0.05)
                 return eff
             },
             unlocked() {return hasUpgrade("p", 13) || hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15)},
         },
         31: {
-            title: "Upgrade 3.1",
+            title: "'U' Upgrade 3.1",
             description: "+ ^0.015 'U' value every 'U' Upgrades bought in 3rd row.",
             cost: new Decimal(1e36),
             currencyDisplayName: "f(t)",
@@ -262,7 +263,7 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13)},
         },
         32: {
-            title: "Upgrade 3.2",
+            title: "'U' Upgrade 3.2",
             description: "+ ^0.01 'U' value every Pres-Upgrades bought",
             cost: new Decimal(1e45),
             currencyDisplayName: "f(t)",
@@ -285,7 +286,7 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13)},
         },
         33: {
-            title: "Upgrade 3.3",
+            title: "'U' Upgrade 3.3",
             description: "Multiply 'U' value based on unspent PP",
             cost: new Decimal(1e54),
             currencyDisplayName: "f(t)",
@@ -302,15 +303,20 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13)},
         },
         34: {
-            title: "Upgrade 3.4",
-            description: "+ ^0.0008 'U' value every Warp Time bought",
+            title: "'U' Upgrade 3.4",
+            description: "+ ^0.0008 'U' value every Warp Time bought <br> (Cap = + ^1)",
             cost: new Decimal(1e72),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(0)
+                if (getBuyableAmount("tmach", 12).lte(1250)) {
                     if (hasUpgrade("u", 34)) eff = eff.add(new Decimal(0.0008).mul(getBuyableAmount("tmach", 12)))
+                }
+                else if (getBuyableAmount("tmach", 12).gte(1250)) {
+                    if (hasUpgrade("u", 34)) eff = eff.add(1)
+                }
                 return eff
             },
             effectDisplay() {
@@ -319,8 +325,8 @@ addLayer("u", {
             unlocked() {return hasUpgrade("p", 13)},
         },
         35: {
-            title: "Upgrade 3.5",
-            description: "Unlock ???<br>Current Endgame",
+            title: "'U' Upgrade 3.5",
+            description: "Unlock 'pU' Upgrades",
             cost: new Decimal(1e90),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
