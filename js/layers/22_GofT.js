@@ -8,7 +8,10 @@ addLayer("g", {
                 ["display-text", function() { return "You Have <h2><b>" + format(player["p"].points) + " PP</b></h2>" },],
                 "blank",
                 ["display-text", function() {
-                    if (hasUpgrade("p", 14)) {
+                    if (hasUpgrade("u", 35)) {
+                        return "g(time+WT) = f(time) + wxyz⋅pU⋅WT" 
+                    }
+                    else if (hasUpgrade("p", 14)) {
                         return "g(time+WT) = f(time) + wxyz⋅WT" 
                     }
                     return "g(time+WT) = f(time) + wxyz⋅WT⋅0.01"
@@ -20,7 +23,7 @@ addLayer("g", {
     },
     name: "g of t", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "g", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
 		points: new Decimal(1),
@@ -45,6 +48,7 @@ addLayer("g", {
         mult = mult.mul(tmp.g.buyables[12].effect)
         mult = mult.mul(tmp.g.buyables[21].effect)
         mult = mult.mul(tmp.g.buyables[22].effect)
+        mult = mult.mul(player["pu"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
         return mult
     },
@@ -65,7 +69,7 @@ addLayer("g", {
     buyables: {
         11: {
             title() {return "'w' Variable"},
-            cost(x) { return new Decimal(1).mul(2**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'w' Variable <br> w = " + format(tmp.g.buyables[11].effect) + " (bought:" + format(getBuyableAmount("g", 11)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 11))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -80,7 +84,7 @@ addLayer("g", {
         },
         12: {
             title() {return "'x' Variable"},
-            cost(x) { return new Decimal(100).mul(2**x)},
+            cost(x) { return new Decimal(100).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'x' Variable <br> x = " + format(tmp.g.buyables[12].effect) + " (bought:" + format(getBuyableAmount("g", 12)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 12))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -95,7 +99,7 @@ addLayer("g", {
         },
         21: {
             title() {return "'y' Variable"},
-            cost(x) { return new Decimal(10000).mul(2**x)},
+            cost(x) { return new Decimal(10000).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'y' Variable <br> y = " + format(tmp.g.buyables[21].effect) + " (bought:" + format(getBuyableAmount("g", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 21))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -110,7 +114,7 @@ addLayer("g", {
         },
         22: {
             title() {return "'z' Variable"},
-            cost(x) { return new Decimal(1000000).mul(2**x)},
+            cost(x) { return new Decimal(1000000).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'z' Variable <br> z = " + format(tmp.g.buyables[22].effect) + " (bought:" + format(getBuyableAmount("g", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 22))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {

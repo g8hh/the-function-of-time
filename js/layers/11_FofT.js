@@ -6,7 +6,13 @@ addLayer("f", {
                 ["display-text", function() { return "You Are Gaining <h2><b>" + format(getResetGain("f")) + "</b></h2> f(t) Per Second" },],
                 "blank",
                 ["display-text", function() {
-                if (player["f"].best.gte(100000) && player["p"].total.gte(1)) {
+                if (inChallenge("inf", 21)) {
+                    return "f(time+WT) = f(time) + abd⋅U⋅WT⋅g(t)⋅0.001"
+                }
+                else if (inChallenge("inf", 12)) {
+                    return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)⋅0.001"
+                }
+                else if (player["f"].best.gte(100000) && player["p"].total.gte(1)) {
                     return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)" 
                 }
                 else if (player["f"].best.gte(10000) && player["p"].total.gte(1)) {
@@ -58,7 +64,7 @@ addLayer("f", {
     },
     name: "f of t", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "f", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
 		points: new Decimal(1.001),
@@ -85,6 +91,7 @@ addLayer("f", {
         mult = mult.mul(player["u"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
         mult = mult.mul(player["g"].points)
+        if (inChallenge("inf", 12)) mult = mult.mul(0.001)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -92,7 +99,7 @@ addLayer("f", {
     },
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 1,
+    displayRow: 0,
     layerShown(){return true},
     clickables: {
         11: {
@@ -113,10 +120,13 @@ addLayer("f", {
             }
         }
     },
+    automate() {
+        return (getClickableState("auto", 11) ? buyBuyable("f", 11) : false), (getClickableState("auto", 12) ? buyBuyable("f", 12) : false), (getClickableState("auto", 13) ? buyBuyable("f", 21) : false), (getClickableState("auto", 14) ? buyBuyable("f", 22) : false)
+    },
     buyables: {
         11: {
             title() {return "'a' Variable"},
-            cost(x) { return new Decimal(1).mul(1.5**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of 'a' Variable <br> a = " + format(tmp.f.buyables[11].effect) + " (bought:" + format(getBuyableAmount("f", 11)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("f", 11)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -126,8 +136,9 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).div(2).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub(new Decimal(1.5).pow(getBuyableAmount("f", 11).add(max)).sub(1).mul(2).sub(new Decimal(1.5).pow(getBuyableAmount("f", 11)).sub(1).mul(2)))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("f", 11), 1)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("f", 11, getBuyableAmount("f", 11).add(max))
                 }
             },
@@ -139,7 +150,7 @@ addLayer("f", {
         },
         12: {
             title() {return "'b' Variable"},
-            cost(x) { return new Decimal(100).mul(1.5**x)},
+            cost(x) { return new Decimal(100).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of 'b' Variable <br> b = " + format(tmp.f.buyables[12].effect) + " (bought:" + format(getBuyableAmount("f", 12)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("f", 12)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -149,8 +160,9 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).div(2).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub((new Decimal(1.5).pow(getBuyableAmount("f", 12).add(max)).sub(1).mul(2).sub(new Decimal(1.5).pow(getBuyableAmount("f", 12)).sub(1).mul(2))).mul(100))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("f", 12), 100)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("f", 12, getBuyableAmount("f", 12).add(max))
                 }
             },
@@ -159,11 +171,14 @@ addLayer("f", {
                 eff = eff.add(getBuyableAmount("f", 12)).mul(buyableEffect("res", 32))
                 return eff
             },
-            unlocked() {return player["f"].best.gte(10)}
+            unlocked() {
+                if (inChallenge("inf", 22)) {return false} 
+                else {return player["f"].best.gte(10)}
+            }
         },
         21: {
             title() {return "'c' Variable"},
-            cost(x) { return new Decimal(10000).mul(1.5**x)},
+            cost(x) { return new Decimal(10000).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of 'c' Variable <br> c = " + format(tmp.f.buyables[21].effect) + " (bought:" + format(getBuyableAmount("f", 21)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("f", 21)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -173,8 +188,9 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).div(2).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub((new Decimal(1.5).pow(getBuyableAmount("f", 21).add(max)).sub(1).mul(2).sub(new Decimal(1.5).pow(getBuyableAmount("f", 21)).sub(1).mul(2))).mul(10000))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("f", 21), 10000)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("f", 21, getBuyableAmount("f", 21).add(max))
                 }
             },
@@ -183,11 +199,15 @@ addLayer("f", {
                 eff = eff.add(getBuyableAmount("f", 21)).mul(buyableEffect("res", 41))
                 return eff
             },
-            unlocked() {return player["f"].best.gte(1000)}
+            unlocked() {
+                if (inChallenge("inf", 21)) {return false} 
+                else if (inChallenge("inf", 22)) {return false} 
+                else {return player["f"].best.gte(1000)}
+            }
         },
         22: {
             title() {return "'d' Variable"},
-            cost(x) { return new Decimal(1000000).mul(1.5**x)},
+            cost(x) { return new Decimal(1000000).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of 'd' Variable <br> d = " + format(tmp.f.buyables[22].effect) + " (bought:" + format(getBuyableAmount("f", 22)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("f", 22)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -197,8 +217,9 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).div(2).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub((new Decimal(1.5).pow(getBuyableAmount("f", 22).add(max)).sub(1).mul(2).sub(new Decimal(1.5).pow(getBuyableAmount("f", 22)).sub(1).mul(2))).mul(1000000))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("f", 22), 1000000)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("f", 22, getBuyableAmount("f", 22).add(max))
                 }
             },
@@ -207,7 +228,10 @@ addLayer("f", {
                 eff = eff.add(getBuyableAmount("f", 22)).mul(buyableEffect("res", 42))
                 return eff
             },
-            unlocked() {return player["f"].best.gte(100000)}
+            unlocked() {
+                if (inChallenge("inf", 22)) {return false} 
+                else {return player["f"].best.gte(100000)}
+            }
         },
     }
 })

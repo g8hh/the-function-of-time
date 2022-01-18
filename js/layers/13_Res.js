@@ -21,7 +21,7 @@ addLayer("res", {
     },
     name: "research", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "R", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
@@ -58,7 +58,7 @@ addLayer("res", {
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     displayRow: 1,
-    layerShown(){return hasUpgrade("u", 14)}, 
+    layerShown(){return hasUpgrade("u", 14) || hasAchievement("A", 31)}, 
     branches: ["f"],
     doReset(resettingLayer) {
         let keep=[];
@@ -88,7 +88,7 @@ addLayer("res", {
     buyables: {
         11: {
             title() {return "Additive Research Upgrade"},
-            cost(x) { return new Decimal(100000000).mul(1.5**x)},
+            cost(x) { return new Decimal(100000000).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of knowlege gain additively (+0.01)<br> Currently: " + format(tmp.res.buyables[11].effect) + " (bought:" + format(getBuyableAmount("res", 11)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("res", 11)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -98,8 +98,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).mul(0.5).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub(new Decimal(1.5).pow(getBuyableAmount("res", 11).add(max)).sub(1).div(0.5).sub(new Decimal(1.5).pow(getBuyableAmount("res", 11)).sub(1).mul(2)).mul(100000000))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("res", 11), 100000000)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("res", 11, getBuyableAmount("res", 11).add(max))
                 }
             },
@@ -111,7 +112,7 @@ addLayer("res", {
         },
         12: {
             title() {return "Multiplicative Research Upgrade"},
-            cost(x) { return new Decimal(100000000).mul(1.5**x)},
+            cost(x) { return new Decimal(100000000).mul(new Decimal(1.5).pow(x))},
             display() { return "Increase the value of knowlege gain multiplicatively (x" + format(tmp.res.upgrades[25].effect.add(1.05)) + ")<br> Currently: " + format(tmp.res.buyables[12].effect) + " (bought:" + format(getBuyableAmount("res", 12)) + ")" + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("res", 12)))},
             canAfford() { return player["f"].points.gte(this.cost()) },
             buy() {
@@ -121,8 +122,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).mul(0.5).add(1)).log10()).div(new Decimal(1.5).log10()))))
-                    player["f"].points = player["f"].points.sub(new Decimal(1.5).pow(getBuyableAmount("res", 12).add(max)).sub(1).div(0.5).sub(new Decimal(1.5).pow(getBuyableAmount("res", 12)).sub(1).mul(2)).mul(100000000))
+                    getMax(player["f"].points, this.cost(), 1.5)
+                    subCost(1.5, getBuyableAmount("res", 12), 100000000)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("res", 12, getBuyableAmount("res", 12).add(max))
                 }
             },
@@ -134,7 +136,7 @@ addLayer("res", {
         },
         21: {
             title() {return "'U' Variable Upgrade"},
-            cost(x) { return new Decimal(1).mul(10**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(10).pow(x))},
             display() { return "x" + format(tmp.res.upgrades[22].effect.add(2)) +" 'U' variable value  <br> Currently: " + format(tmp.res.buyables[21].effect) + " (bought:" + format(getBuyableAmount("res", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 21))) + " Knowledge"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
@@ -144,21 +146,48 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(9).add(1)).log10()).div(new Decimal(10).log10()))))
-                    player["res"].points = player["res"].points.sub(new Decimal(10).pow(getBuyableAmount("res", 21).add(max)).sub(1).div(9).sub(new Decimal(10).pow(getBuyableAmount("res", 21)).sub(1).div(9)))
+                    getMax(player["res"].points, this.cost(), 10)
+                    subCost(10, getBuyableAmount("res", 21), 1)
+                    player["res"].points = player["res"].points.sub(sub)
                     setBuyableAmount("res", 21, getBuyableAmount("res", 21).add(max))
                 }
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.mul(tmp.res.upgrades[22].effect.add(2)**(getBuyableAmount("res", 21)))
+                eff = eff.mul(new Decimal(2).add(tmp.res.upgrades[22].effect)).pow(getBuyableAmount("res", 21))
                 return eff
             },
             style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#FFE338',} }
         },
+        22: {
+            title() {return "'pU' Variable Upgrade"},
+            cost(x) { return new Decimal(1e60).mul(new Decimal(1000).pow(x))},
+            display() { return "x2 'pU' variable value  <br> Currently: " + format(tmp.res.buyables[22].effect) + " (bought:" + format(getBuyableAmount("res", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 22))) + " Knowledge"},
+            canAfford() { return player["res"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("res", 11) == false) {
+                    player["res"].points = player["res"].points.sub(this.cost())
+                    setBuyableAmount("res", 22, getBuyableAmount("res", 22).add(1))
+                }
+                else if (getClickableState("res", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["res"].points, this.cost(), 1000)
+                    subCost(1000, getBuyableAmount("res", 22), 1e60)
+                    player["res"].points = player["res"].points.sub(sub)
+                    setBuyableAmount("res", 22, getBuyableAmount("res", 22).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.mul(new Decimal(2).pow(getBuyableAmount("res", 22)))
+                return eff
+            },
+            unlocked() {return hasUpgrade("pu", 15)},
+            style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#970439',} }
+        },
         31: {
             title() {return "'a' Variable Upgrade"},
-            cost(x) { return new Decimal(1).mul(1.0964**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(1.0964).pow(x))},
             display() { return "+" + format(tmp.res.upgrades[21].effect.add(tmp.res.upgrades[24].effect).add(1)) +"% 'a' variable value  <br> Currently: " + format(tmp.res.buyables[31].effect) + " (bought:" + format(getBuyableAmount("res", 31)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 31))) + " Knowledge"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
@@ -168,8 +197,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(0.0964).add(1)).log10()).div(new Decimal(1.0964).log10()))))
-                    player["res"].points = player["res"].points.sub(new Decimal(1.0964).pow(getBuyableAmount("res", 31).add(max)).sub(1).div(0.0964).sub(new Decimal(1.0964).pow(getBuyableAmount("res", 21)).sub(1).div(0.0964)))
+                    getMax(player["res"].points, this.cost(), 1.0964)
+                    subCost(1.0964, getBuyableAmount("res", 31), 1)
+                    player["res"].points = player["res"].points.sub(sub)
                     setBuyableAmount("res", 31, getBuyableAmount("res", 31).add(max))
                 }
             },
@@ -184,7 +214,7 @@ addLayer("res", {
         },
         32: {
             title() {return "'b' Variable Upgrade"},
-            cost(x) { return new Decimal(1).mul(1.0964**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(1.0964).pow(x))},
             display() { return "+" + format(tmp.res.upgrades[21].effect.add(tmp.res.upgrades[24].effect).add(1)) +"% 'b' variable value  <br> Currently: " + format(tmp.res.buyables[32].effect) + " (bought:" + format(getBuyableAmount("res", 32)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 32))) + " Knowledge"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
@@ -194,8 +224,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(0.0964).add(1)).log10()).div(new Decimal(1.0964).log10()))))
-                    player["res"].points = player["res"].points.sub(new Decimal(1.0964).pow(getBuyableAmount("res", 32).add(max)).sub(1).div(0.0964).sub(new Decimal(1.0964).pow(getBuyableAmount("res", 32)).sub(1).div(0.0964)))
+                    getMax(player["res"].points, this.cost(), 1.0964)
+                    subCost(1.0964, getBuyableAmount("res", 32), 1)
+                    player["res"].points = player["res"].points.sub(sub)
                     setBuyableAmount("res", 32, getBuyableAmount("res", 32).add(max))
                 }
             },
@@ -206,11 +237,15 @@ addLayer("res", {
                 eff = eff.mul((getBuyableAmount("res", 32)).mul(0.01)).add(1)
                 return eff
             },
+            unlocked() {
+                if (inChallenge("inf", 22)) {return false}
+                else {return true}
+            },
             style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#63C5DA',} }
         },
         41: {
             title() {return "'c' Variable Upgrade"},
-            cost(x) { return new Decimal(1).mul(1.0964**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(1.0964).pow(x))},
             display() { return "+" + format(tmp.res.upgrades[21].effect.add(tmp.res.upgrades[24].effect).add(1)) +"% 'c' variable value  <br> Currently: " + format(tmp.res.buyables[41].effect) + " (bought:" + format(getBuyableAmount("res", 41)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 41))) + " Knowledge"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
@@ -220,8 +255,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(0.0964).add(1)).log10()).div(new Decimal(1.0964).log10()))))
-                    player["res"].points = player["res"].points.sub(new Decimal(1.0964).pow(getBuyableAmount("res", 41).add(max)).sub(1).div(0.0964).sub(new Decimal(1.0964).pow(getBuyableAmount("res", 41)).sub(1).div(0.0964)))
+                    getMax(player["res"].points, this.cost(), 1.0964)
+                    subCost(1.0964, getBuyableAmount("res", 41), 1)
+                    player["res"].points = player["res"].points.sub(sub)
                     setBuyableAmount("res", 41, getBuyableAmount("res", 41).add(max))
                 }
             },
@@ -232,11 +268,16 @@ addLayer("res", {
                 eff = eff.mul((getBuyableAmount("res", 41)).mul(0.01)).add(1)
                 return eff
             },
+            unlocked() {
+                if (inChallenge("inf", 21)) {return false}
+                else if (inChallenge("inf", 22)) {return false}
+                else {return true}
+            },
             style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#63C5DA',} }
         },
         42: {
             title() {return "'d' Variable Upgrade"},
-            cost(x) { return new Decimal(1).mul(1.0964**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(1.0964).pow(x))},
             display() { return "+" + format(tmp.res.upgrades[21].effect.add(tmp.res.upgrades[24].effect).add(1)) +"% 'd' variable value  <br> Currently: " + format(tmp.res.buyables[42].effect) + " (bought:" + format(getBuyableAmount("res", 42)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("res", 42))) + " Knowledge"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
@@ -246,8 +287,9 @@ addLayer("res", {
                 }
                 else if (getClickableState("res", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["res"].points.div(this.cost()).mul(0.0964).add(1)).log10()).div(new Decimal(1.0964).log10()))))
-                    player["res"].points = player["res"].points.sub(new Decimal(1.0964).pow(getBuyableAmount("res", 42).add(max)).sub(1).div(0.0964).sub(new Decimal(1.0964).pow(getBuyableAmount("res", 42)).sub(1).div(0.0964)))
+                    getMax(player["res"].points, this.cost(), 1.0964)
+                    subCost(1.0964, getBuyableAmount("res", 42), 1)
+                    player["res"].points = player["res"].points.sub(sub)
                     setBuyableAmount("res", 42, getBuyableAmount("res", 42).add(max))
                 }
             },
@@ -257,6 +299,10 @@ addLayer("res", {
                 eff = eff.add(tmp.res.upgrades[24].effect)
                 eff = eff.mul((getBuyableAmount("res", 42)).mul(0.01)).add(1)
                 return eff
+            },
+            unlocked() {
+                if (inChallenge("inf", 22)) {return false}
+                else {return true}
             },
             style(){ if (player["res"].points.gte(this.cost())) return {'background-color': '#63C5DA',} }
         },
@@ -377,11 +423,16 @@ addLayer("res", {
         },
         25: {
             title: "Res-Upgrade 2.5",
-            description: "+ x0.0001 Multiplicative Research Upgrade every Additive Research Upgrade.",
+            description: "+ x0.0001 Multiplicative Research Upgrade every Additive Research Upgrade. <br> (Cap = + ^0.1)",
             cost: new Decimal(10000000000),
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res", 25)) eff = eff.add(getBuyableAmount("res", 11).mul(0.0001))
+                if (getBuyableAmount("res", 11).lte(1000)) {
+                    if (hasUpgrade("res", 25)) eff = eff.add(getBuyableAmount("res", 11).mul(0.0001))
+                }
+                else if (getBuyableAmount("res", 11).gte(1000)) {
+                    if (hasUpgrade("res", 25)) eff = eff.add(0.1)
+                }
                 return eff
             },
             effectDisplay() {
