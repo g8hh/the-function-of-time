@@ -16,7 +16,7 @@ addLayer("ln2", {
     canclick(){return false},
     row: 0,
     color: "#000000",
-    layerShown() {return (tmp["pu"].layerShown)?"ghost":false;}
+    layerShown() {return (tmp["inf"].layerShown)?"ghost":false;}
 })
 
 function getMax(points, cost, expo) {
