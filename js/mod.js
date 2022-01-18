@@ -13,11 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2.17",
-	name: "Another Upgrade Update",
+	num: "1.3.22+",
+	name: "Automation Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #FFFFFF">v1.3.22+</h3><br>
+		- Fixed some stuffs I can't remember<br>
+		- Added an achievement<br>
+		- Added 4 working autobuyers<br>
+		- Completed 4 working Automation Challenges<br>
+		- Added 12 Automation Challenges<br>
+		- Changed current endgame [ Complete all f(t) Automation Challenge ]<br><br>
+	<h3 style="color: #FFFFFF">v1.3.0</h3><br>
+		- Added Automation<br>
+		- Added Infinity Layer<br><br>
+	<h2 style="color: #FFFFFF">Automation Update</h2><br><br>
 	<h3 style="color: #970439">v1.2.17</h3><br>
 		- Added 5 'pU' Upgrades as usual...<br>
 		- Changed tree design<br>
@@ -25,7 +36,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added additional Research and Time Machine content<br>
 		- Added caps to various upgrades<br>
 		- Added more achievements<br>
-		- Changed current [ f(t) = 1.79e308 ]<br><br>
+		- Changed current endgame [ f(t) = 1.79e308 ]<br><br>
 	<h3 style="color: #970439">v1.2.0</h3><br>
 		- Added 'pU' Upgrades<br><br>
 	<h2 style="color: #970439">Another Upgrade Update</h2><br><br>
@@ -54,16 +65,11 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added Achievements.<br><br>
 	<h2 style="color: #FFE4B5">Achievements Update</h2><br><br>
 	<h3 style="color: #D0B49F">v0.3.7</h3><br>
-		- Added current endgame. [ f(t) = 1e18 ]<br><br>
-	<h3 style="color: #D0B49F">v0.3.6</h3><br>
-		- Fixed Warp Warp Time bug.<br><br>
-	<h3 style="color: #D0B49F">v0.3.5</h3><br>
-		- Added Warp Warp Time.<br><br>
-	<h3 style="color: #D0B49F">v0.3.4</h3><br>
-		- Res-Upgrade 1.4 is boosted.<br><br>
-	<h3 style="color: #D0B49F">v0.3.3</h3><br>
-		- Fixed f(t) layer formula display.<br><br>
-	<h3 style="color: #D0B49F">v0.3.2</h3><br>
+		- Added current endgame. [ f(t) = 1e18 ]<br>
+		- Fixed Warp Warp Time bug.<br>
+		- Added Warp Warp Time.<br>
+		- Res-Upgrade 1.4 is boosted.<br>
+		- Fixed f(t) layer formula display.<br>
 		- Added Time Machine Generator.<br>
 		- Added Wrap Time.<br><br>
 	<h3 style="color: #D0B49F">v0.3.0</h3><br>
@@ -71,8 +77,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 	<h2 style="color: #D0B49F">Time Machine Update</h2><br><br>
 	<h3 style="color: #234F1E">v0.2.17</h3><br>
 		- Added 5 Research Upgrades.<br>
-		- Added 5 Upgrades.<br><br>
-	<h3 style="color: #234F1E">v0.2.7</h3><br>
+		- Added 5 Upgrades.<br>
 		- Added 2 'Research' Upgrade Buyable.<br>
 		- Added 1 'Upgrade' Upgrade Buyable.<br>
 		- Added 4 'Variable' Upgrade Buyable.<br><br>
@@ -126,7 +131,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player["f"].best.gte(new Decimal(2).pow(1024))
+	return hasAchievement("A", 72)
 }
 
 

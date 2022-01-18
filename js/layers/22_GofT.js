@@ -69,7 +69,7 @@ addLayer("g", {
     buyables: {
         11: {
             title() {return "'w' Variable"},
-            cost(x) { return new Decimal(1).mul(2**x)},
+            cost(x) { return new Decimal(1).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'w' Variable <br> w = " + format(tmp.g.buyables[11].effect) + " (bought:" + format(getBuyableAmount("g", 11)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 11))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -84,7 +84,7 @@ addLayer("g", {
         },
         12: {
             title() {return "'x' Variable"},
-            cost(x) { return new Decimal(100).mul(2**x)},
+            cost(x) { return new Decimal(100).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'x' Variable <br> x = " + format(tmp.g.buyables[12].effect) + " (bought:" + format(getBuyableAmount("g", 12)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 12))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -99,7 +99,7 @@ addLayer("g", {
         },
         21: {
             title() {return "'y' Variable"},
-            cost(x) { return new Decimal(10000).mul(2**x)},
+            cost(x) { return new Decimal(10000).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'y' Variable <br> y = " + format(tmp.g.buyables[21].effect) + " (bought:" + format(getBuyableAmount("g", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 21))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {
@@ -114,7 +114,7 @@ addLayer("g", {
         },
         22: {
             title() {return "'z' Variable"},
-            cost(x) { return new Decimal(1000000).mul(2**x)},
+            cost(x) { return new Decimal(1000000).mul(new Decimal(2).pow(x))},
             display() { return "Increase the value of 'z' Variable <br> z = " + format(tmp.g.buyables[22].effect) + " (bought:" + format(getBuyableAmount("g", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 22))) + " PP"},
             canAfford() { return player["p"].points.gte(this.cost()) },
             buy() {

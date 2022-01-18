@@ -261,5 +261,11 @@ addLayer("A", {
             tooltip: "<b>WOW</b><br><br> reach f(t) = 1.79e308",
             style: {'height': '64px', 'width': '64px'}
         },
+        72: {
+            name: "ez",
+            done() { return hasChallenge("inf", 11) && hasChallenge("inf", 12) && hasChallenge("inf", 21) && hasChallenge("inf", 22)},
+            tooltip: "<b>challenged</b><br><br> Complete all Function of 'f' Automation Challenges",
+            style: {'height': '64px', 'width': '64px'}
+        },
     },
 })
