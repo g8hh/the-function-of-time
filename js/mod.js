@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "时间方法树 - The Function of Time Tree",
+	name: "时间函数树 - The Function of Time Tree",
 	id: "mymod",
 	author: "mikosss",
 	pointsName: "time",
