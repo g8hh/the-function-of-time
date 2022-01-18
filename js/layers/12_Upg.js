@@ -115,7 +115,7 @@ addLayer("u", {
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 13)) eff = eff.mul(1.01**getBuyableAmount("f", 11))
+                if (hasUpgrade("u", 13)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 11)))
                 return eff
             },
             effectDisplay() {
@@ -139,7 +139,8 @@ addLayer("u", {
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 15)) eff = eff.mul(1.01**getBuyableAmount("f", 12))
+                if (hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 12)))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
                 return eff
             },
             effectDisplay() {
@@ -155,7 +156,7 @@ addLayer("u", {
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 21)) eff = eff.mul(1.002**(getBuyableAmount("res", 31).add(getBuyableAmount("res", 32)).add(getBuyableAmount("res", 41)).add(getBuyableAmount("res", 42))))
+                if (hasUpgrade("u", 21)) eff = eff.mul(new Decimal(1.002).pow((getBuyableAmount("res", 31).add(getBuyableAmount("res", 32)).add(getBuyableAmount("res", 41)).add(getBuyableAmount("res", 42)))))
                 return eff
             },
             effectDisplay() {
@@ -165,14 +166,22 @@ addLayer("u", {
         },
         22: {
             title: "'U' Upgrade 2.2",
-            description: "x1.01 'U' value every 'c' Variable bought.",
+            description() {
+                if (inChallenge("inf", 21)) {
+                    return "Multiply your 'U' value based on 'a, b, & d' Variable bought"
+                }
+                else {
+                    return "x1.01 'U' value every 'c' Variable bought."
+                }},
             cost: new Decimal(1e11),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 22)) eff = eff.mul(1.01**getBuyableAmount("f", 21))
+                if (hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 21)))
+                if (inChallenge("inf", 21) && hasUpgrade("u", 22)) eff = eff.mul((new Decimal(1).add(getBuyableAmount("f", 11)).add(getBuyableAmount("f", 12)).add(getBuyableAmount("f", 22))).pow(2))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
                 return eff
             },
             effectDisplay() {
@@ -217,7 +226,8 @@ addLayer("u", {
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 24)) eff = eff.mul(1.01**getBuyableAmount("f", 22))
+                if (hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 22)))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
                 return eff
             },
             effectDisplay() {

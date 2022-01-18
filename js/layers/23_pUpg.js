@@ -45,7 +45,7 @@ addLayer("pu", {
     passiveGeneration() { return true },
     row: 1, // Row the layer is in on the tree (0 is the first row)
     displayRow: 2,
-    layerShown(){return hasUpgrade("u", 35)}, 
+    layerShown(){return hasUpgrade("u", 35) || hasAchievement("A", 28)}, 
     branches: ["g"],
     upgrades: {
         11: {

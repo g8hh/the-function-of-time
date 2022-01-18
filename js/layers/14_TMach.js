@@ -24,7 +24,7 @@ addLayer("tmach", {
                     }
                 },],
                 "blank",
-                ["display-text", function() { return "You Have <h2><b>" + format(getBuyableAmount("tmach", 22)) + " T.M.G.E." },],
+                ["display-text", function() { if (hasUpgrade("p", 12)){return "You Have <h2><b>" + format(getBuyableAmount("tmach", 22)) + " T.M.G.E."} else {return "<h2>Locked..."} },],
                 ["display-text", function() { 
                     if (getBuyableAmount("tmach", 22).gte(32)) {
                         return "You have greater than 32 T.M.G.E.,<br> its effect additive is changed from +0.5 to <h2>+0.33...</h2>"
@@ -32,8 +32,11 @@ addLayer("tmach", {
                     else if (getBuyableAmount("tmach", 22).gte(16)) {
                         return "You have greater than 16 T.M.G.E.,<br> its effect additive is changed from +0.66... to <h2>+0.5</h2><br>Next effect additive change is at 32 T.M.G.E."
                     } 
-                    else {
+                    else if (hasUpgrade("p", 12)){
                         return "T.M.G.E. effect additive is <h2>+0.66...</h2><br>Next effect additive change is at 16 T.M.G.E."
+                    }
+                    else {
+                        return ""
                     }
                 },],
             ],
@@ -70,7 +73,7 @@ addLayer("tmach", {
     passiveGeneration() { return true },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     displayRow: 1,
-    layerShown(){return hasUpgrade("res", 15)}, 
+    layerShown(){return hasUpgrade("res", 15) || hasAchievement("A", 41)}, 
     branches: ["f"],
     clickables: {
         11: {
@@ -107,8 +110,9 @@ addLayer("tmach", {
                 }
                 else if (getClickableState("tmach", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["f"].points.div(this.cost()).mul(9).add(1)).log10()).div(new Decimal(10).log10()))))
-                    player["f"].points = player["f"].points.sub(new Decimal(10).pow(getBuyableAmount("tmach", 11).add(max)).sub(1).div(9).sub(new Decimal(10).pow(getBuyableAmount("tmach", 11)).sub(1).mul(2)).mul(1e16))
+                    getMax(player["f"].points, this.cost(), 10)
+                    subCost(10, getBuyableAmount("tmach", 11), 1e16)
+                    player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).add(max))
                 }
             },
@@ -130,8 +134,9 @@ addLayer("tmach", {
                 }
                 else if (getClickableState("tmach", 11) == true) {
                     max = new Decimal(0)
-                    max = max.add(Decimal.floor((((player["tmach"].points.div(this.cost()).mul(1).add(1)).log10()).div(new Decimal(2).log10()))))
-                    player["tmach"].points = player["tmach"].points.sub(new Decimal(2).pow(getBuyableAmount("tmach", 12).add(max)).sub(1).div(1).sub(new Decimal(2).pow(getBuyableAmount("tmach", 12)).sub(1).mul(2)))
+                    getMax(player["tmach"].points, this.cost(), 2)
+                    subCost(2, getBuyableAmount("tmach", 12), 1)
+                    player["tmach"].points = player["tmach"].points.sub(sub)
                     setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).add(max))
                 }
             },
