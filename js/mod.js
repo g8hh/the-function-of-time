@@ -107,7 +107,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added f(t) Layer.<br><br>
 	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `WOWERS!!!`
+let winText = `Deserved!!!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
