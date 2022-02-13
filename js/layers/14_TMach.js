@@ -3,6 +3,8 @@ addLayer("tmach", {
         "Time Machine": {
             content:[
                 "main-display",
+                ["display-text", function() { return "You are gaining <h2><b>" + format(tmp.tmach.getResetGain) + "</b></h2> Time Fragments Per Second" },],
+                "blank",
                 ["display-text", function() { return "You Have <h2><b>" + format(player["f"].points) + " f(t)</b></h2>" },],
                 "blank",
                 "clickables",
@@ -13,8 +15,11 @@ addLayer("tmach", {
             content:[
                 ["display-text", function() { return "You Have <h2><b>" + format(getBuyableAmount("tmach", 21)) + " Warp Warp Time" },],
                 ["display-text", function() { 
-                    if (getBuyableAmount("tmach", 21).gte(32)) {
-                        return "You have greater than 32 Warp Warp Time,<br> its effect additive is changed from +0.33... to <h2>+0.25</h2>"
+                    if (getBuyableAmount("tmach", 21).gte(64)) {
+                        return "You have greater than 64 Warp Warp Time,<br> its effect additive is changing based on Warp Warp Time Bought. <br> Currently: <h2> " + format(new Decimal(64/3).add(1)) + " + " + format((getBuyableAmount("tmach", 21).sub(64)).mul(new Decimal(0.25).pow(getBuyableAmount("tmach", 21).sub(64).div(4).add(10).log10()))) + "</h2>"
+                    } 
+                    else if (getBuyableAmount("tmach", 21).gte(32)) {
+                        return "You have greater than 32 Warp Warp Time,<br> its effect additive is changed from +0.33... to <h2>+0.25</h2><br>Next effect additive change is at 64 Warp Warp Time"
                     } 
                     else if (getBuyableAmount("tmach", 21).gte(16)) {
                         return "You have greater than 16 Warp Warp Time,<br> its effect additive is changed from +0.5 to <h2>+0.33...</h2><br>Next effect additive change is at 32 Warp Warp Time"
@@ -26,8 +31,11 @@ addLayer("tmach", {
                 "blank",
                 ["display-text", function() { if (hasUpgrade("p", 12)){return "You Have <h2><b>" + format(getBuyableAmount("tmach", 22)) + " T.M.G.E."} else {return "<h2>Locked..."} },],
                 ["display-text", function() { 
-                    if (getBuyableAmount("tmach", 22).gte(32)) {
-                        return "You have greater than 32 T.M.G.E.,<br> its effect additive is changed from +0.5 to <h2>+0.33...</h2>"
+                    if (getBuyableAmount("tmach", 22).gte(64)) {
+                        return "You have greater than 64 T.M.G.E.,<br> its effect additive is changing based on T.M.G.E. Bought. <br> Currently: <h2>" + format(new Decimal(88/3).add(2)) + " + " + format((getBuyableAmount("tmach", 22).sub(64)).mul(new Decimal(1/3).pow(getBuyableAmount("tmach", 22).sub(64).div(4).add(10).log10()))) + "</h2>"
+                    } 
+                    else if (getBuyableAmount("tmach", 22).gte(32)) {
+                        return "You have greater than 32 T.M.G.E.,<br> its effect additive is changed from +0.5 to <h2>+0.33...</h2><br>Next effect additive change is at 64 T.M.G.E."
                     } 
                     else if (getBuyableAmount("tmach", 22).gte(16)) {
                         return "You have greater than 16 T.M.G.E.,<br> its effect additive is changed from +0.66... to <h2>+0.5</h2><br>Next effect additive change is at 32 T.M.G.E."
@@ -42,50 +50,32 @@ addLayer("tmach", {
             ],
         }
     },
-    name: "time machine", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "TM", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    name: "time machine", 
+    symbol: "TM",
+    color: "#D0B49F",
+    resource: "Time Fragments",
+    baseResource: "f(t)", 
+    requires: new Decimal(1),
+    baseAmount() {return player.points},
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    color: "#D0B49F",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
-    resource: "Time Fragments", // Name of prestige currency
-    baseResource: "f(t)", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1, // Prestige currency exponent
-    update() {
-    },
-    getResetGain() {
-        gain = new Decimal(0)
-        gain = gain.add(tmp.tmach.buyables[11].effect)
-        return gain
-    },
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
     passiveGeneration() { return true },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 1,
-    layerShown(){return hasUpgrade("res", 15) || hasAchievement("A", 41)}, 
-    branches: ["f"],
+    type: "normal",
     clickables: {
         11: {
-            display() {return "Buy Max <br> (Only Time Machine Generator and Time Warp)"},
+            display() {
+                if (hasUpgrade("p", 21)) {return "Buy Max"}
+                else {return "Buy Max <br> (Only Time Machine Generator and Time Warp)"}
+            },
             canClick() {return true},
             onClick() {
-                if (getClickableState("tmach", 11) == false) 
+                if (getClickableState("tmach", 11) == false)
                     {setClickableState("tmach", 11, true)}
                 else if (getClickableState("tmach", 11) == true) 
                     {setClickableState("tmach", 11, false)}
-                //return buyMaxBuyable("f", 22),  buyMaxBuyable("f", 21),  buyMaxBuyable("f", 12),  buyMaxBuyable("f", 11)
-            },
+                },
             style() {
                 if (getClickableState("tmach", 11) == false) 
                     return {'background-color': 'red',}
@@ -110,7 +100,7 @@ addLayer("tmach", {
                 }
                 else if (getClickableState("tmach", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["f"].points, this.cost(), 10)
+                    getMax(player["f"].points.abs(), this.cost(), 10)
                     subCost(10, getBuyableAmount("tmach", 11), 1e16)
                     player["f"].points = player["f"].points.sub(sub)
                     setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).add(max))
@@ -134,7 +124,7 @@ addLayer("tmach", {
                 }
                 else if (getClickableState("tmach", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["tmach"].points, this.cost(), 2)
+                    getMax(player["tmach"].points.abs(), this.cost(), 2)
                     subCost(2, getBuyableAmount("tmach", 12), 1)
                     player["tmach"].points = player["tmach"].points.sub(sub)
                     setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).add(max))
@@ -142,25 +132,50 @@ addLayer("tmach", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("tmach", 12)).pow(tmp.tmach.buyables[21].effect)
+                eff = eff.add(getBuyableAmount("tmach", 12))
+                eff = eff.mul(tmp.four.upgrades[11].effect)
+                eff = eff.mul(tmp.four.upgrades[15].effect)
+                eff = eff.pow(tmp.tmach.buyables[21].effect)
                 return eff
             },
         },
         21: {
             title() {return "Warp Warp Time"},
             cost(x) { return new Decimal(5).add(new Decimal(5).mul(x))},
-            display() { return "Warp the time warper to warp the warped time more.<br><b>WARNING: Resets 'Time Fragments', 'f(t) value', 'Time Machine Generator' Buyable, & 'Warp Time' Buyable</b><br> Currently: " + format(tmp.tmach.buyables[21].effect) + " (bought:" + format(getBuyableAmount("tmach", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 21))) + " Time Warps"},
+            display() { 
+                if (hasUpgrade("p", 23)) {
+                    return "Warp the time warper to warp the warped time more.<br> Currently: " + format(tmp.tmach.buyables[21].effect) + " (bought:" + format(getBuyableAmount("tmach", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 21))) + " Time Warps"
+                }
+                else {
+                    return "Warp the time warper to warp the warped time more.<br><b>WARNING: Resets 'Time Fragments', 'f(t) value', 'Time Machine Generator' Buyable, & 'Warp Time' Buyable</b><br> Currently: " + format(tmp.tmach.buyables[21].effect) + " (bought:" + format(getBuyableAmount("tmach", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 21))) + " Time Warps"
+                }
+            },
             canAfford() { return getBuyableAmount("tmach", 12).gte(this.cost()) },
             buy() {
-                player["f"].points = player["f"].points.mul(0)
-                player["tmach"].points = player["tmach"].points.mul(0)
-                setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).mul(0))
-                setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).mul(0))
-                setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(1))
+                if ((getClickableState("tmach", 11) == false) && hasUpgrade("p", 21)) {
+                    setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(1))
+                }
+                else if ((getClickableState("tmach", 11) == true) && hasUpgrade("p", 21)) {
+                    max = new Decimal(0)
+                    max = max.add((Decimal.floor(getBuyableAmount("tmach", 12).sub(this.cost()).div(5))).add(1))
+                    setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(max))
+                }
+                else {
+                    setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(1))
+                }
+                if (!hasUpgrade("p", 23)) {
+                    player["f"].points = player["f"].points.pow(0).add(1)
+                    player["tmach"].points = player["tmach"].points.mul(0)
+                    setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).mul(0))
+                    setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).mul(0))
+                }
             },
             effect() { 
                 eff = new Decimal(1)
-                if (getBuyableAmount("tmach", 21).gte(32)) {
+                if (getBuyableAmount("tmach", 21).gte(64)) {
+                    eff = eff.add(64/3).add((getBuyableAmount("tmach", 21).sub(64)).mul(new Decimal(0.25).pow(getBuyableAmount("tmach", 21).sub(64).div(4).add(10).log10())))
+                }
+                else if (getBuyableAmount("tmach", 21).gte(32)) {
                     eff = eff.add(40/3).add((getBuyableAmount("tmach", 21).sub(32)).mul(0.25))
                 }
                 else if (getBuyableAmount("tmach", 21).gte(16)) {
@@ -175,18 +190,40 @@ addLayer("tmach", {
         22: {
             title() {return "T.M.G.E."},
             cost(x) { return new Decimal(15).add(new Decimal(6).mul(x))},
-            display() { return "Name is too long, so I acronymed it. Basically increase the power of Time Machine Generator.<br><b>WARNING: Resets 'Time Fragments', 'f(t) value', 'Time Machine Generator' Buyable, & 'Warp Time' Buyable</b><br> Currently: " + format(tmp.tmach.buyables[22].effect) + " (bought:" + format(getBuyableAmount("tmach", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 22))) + " Time Machine Generators"},
+            display() { 
+                if (hasUpgrade("p", 23))  {
+                    return "Name is too long, so I acronymed it. Basically increase the power of Time Machine Generator.<br> Currently: " + format(tmp.tmach.buyables[22].effect) + " (bought:" + format(getBuyableAmount("tmach", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 22))) + " Time Machine Generators"
+                }
+                else {
+                    return "Name is too long, so I acronymed it. Basically increase the power of Time Machine Generator.<br><b>WARNING: Resets 'Time Fragments', 'f(t) value', 'Time Machine Generator' Buyable, & 'Warp Time' Buyable</b><br> Currently: " + format(tmp.tmach.buyables[22].effect) + " (bought:" + format(getBuyableAmount("tmach", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("tmach", 22))) + " Time Machine Generators"
+                }
+            },
             canAfford() { return getBuyableAmount("tmach", 11).gte(this.cost()) },
             buy() {
-                player["f"].points = player["f"].points.mul(0)
-                player["tmach"].points = player["tmach"].points.mul(0)
-                setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).mul(0))
-                setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).mul(0))
-                setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(1))
+                if ((getClickableState("tmach", 11) == false) && hasUpgrade("p", 21)) {
+                    setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(1))
+                }
+                else if ((getClickableState("tmach", 11) == true) && hasUpgrade("p", 21)) {
+                    max = new Decimal(0)
+                    max = max.add((Decimal.floor(getBuyableAmount("tmach", 11).sub(this.cost()).div(6))).add(1))
+                    setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(max))
+                }
+                else {
+                    setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(1))
+                }
+                if (!hasUpgrade("p", 23)) {
+                    player["f"].points = player["f"].points.pow(0).add(1)
+                    player["tmach"].points = player["tmach"].points.mul(0)
+                    setBuyableAmount("tmach", 11, getBuyableAmount("tmach", 11).mul(0))
+                    setBuyableAmount("tmach", 12, getBuyableAmount("tmach", 12).mul(0))
+                }
             },
             effect() { 
                 eff = new Decimal(2)
-                if (getBuyableAmount("tmach", 22).gte(32)) {
+                if (getBuyableAmount("tmach", 22).gte(64)) {
+                    eff = eff.add(88/3).add((getBuyableAmount("tmach", 22).sub(64)).mul(new Decimal(1/3).pow(getBuyableAmount("tmach", 22).sub(64).div(4).add(10).log10())))
+                }
+                else if (getBuyableAmount("tmach", 22).gte(32)) {
                     eff = eff.add(56/3).add((getBuyableAmount("tmach", 22).sub(32)).mul(1/3))
                 }
                 else if (getBuyableAmount("tmach", 22).gte(16)) {
@@ -199,5 +236,39 @@ addLayer("tmach", {
             },
             unlocked() {return hasUpgrade("p", 12)},
         },
-    }
+    },
+    automate() {
+        return (getClickableState("auto", 41) ? (buyBuyable("tmach", 11)) : false),(getClickableState("auto", 42) ? (buyBuyable("tmach", 12)) : false),(getClickableState("auto", 43) ? (buyBuyable("tmach", 21)) : false),(getClickableState("auto", 44) ? (buyBuyable("tmach", 22)) : false)
+    },
+    update() {
+        if (tmp.tmach.clickables[11].unlocked && getClickableState("auto", 11) == true) {
+            setClickableState("tmach", 11, true)
+        }
+        if (inChallenge("inf", 72)) {
+            player["tmach"].points = player["tmach"].points.mul(player["tmach"].points.pow(-0.38)).add(1)
+        }
+    },
+    getResetGain() {
+        gain = new Decimal(0)
+        gain = gain.add(tmp.tmach.buyables[11].effect)
+        if (inChallenge("inf", 61)) gain = gain.mul(0)
+        return gain
+    },
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    exponent: 1, 
+    position: 2, 
+    row: 0,
+    displayRow: 1,
+    branches: ["f"],
+    layerShown(){
+        if (inChallenge("inf", 61)) return false
+        else if (hasUpgrade("res", 15) || hasAchievement("A", 41)) return true
+        else return false
+    }, 
 })
