@@ -20,8 +20,9 @@ addLayer("inf", {
             },
             "Research": {
                 buttonStyle() { return {'border-color': '#234F1E'} },
+                unlocked() {return hasUpgrade("p", 22)},
                 content: [
-                    ["display-text", function() { return "<h3>Research automation challenges.</h3><br>Note: When entering a challenge, prestige is done but note that it will not give you the PP.<br>" + "<span style='color:red;'>You can't complete these challenges yet.</span>" },],
+                    ["display-text", function() { return "<h3>Research automation challenges.</h3><br>Note: When entering a challenge, prestige is done but note that it will not give you the PP.<br>" },],
                     "blank",
                     ["challenges", [3, 4, 5]],
                     "blank",
@@ -29,8 +30,9 @@ addLayer("inf", {
             },
             "Time Machine": {
                 buttonStyle() { return {'border-color': '#D0B49F'} },
+                unlocked() {return hasUpgrade("four", 14)},
                 content: [
-                    ["display-text", function() { return "<h3>Time Machine automation challenges.</h3><br>Note: When entering a challenge, prestige is done but note that it will not give you the PP.<br>" + "<span style='color:red;'>You can't complete these challenges yet.</span>" },],
+                    ["display-text", function() { return "<h3>Time Machine automation challenges.</h3><br>Note: When entering a challenge, prestige is done but note that it will not give you the PP.<br>" },],
                     "blank",
                     ["challenges", [6, 7]],
                     "blank",
@@ -43,6 +45,7 @@ addLayer("inf", {
     startData() { return {
         unlocked: true,
     }},
+    type: "normal",
     row: 1,
     displayRow: 0,
     position: 2,
@@ -51,7 +54,6 @@ addLayer("inf", {
         background: "linear-gradient(60deg, #970439, #FFFFFF, #BF40BF)",
         "background-origin": "border-box",
     },
-    layerShown() {return true}, 
     tooltip() { // Optional, tooltip displays when the layer is locked
         return ("Infinity")
     },
@@ -66,7 +68,10 @@ addLayer("inf", {
             rewardDescription: "Unlock 'a' Variable autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "15px 0px 0px 0px", "width": "270px", "height": "270px"}
         },
@@ -78,7 +83,10 @@ addLayer("inf", {
             rewardDescription: "Unlock 'b' Variable autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
@@ -90,117 +98,167 @@ addLayer("inf", {
             rewardDescription: "Unlock 'c' Variable autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         22: {
             name: "'d' Variable",
-            challengeDescription: "Worse version of 'c' Variable automation challenge. All variables does not exist except 'a' Variable. 'U' Upgrade 1.5, 2.2 & 2.4 still gives boost but different",
+            challengeDescription: "Same as 'c' Variable automation challenge but all variables does not exist except 'a' Variable",
             goalDescription: "Reach f(t) = 1.79e308",
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock 'd' Variable autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 0px 15px 0px", "width": "270px", "height": "270px"}
         },
         31: {
             name: "Research Upgrades",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "^0.75 gained f(t)",
+            goalDescription: "Reach f(t) = 1e1000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1000))},
             rewardDescription: "Unlock 'Research Upgrades autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "15px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
         41: {
             name: "'U' Variable Upgrade",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "'pU' Variable Upgrade is dead :c",
+            goalDescription: "Reach f(t) = 1e2000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(2000))},
             rewardDescription: "Unlock 'U' Variable Upgrade autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "15px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         42: {
             name: "'pU' Variable Upgrade",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "Guess who is dead, 'U' Variable Upgrade",
+            goalDescription: "Reach f(t) = 1e2000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1500))},
             rewardDescription: "Unlock 'pU' Variable Upgrade autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 15px 15px 0px", "width": "270px", "height": "270px"}
         },
         51: {
             name: "'a, b, c & d' Variable Upgrade",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "What is Research? <br>(Research does not exist)",
+            goalDescription: "Reach f(t) = 1e1000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1000))},
             rewardDescription: "Unlock 'a, b, c & d' Variable Upgrade autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 0px 15px 15px", "width": "270px", "height": "270px"}
         },
         61: {
             name: "Time Machine Generator",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "There is no Time Machine. <br>(a.k.a. OH NOOOOOO....)",
+            goalDescription: "Reach f(t) = 1e500",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(500))},
             rewardDescription: "Unlock Time Machine Generator autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "15px 0px 0px 0px", "width": "270px", "height": "270px"}
         },
         62: {
             name: "Warp Time",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "Meh.. just reach infinite Time Fragments",
+            goalDescription: "Reach 1.79e308 Time Fragments",
+            canComplete: function() {return player["tmach"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock Warp Time autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
         71: {
             name: "Warp Warp Time",
-            challengeDescription: "---",
-            goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            challengeDescription: "f(t) is sick, i think<br>(f(t) is decreasing weirdly)",
+            goalDescription: "Reach f(t) = 1e500",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(500))},
             rewardDescription: "Unlock Warp Warp Time autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         72: {
             name: "T.M.G.E.",
-            challengeDescription: "---",
+            challengeDescription: "Chaos<br>everyone is sick<br>(f(t), Knowledge gain, and Time Fragments gain is decreasing weirdly)",
             goalDescription: "Reach f(t) = 1.79e308",
-            canComplete: function() {return false},
+            canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock T.M.G.E. autobuyer.",
             completionLimit: 1,
             onEnter() {
-                return layerDataReset("f"), layerDataReset("u"), layerDataReset("res"), layerDataReset("tmach")
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
             },
             style: {"border-radius": "0px 0px 15px 0px", "width": "270px", "height": "270px"}
         },
-    }
+    },
+    getResetGain() {
+        gain = new Decimal(0)
+        return gain
+    },
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1) 
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    resource: "inf",
+    baseResource: "f(t)",
+    requires: new Decimal(1),
+    baseAmount() {return player.points},
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    passiveGeneration() { return true },
 })

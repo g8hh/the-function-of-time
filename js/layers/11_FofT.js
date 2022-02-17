@@ -7,7 +7,7 @@ addLayer("f", {
                 "blank",
                 ["display-text", function() {
                 if (inChallenge("inf", 21)) {
-                    return "f(time+WT) = f(time) + abd⋅U⋅WT⋅g(t)⋅0.001"
+                    return "f(time+WT) = f(time) + abd⋅U⋅WT⋅g(t)"
                 }
                 else if (inChallenge("inf", 12)) {
                     return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)⋅0.001"
@@ -62,66 +62,37 @@ addLayer("f", {
             ],
         },
     },
-    name: "f of t", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "f", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    name: "f of t", 
+    symbol: "f",
+    color: "#63C5DA", 
+    resource: "f(t)",
+    baseResource: "time",
+    requires: new Decimal(1),
+    baseAmount() {return player.points}, 
     startData() { return {
         unlocked: true,
 		points: new Decimal(1.001),
     }},
-    color: "#63C5DA",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
-    resource: "f(t)", // Name of prestige currency
-    baseResource: "time", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1, // Prestige currency exponent
-    getResetGain() {
-        gain = new Decimal(1)
-        gain = gain.mul(tmp.f.gainMult)
-        gain = gain.pow(tmp.f.gainExp)
-        return gain
-    },
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(0)
-        mult = mult.add(tmp.f.buyables[11].effect)
-        mult = mult.mul(tmp.f.buyables[12].effect)
-        mult = mult.mul(tmp.f.buyables[21].effect)
-        mult = mult.mul(tmp.f.buyables[22].effect)
-        mult = mult.mul(player["u"].points)
-        mult = mult.mul(tmp.tmach.buyables[12].effect)
-        mult = mult.mul(player["g"].points)
-        if (inChallenge("inf", 12)) mult = mult.mul(0.001)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
     passiveGeneration() { return true },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 0,
-    layerShown(){return true},
+    type: "normal", 
     clickables: {
         11: {
             display() {return "Buy Max"},
             canClick() {return true},
             onClick() {
-                if (getClickableState("f", 11) == false) 
+                if (getClickableState("f", 11) == false)
                     {setClickableState("f", 11, true)}
-                else if (getClickableState("f", 11) == true) 
+                else if (getClickableState("f", 11) == true)
                     {setClickableState("f", 11, false)}
-                //return buyMaxBuyable("f", 22),  buyMaxBuyable("f", 21),  buyMaxBuyable("f", 12),  buyMaxBuyable("f", 11)
-            },
+                },
             style() {
                 if (getClickableState("f", 11) == false) 
                     return {'background-color': 'red',}
                 else if (getClickableState("f", 11) == true) 
                     return {'background-color': '#63C5DA',}
-            }
+            },
+            unlocked() {return hasAchievement("A", 18)}
         }
-    },
-    automate() {
-        return (getClickableState("auto", 11) ? buyBuyable("f", 11) : false), (getClickableState("auto", 12) ? buyBuyable("f", 12) : false), (getClickableState("auto", 13) ? buyBuyable("f", 21) : false), (getClickableState("auto", 14) ? buyBuyable("f", 22) : false)
     },
     buyables: {
         11: {
@@ -136,10 +107,10 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["f"].points, this.cost(), 1.5)
+                    getMax(player["f"].points.abs(), this.cost(), 1.5)
                     subCost(1.5, getBuyableAmount("f", 11), 1)
-                    player["f"].points = player["f"].points.sub(sub)
-                    setBuyableAmount("f", 11, getBuyableAmount("f", 11).add(max))
+                    player["f"].points = player["f"].points.sub(new Decimal(sub))
+                    setBuyableAmount("f", 11, getBuyableAmount("f", 11).add(new Decimal(max)))
                 }
             },
             effect() { 
@@ -160,10 +131,10 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["f"].points, this.cost(), 1.5)
+                    getMax(player["f"].points.abs(), this.cost(), 1.5)
                     subCost(1.5, getBuyableAmount("f", 12), 100)
-                    player["f"].points = player["f"].points.sub(sub)
-                    setBuyableAmount("f", 12, getBuyableAmount("f", 12).add(max))
+                    player["f"].points = player["f"].points.sub(new Decimal(sub))
+                    setBuyableAmount("f", 12, getBuyableAmount("f", 12).add(new Decimal(max)))
                 }
             },
             effect() { 
@@ -188,10 +159,10 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["f"].points, this.cost(), 1.5)
+                    getMax(player["f"].points.abs(), this.cost(), 1.5)
                     subCost(1.5, getBuyableAmount("f", 21), 10000)
-                    player["f"].points = player["f"].points.sub(sub)
-                    setBuyableAmount("f", 21, getBuyableAmount("f", 21).add(max))
+                    player["f"].points = player["f"].points.sub(new Decimal(sub))
+                    setBuyableAmount("f", 21, getBuyableAmount("f", 21).add(new Decimal(max)))
                 }
             },
             effect() { 
@@ -217,10 +188,10 @@ addLayer("f", {
                 }
                 else if (getClickableState("f", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["f"].points, this.cost(), 1.5)
+                    getMax(player["f"].points.abs(), this.cost(), 1.5)
                     subCost(1.5, getBuyableAmount("f", 22), 1000000)
-                    player["f"].points = player["f"].points.sub(sub)
-                    setBuyableAmount("f", 22, getBuyableAmount("f", 22).add(max))
+                    player["f"].points = player["f"].points.sub(new Decimal(sub))
+                    setBuyableAmount("f", 22, getBuyableAmount("f", 22).add(new Decimal(max)))
                 }
             },
             effect() { 
@@ -233,5 +204,45 @@ addLayer("f", {
                 else {return player["f"].best.gte(100000)}
             }
         },
-    }
+    },
+    automate() {
+        return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false)
+    },
+    update() {
+        if (tmp.f.clickables[11].unlocked && getClickableState("auto", 11) == true) {
+            setClickableState("f", 11, true)
+        }
+        if (inChallenge("inf", 71)||inChallenge("inf", 72)) {
+            player["f"].points = player["f"].points.mul(player["f"].points.pow(-0.5)).add(1)
+        }
+    },
+    getResetGain() {
+        gain = new Decimal(1)
+        gain = gain.mul(tmp.f.gainMult)
+        gain = gain.pow(tmp.f.gainExp)
+        return gain
+    },
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(0)
+        mult = mult.add(tmp.f.buyables[11].effect)
+        mult = mult.mul(tmp.f.buyables[12].effect)
+        mult = mult.mul(tmp.f.buyables[21].effect)
+        mult = mult.mul(tmp.f.buyables[22].effect)
+        mult = mult.mul(player["u"].points)
+        mult = mult.mul(tmp.tmach.buyables[12].effect)
+        mult = mult.mul(player["g"].points)
+        if (inChallenge("inf", 12)) mult = mult.mul(0.001)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        exp = new Decimal(1)
+        if (inChallenge("four", 11)) exp = exp.mul(0.25)
+        if (inChallenge("inf", 31)) exp = exp.mul(0.75)
+        return exp
+    },
+    exponent: 1, 
+    position: 1, 
+    row: 0,
+    displayRow: 0,
+    layerShown(){return true},
 })

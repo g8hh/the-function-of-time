@@ -17,24 +17,153 @@ addLayer("g", {
                     return "g(time+WT) = f(time) + wxyz⋅WT⋅0.01"
                 }],
                 "blank",
+                "clickables",
                 "buyables"
             ],
         },
     },
-    name: "g of t", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "g", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    name: "g of t", 
+    symbol: "g",
+    color: "#BF40BF",
+    resource: "g(t)",
+    baseResource: "PP",
+    requires: new Decimal(1), 
+    baseAmount() {return player["p"].points},
     startData() { return {
         unlocked: true,
 		points: new Decimal(1),
     }},
-    color: "#BF40BF",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
-    resource: "g(t)", // Name of prestige currency
-    baseResource: "PP", // Name of resource prestige is based on
-    baseAmount() {return player["p"].points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1, // Prestige currency exponent
+    passiveGeneration() { return true }, 
+    type: "normal",
+    clickables: {
+        11: {
+            display() {return "Buy Max"},
+            canClick() {return true},
+            onClick() {
+                if (getClickableState("g", 11) == false) 
+                    {setClickableState("g", 11, true)}
+                else if (getClickableState("g", 11) == true) 
+                    {setClickableState("g", 11, false)}
+                //return buyMaxBuyable("f", 22),  buyMaxBuyable("f", 21),  buyMaxBuyable("f", 12),  buyMaxBuyable("f", 11)
+            },
+            style() {
+                if (getClickableState("g", 11) == false) 
+                    return {'background-color': 'red',}
+                else if (getClickableState("g", 11) == true) 
+                    return {'background-color': '#BF40BF',}
+            },
+            unlocked() {return hasAchievement("A", 56)}
+        }
+    },
+    buyables: {
+        11: {
+            title() {return "'w' Variable"},
+            cost(x) { return new Decimal(1).mul(new Decimal(2).pow(x))},
+            display() { return "Increase the value of 'w' Variable <br> w = " + format(tmp.g.buyables[11].effect) + " (bought:" + format(getBuyableAmount("g", 11)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 11))) + " PP"},
+            canAfford() { return player["p"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("g", 11) == false) {
+                    player["p"].points = player["p"].points.sub(this.cost())
+                    setBuyableAmount("g", 11, getBuyableAmount("g", 11).add(1))
+                }
+                else if (getClickableState("g", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["p"].points.abs(), this.cost(), 2)
+                    subCost(2, getBuyableAmount("g", 11), 1)
+                    player["p"].points = player["p"].points.sub(sub)
+                    setBuyableAmount("g", 11, getBuyableAmount("g", 11).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.add(getBuyableAmount("g", 11).sub(1))
+                return eff
+            },
+        },
+        12: {
+            title() {return "'x' Variable"},
+            cost(x) { return new Decimal(100).mul(new Decimal(2).pow(x))},
+            display() { return "Increase the value of 'x' Variable <br> x = " + format(tmp.g.buyables[12].effect) + " (bought:" + format(getBuyableAmount("g", 12)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 12))) + " PP"},
+            canAfford() { return player["p"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("g", 11) == false) {
+                    player["p"].points = player["p"].points.sub(this.cost())
+                    setBuyableAmount("g", 12, getBuyableAmount("g", 12).add(1))
+                }
+                else if (getClickableState("g", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["p"].points.abs(), this.cost(), 2)
+                    subCost(2, getBuyableAmount("g", 12), 100)
+                    player["p"].points = player["p"].points.sub(sub)
+                    setBuyableAmount("g", 12, getBuyableAmount("g", 12).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.add(getBuyableAmount("g", 12))
+                return eff
+            },
+        },
+        21: {
+            title() {return "'y' Variable"},
+            cost(x) { return new Decimal(10000).mul(new Decimal(2).pow(x))},
+            display() { return "Increase the value of 'y' Variable <br> y = " + format(tmp.g.buyables[21].effect) + " (bought:" + format(getBuyableAmount("g", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 21))) + " PP"},
+            canAfford() { return player["p"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("g", 11) == false) {
+                    player["p"].points = player["p"].points.sub(this.cost())
+                    setBuyableAmount("g", 21, getBuyableAmount("g", 21).add(1))
+                }
+                else if (getClickableState("g", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["p"].points.abs(), this.cost(), 2)
+                    subCost(2, getBuyableAmount("g", 21), 10000)
+                    player["p"].points = player["p"].points.sub(sub)
+                    setBuyableAmount("g", 21, getBuyableAmount("g", 21).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.add(getBuyableAmount("g", 21))
+                return eff
+            },
+        },
+        22: {
+            title() {return "'z' Variable"},
+            cost(x) { return new Decimal(1000000).mul(new Decimal(2).pow(x))},
+            display() { return "Increase the value of 'z' Variable <br> z = " + format(tmp.g.buyables[22].effect) + " (bought:" + format(getBuyableAmount("g", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 22))) + " PP"},
+            canAfford() { return player["p"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("g", 11) == false) {
+                    player["p"].points = player["p"].points.sub(this.cost())
+                    setBuyableAmount("g", 22, getBuyableAmount("g", 22).add(1))
+                }
+                else if (getClickableState("g", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["p"].points.abs(), this.cost(), 2)
+                    subCost(2, getBuyableAmount("g", 22), 1000000)
+                    player["p"].points = player["p"].points.sub(sub)
+                    setBuyableAmount("g", 22, getBuyableAmount("g", 22).add(max))
+                }
+            },
+            effect() { 
+                eff = new Decimal(1)
+                eff = eff.add(getBuyableAmount("g", 22))
+                return eff
+            },
+        },
+    },
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("g", keep);
+        }
+        player["g"].points = player["g"].points.pow(0)
+    },
+    update() {
+        if (tmp.g.clickables[11].unlocked && getClickableState("auto", 11) == true) {
+            setClickableState("g", 11, true)
+        }
+    },
     getResetGain() {
         gain = new Decimal(1)
         gain = gain.mul(tmp.p.upgrades[14].effect)
@@ -55,77 +184,10 @@ addLayer("g", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-    passiveGeneration() { return true },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
+    exponent: 1, 
+    position: 1, 
+    row: 1, 
     displayRow: 2,
-    layerShown(){return player["f"].best.gte(1e18) || player["p"].total.gte(1)},
     branches: ["p","f"],
-    doReset(resettingLayer) {
-        let keep=[];
-        if (layers[resettingLayer].row > this.row) {layerDataReset("g", keep);
-        }
-        player["g"].points = player["g"].points.pow(0)
-    },
-    buyables: {
-        11: {
-            title() {return "'w' Variable"},
-            cost(x) { return new Decimal(1).mul(new Decimal(2).pow(x))},
-            display() { return "Increase the value of 'w' Variable <br> w = " + format(tmp.g.buyables[11].effect) + " (bought:" + format(getBuyableAmount("g", 11)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 11))) + " PP"},
-            canAfford() { return player["p"].points.gte(this.cost()) },
-            buy() {
-                player["p"].points = player["p"].points.sub(this.cost())
-                setBuyableAmount("g", 11, getBuyableAmount("g", 11).add(1))
-            },
-            effect() { 
-                eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("g", 11).sub(1))
-                return eff
-            },
-        },
-        12: {
-            title() {return "'x' Variable"},
-            cost(x) { return new Decimal(100).mul(new Decimal(2).pow(x))},
-            display() { return "Increase the value of 'x' Variable <br> x = " + format(tmp.g.buyables[12].effect) + " (bought:" + format(getBuyableAmount("g", 12)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 12))) + " PP"},
-            canAfford() { return player["p"].points.gte(this.cost()) },
-            buy() {
-                player["p"].points = player["p"].points.sub(this.cost())
-                setBuyableAmount("g", 12, getBuyableAmount("g", 12).add(1))
-            },
-            effect() { 
-                eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("g", 12))
-                return eff
-            },
-        },
-        21: {
-            title() {return "'y' Variable"},
-            cost(x) { return new Decimal(10000).mul(new Decimal(2).pow(x))},
-            display() { return "Increase the value of 'y' Variable <br> y = " + format(tmp.g.buyables[21].effect) + " (bought:" + format(getBuyableAmount("g", 21)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 21))) + " PP"},
-            canAfford() { return player["p"].points.gte(this.cost()) },
-            buy() {
-                player["p"].points = player["p"].points.sub(this.cost())
-                setBuyableAmount("g", 21, getBuyableAmount("g", 21).add(1))
-            },
-            effect() { 
-                eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("g", 21))
-                return eff
-            },
-        },
-        22: {
-            title() {return "'z' Variable"},
-            cost(x) { return new Decimal(1000000).mul(new Decimal(2).pow(x))},
-            display() { return "Increase the value of 'z' Variable <br> z = " + format(tmp.g.buyables[22].effect) + " (bought:" + format(getBuyableAmount("g", 22)) + ")" + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 22))) + " PP"},
-            canAfford() { return player["p"].points.gte(this.cost()) },
-            buy() {
-                player["p"].points = player["p"].points.sub(this.cost())
-                setBuyableAmount("g", 22, getBuyableAmount("g", 22).add(1))
-            },
-            effect() { 
-                eff = new Decimal(1)
-                eff = eff.add(getBuyableAmount("g", 22))
-                return eff
-            },
-        },
-    }
+    layerShown() {return player["f"].best.gte(1e18) || player["p"].total.gte(1)},
 })

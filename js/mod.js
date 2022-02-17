@@ -13,11 +13,23 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.3.22+",
-	name: "Automation Update",
+	num: "1.4.n+",
+	name: "Transdimensional Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #FF7F7F">v1.4.n+</h3><br>
+		- Added how many time fragments gained per second<br>
+		- Added Maxes and Caps in various upgrades and buyables<br>
+		- Added 12 Achievements<br>
+		- Added 8 working autobuyers<br>
+		- Completed 8 working Automation Challenges<br>
+		- Added 25 various Upgrades<br>
+		- Buffed pres-Upgrade 1.5<br>
+		- Changed current endgame [ 1e666 Distortion ]<br><br>
+	<h3 style="color: #FF7F7F">v1.4.0</h3><br>
+		- Added 4th Dimension<br><br>
+	<h2 style="color: #FF7F7F">Transdimensional Update</h2><br><br>
 	<h3 style="color: #FFFFFF">v1.3.22+</h3><br>
 		- Fixed some stuffs I can't remember<br>
 		- Added an achievement<br>
@@ -95,7 +107,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added f(t) Layer.<br><br>
 	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `WOWERS!!!`
+let winText = `Deserved!!!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -131,7 +143,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasAchievement("A", 72)
+	return player["four"].points.gte(new Decimal(10).pow(666))
 }
 
 
