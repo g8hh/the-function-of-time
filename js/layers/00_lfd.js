@@ -6,11 +6,33 @@ addLayer("ln1", {
     canclick(){return false},
     row: 2,
     color: "#000000",
-    layerShown() {return (tmp["pu"].layerShown)?"ghost":false;}
+    layerShown() {
+        if (tmp["four"].layerShown)
+            {return false}
+        else if (tmp["pu"].layerShown)
+            {return "ghost"}
+        else 
+            {return false}
+    }
 })
 
 addLayer("ln2", {
     name: "ln2", 
+    symbol: "", 
+    position: 2,
+    canclick(){return false},
+    row: 1,
+    color: "#000000",
+    layerShown() {
+        if (inChallenge("inf", 61))
+            {return "ghost"}
+        else 
+            {return false}
+    }
+})
+
+addLayer("ln3", {
+    name: "ln3", 
     symbol: "", 
     position: 0,
     canclick(){return false},

@@ -42,10 +42,12 @@ addLayer("p", {
         //gain = gain.add((player["f"].points.mul(8).add(1)).sqrt().sub(1).div(2))
         gain = gain.add((player["f"].points.mul(8e21).add(1e42)).sqrt().sub(1e21).div(2e21))
         gain = Decimal.floor(gain)
+        gain = gain.mul(tmp.p.gainMult)
         return gain
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        mult = mult.mul(upgradeEffect("res", 33))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -97,16 +99,69 @@ addLayer("p", {
         },
         15: {
             title: "Pres-Upgrade 1.5",
-            description: "Increase 'U' Upgrade 3.3 base by 0.1 <br> 1.5^log(PP+10) -> 1.6^log(PP+10)",
+            description: "Increase 'U' Upgrade 3.3 base by 0.1 <br> 1.5^log(PP+10) -> 1.7^log(PP+10)",
             cost: new Decimal(1e33),
             currencyDisplayName: "PP",
             currencyInternalName: "points",
             currencyLayer: "p",
             effect() {
                 eff = new Decimal(1.5)
-                    if (hasUpgrade("p", 15)) eff = eff.add(0.1)
+                    if (hasUpgrade("p", 15)) eff = eff.add(0.2)
                 return eff
             },
+        },
+        21: {
+            title: "Pres-Upgrade 2.1",
+            description: "The 'Buy Max' in Time Machine will work on Warp Warp Time and T.M.G.E. You lazy lazy lazy goose...",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "PP",
+            currencyInternalName: "points",
+            currencyLayer: "p",
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        22: {
+            title: "Pres-Upgrade 2.2",
+            description: "Unlock Research Automation Challenges",
+            cost: new Decimal(2).pow(2560),
+            currencyDisplayName: "PP",
+            currencyInternalName: "points",
+            currencyLayer: "p",
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        23: {
+            title: "Pres-Upgrade 2.3",
+            description: "Warp Warp Time and T.M.G.E. will no longer do reset.",
+            cost: new Decimal(2).pow(6400),
+            currencyDisplayName: "PP",
+            currencyInternalName: "points",
+            currencyLayer: "p",
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        24: {
+            title: "Pres-Upgrade 2.4",
+            description: "Multiply Distortion based on PP",
+            cost: new Decimal(2).pow(16000),
+            currencyDisplayName: "PP",
+            currencyInternalName: "points",
+            currencyLayer: "p",
+            effect() {
+                eff = new Decimal(1)
+                if (hasUpgrade("p", 24)) eff = eff.mul(player["p"].points.abs().add(10).log10().pow(player["p"].points.abs().add(10).log10().div(2500).add(1)))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("p", 24))
+            },
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        25: {
+            title: "Pres-Upgrade 2.5",
+            description: "Change 'U' Upgrade 3.3 Max to Cap",
+            cost: new Decimal(2).pow(40000),
+            currencyDisplayName: "PP",
+            currencyInternalName: "points",
+            currencyLayer: "p",
+            unlocked() {return hasUpgrade("four", 12)},
         },
     },
 })

@@ -1,7 +1,7 @@
 addLayer("A", {
     tabFormat: [
         "blank", 
-        ["display-text", function() { return "Achievements: "+player.A.achievements.length+"/"+(Object.keys(tmp.A.achievements).length-2) }], 
+        ["display-text", function() { return "<h2>Achievements: "+player.A.achievements.length+"/"+(Object.keys(tmp.A.achievements).length-2) + "</h2><br> damn, this is full of spoilers" }], 
         "blank", "blank",
         "achievements",
     ],
@@ -60,7 +60,7 @@ addLayer("A", {
         18: {
             name: "h",
             done() { return player["f"].best.gte(1e14) },
-            tooltip: "<b>unnecessary</b><br><br> Have f(t) = 1e14",
+            tooltip: "<b>unnecessary</b><br><br> Have f(t) = 1e14<br><br>Reward: Unlock f(t) variables 'Buy Max'",
             style: {'height': '64px', 'width': '64px'}
         },
         21: {
@@ -150,7 +150,7 @@ addLayer("A", {
         37: {
             name: "very very very very",
             done() { return player["res"].best.gte(1e24) },
-            tooltip: "<b>and again, and but yet again no smart enough</b><br><br> Have 1e24 Knowledge.",
+            tooltip: "<b>and again, and but yet again no smart enough</b><br><br> Have 1e24 Knowledge.<br><br>Reward: Unlock Research 'Buy Max'",
             style: {'height': '64px', 'width': '64px'}
         },
         38: {
@@ -240,7 +240,19 @@ addLayer("A", {
         56: {
             name: "prestiged",
             done() { return hasUpgrade("p", 11) && hasUpgrade("p", 12) && hasUpgrade("p", 13) && hasUpgrade("p", 14) && hasUpgrade("p", 15) },
-            tooltip: "<b>more more more more more?</b><br><br> Buy all first row of Pres-Upgrades",
+            tooltip: "<b>more more more more more?</b><br><br> Buy all first row of Pres-Upgrades<br><br>Reward: Unlock g(t) variables 'Buy Max'",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        57: {
+            name: "the prestiged",
+            done() { return player["p"].best.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>wow good for you</b><br><br> Reach infinite PP, hehe",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        58: {
+            name: "packed",
+            done() { return hasUpgrade("p", 11) && hasUpgrade("p", 12) && hasUpgrade("p", 13) && hasUpgrade("p", 14) && hasUpgrade("p", 15) && hasUpgrade("p", 21) && hasUpgrade("p", 22) && hasUpgrade("p", 23) && hasUpgrade("p", 24) && hasUpgrade("p", 25)},
+            tooltip: "<b>Prob done(?)</b><br><br> BUY THEM ALL, YASSSSSSSSSS",
             style: {'height': '64px', 'width': '64px'}
         },
         61: {
@@ -252,7 +264,31 @@ addLayer("A", {
         62: {
             name: "'pU'-wer of 15'",
             done() { return player["pu"].best.gte(1e15)},
-            tooltip: "<b>copy cat of 'U' Variable, smh</b><br><br> 'U' value is more than 1e15.",
+            tooltip: "<b>copy cat of 'U' Variable, smh</b><br><br> 'pU' value is more than 1e15.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        63: {
+            name: "in-'pU'-nity",
+            done() { return player["pu"].best.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>the 'pU'-n is not so 'pU'-nny</b><br><br> 'pU' value is more than 1.79e308.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        64: {
+            name: "do-'uP'-le in-'pU'-nity",
+            done() { return player["pu"].best.gte(new Decimal(2).pow(2048))},
+            tooltip: "<b>what the hell even is that</b><br><br> 'pU' value is more than 3.23e616.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        65: {
+            name: "tri-'uP'-le in-'pU'-nity",
+            done() { return player["pu"].best.gte(new Decimal(2).pow(3072))},
+            tooltip: "<b>big no no</b><br><br> 'pU' value is more than 5.81e924.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        66: {
+            name: "weirdo",
+            done() { return player["pu"].best.gte(new Decimal(2).pow(4096))},
+            tooltip: "<b>The 'pU' Achievements are wierd af</b><br><br> 'pU' value is more than 1e1233.",
             style: {'height': '64px', 'width': '64px'}
         },
         71: {
@@ -264,7 +300,43 @@ addLayer("A", {
         72: {
             name: "ez",
             done() { return hasChallenge("inf", 11) && hasChallenge("inf", 12) && hasChallenge("inf", 21) && hasChallenge("inf", 22)},
-            tooltip: "<b>challenged</b><br><br> Complete all Function of 'f' Automation Challenges",
+            tooltip: "<b>challenged 1</b><br><br> Complete all Function of 'f' Automation Challenges",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        73: {
+            name: "AUTO - MANIAC",
+            done() { return hasChallenge("inf", 31) && hasChallenge("inf", 41) && hasChallenge("inf", 42) && hasChallenge("inf", 51)},
+            tooltip: "<b>challenged 2</b><br><br> Complete all Function of Research Automation Challenges",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        74: {
+            name: "Layer 1 Auto",
+            done() { return hasChallenge("inf", 61) && hasChallenge("inf", 62) && hasChallenge("inf", 71) && hasChallenge("inf", 72)},
+            tooltip: "<b>challenged 3</b><br><br> Complete all Function of Time Machine Automation Challenges",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        81: {
+            name: "WOAH",
+            done() { return inChallenge("four", 11)},
+            tooltip: "<b>So this is slow...</b><br><br> Enter the fourth dimension",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        82: {
+            name: "HOLY YOU'RE DISTORTED",
+            done() { return hasUpgrade("four", 11) && hasUpgrade("four", 12) && hasUpgrade("four", 13) && hasUpgrade("four", 14) && hasUpgrade("four", 15)},
+            tooltip: "<b>How did you manage this...</b><br><br> Buy all of the first row of 4D-Upgrades",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        83: {
+            name: "Shooketh",
+            done() { return inChallenge("four", 11) && player["f"].points.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>Possimpossible</b><br><br> Reach infinity in the 4th Dimension",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        84: {
+            name: "GASPED",
+            done() { return player["four"].points.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>IMPOSSIBLE</b><br><br> Reach infinity Distortions",
             style: {'height': '64px', 'width': '64px'}
         },
     },

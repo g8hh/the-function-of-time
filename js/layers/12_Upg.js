@@ -9,57 +9,27 @@ addLayer("u", {
             ],
         },
     },
-    name: "'U' upgrades", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "U", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    name: "'U' upgrades", 
+    symbol: "U",
+    color: "#FFE338", 
+    resource: "U",
+    baseResource: "f(t)",
+    requires: new Decimal(1),
+    baseAmount() {return player.points},
     startData() { return {
         unlocked: true,
 		points: new Decimal(1),
     }},
-    color: "#FFE338",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
-    resource: "U", // Name of prestige currency
-    baseResource: "f(t)", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1, // Prestige currency exponent
-    update() {
-        player["u"].points = new Decimal(1)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[11].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[12].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[13].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[15].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[21].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[22].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[23].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[24].effect)
-        player["u"].points = player["u"].points.mul(tmp.u.upgrades[33].effect)
-        player["u"].points = player["u"].points.mul(buyableEffect("res", 21))
-        player["u"].points = player["u"].points.pow(new Decimal(1).add(tmp.u.upgrades[25].effect).add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect))
-    },
-    getResetGain() {
-        gain = new Decimal(0)
-        return gain
-    },
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1) 
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
     passiveGeneration() { return true },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
-    displayRow: 1,
-    layerShown(){return player["f"].best.gte(10000) || player["p"].total.gte(1)}, 
-    branches: ["f"],
     doReset(resettingLayer) {
         let keep=[];
         if (layers[resettingLayer].row > this.row) {layerDataReset("u", keep);
         if (player["p"].total.gte(1)) player[this.layer].upgrades = player[this.layer].upgrades.concat([14]);
-        if (hasAchievement("A", 28)) player[this.layer].upgrades = player[this.layer].upgrades.concat([35])
+        if (hasAchievement("A", 28)) player[this.layer].upgrades = player[this.layer].upgrades.concat([35]);
+        if (hasUpgrade("pu", 22)) player[this.layer].upgrades = player[this.layer].upgrades.concat([33])
         }
     },
+    type: "normal", 
     upgrades: {
         11: {
             title: "'U' Upgrade 1.1",
@@ -99,6 +69,11 @@ addLayer("u", {
                     if (hasUpgrade("u", 33)) eff = eff.mul(1.5)
                     if (hasUpgrade("u", 34)) eff = eff.mul(1.5)
                     if (hasUpgrade("u", 35)) eff = eff.mul(1.5)
+                    if (hasUpgrade("u", 41)) eff = eff.mul(1.5)
+                    if (hasUpgrade("u", 42)) eff = eff.mul(1.5)
+                    if (hasUpgrade("u", 43)) eff = eff.mul(1.5)
+                    if (hasUpgrade("u", 44)) eff = eff.mul(1.5)
+                    if (hasUpgrade("u", 45)) eff = eff.mul(1.5)
                 }
                 return eff
             },
@@ -140,7 +115,7 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 12)))
-                if (inChallenge("inf", 22) && hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
                 return eff
             },
             effectDisplay() {
@@ -180,8 +155,8 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 21)))
-                if (inChallenge("inf", 21) && hasUpgrade("u", 22)) eff = eff.mul((new Decimal(1).add(getBuyableAmount("f", 11)).add(getBuyableAmount("f", 12)).add(getBuyableAmount("f", 22))).pow(2))
-                if (inChallenge("inf", 22) && hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
+                if (inChallenge("inf", 21) && hasUpgrade("u", 22)) eff = eff.mul((new Decimal(1).add(getBuyableAmount("f", 11)).add(getBuyableAmount("f", 12)).add(getBuyableAmount("f", 22))).pow(3))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
                 return eff
             },
             effectDisplay() {
@@ -209,6 +184,11 @@ addLayer("u", {
                     if (hasUpgrade("res", 23)) eff = eff.mul(1.5)
                     if (hasUpgrade("res", 24)) eff = eff.mul(1.5)
                     if (hasUpgrade("res", 25)) eff = eff.mul(1.5)
+                    if (hasUpgrade("res", 31)) eff = eff.mul(1.5)
+                    if (hasUpgrade("res", 32)) eff = eff.mul(1.5)
+                    if (hasUpgrade("res", 33)) eff = eff.mul(1.5)
+                    if (hasUpgrade("res", 34)) eff = eff.mul(1.5)
+                    if (hasUpgrade("res", 35)) eff = eff.mul(1.5)
                 }
                 return eff
             },
@@ -227,7 +207,7 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 22)))
-                if (inChallenge("inf", 22) && hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(4))
+                if (inChallenge("inf", 22) && hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
                 return eff
             },
             effectDisplay() {
@@ -251,7 +231,10 @@ addLayer("u", {
         },
         31: {
             title: "'U' Upgrade 3.1",
-            description: "+ ^0.015 'U' value every 'U' Upgrades bought in 3rd row.",
+            description() { 
+                if (hasUpgrade("u", 43)) {return "+ ^" + format(new Decimal(0.015).add(upgradeEffect("pu", 24))) + " 'U' value every 'U' Upgrades bought in 3rd row and above."}
+                else {return "+ ^" + format(new Decimal(0.015).add(upgradeEffect("pu", 24))) + " 'U' value every 'U' Upgrades bought in 3rd row."}
+            },
             cost: new Decimal(1e36),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -259,11 +242,16 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(0)
                 if (hasUpgrade("u", 31)) {
-                    if (hasUpgrade("u", 31)) eff = eff.add(0.015)
-                    if (hasUpgrade("u", 32)) eff = eff.add(0.015)
-                    if (hasUpgrade("u", 33)) eff = eff.add(0.015)
-                    if (hasUpgrade("u", 34)) eff = eff.add(0.015)
-                    if (hasUpgrade("u", 35)) eff = eff.add(0.015)
+                    if (hasUpgrade("u", 31)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 32)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 33)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 34)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 35)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 41) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 42) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 43) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 44) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
+                    if (hasUpgrade("u", 45) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.015).add(upgradeEffect("pu", 24)))
                 }
                 return eff
             },
@@ -274,7 +262,10 @@ addLayer("u", {
         },
         32: {
             title: "'U' Upgrade 3.2",
-            description: "+ ^0.01 'U' value every Pres-Upgrades bought",
+            description() {
+                if (hasUpgrade("u", 43)) {return "+ ^" + format(new Decimal(0.01).add(upgradeEffect("pu", 23))) + " 'U' value every Pres-Upgrades and 'pU' Upgrades bought"}
+                else {return "+ ^" + format(new Decimal(0.01).add(upgradeEffect("pu", 23))) +  " 'U' value every Pres-Upgrades bought"}
+            } ,
             cost: new Decimal(1e45),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -282,11 +273,26 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(0)
                 if (hasUpgrade("u", 32)) {
-                    if (hasUpgrade("p", 11)) eff = eff.add(0.01)
-                    if (hasUpgrade("p", 12)) eff = eff.add(0.01)
-                    if (hasUpgrade("p", 13)) eff = eff.add(0.01)
-                    if (hasUpgrade("p", 14)) eff = eff.add(0.01)
-                    if (hasUpgrade("p", 15)) eff = eff.add(0.01)
+                    if (hasUpgrade("p", 11)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 12)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 13)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 14)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 15)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 21)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 22)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 23)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 24)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("p", 25)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 11) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 12) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 13) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 14) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 15) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 21) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 22) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 23) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 24) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
+                    if (hasUpgrade("pu", 25) && hasUpgrade("u", 43)) eff = eff.add(new Decimal(0.01).add(upgradeEffect("pu", 23)))
                 }
                 return eff
             },
@@ -297,15 +303,29 @@ addLayer("u", {
         },
         33: {
             title: "'U' Upgrade 3.3",
-            description: "Multiply 'U' value based on unspent PP",
+            description() {
+                if (hasUpgrade("p", 25)) {
+                    return "Multiply 'U' value based on unspent PP<br>Cap = x" + format(new Decimal(1e50).mul(upgradeEffect("pu", 22)))
+                }
+                else {
+                    return "Multiply 'U' value based on unspent PP<br>Max = x" + format(new Decimal(1e50).mul(upgradeEffect("pu", 22)))
+                }
+            },
             cost: new Decimal(1e54),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
             currencyLayer: "f",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("u", 33)) eff = eff.mul(upgradeEffect("p", 15)**(player["p"].points.add(10)).log10())
-                return eff
+                if (hasUpgrade("u", 33)) eff = eff.mul(upgradeEffect("p", 15).pow((player["p"].points.abs().add(10)).log10()))
+                if (eff.lte(new Decimal(1e50).mul(upgradeEffect("pu", 22)))){
+                    return eff
+                }
+                else if (eff.gte(new Decimal(1e50).mul(upgradeEffect("pu", 22)))){
+                    eff = new Decimal(1e50).mul(upgradeEffect("pu", 22))
+                    if (hasUpgrade("p", 25)) eff = eff.mul((upgradeEffect("p", 15).pow((player["p"].points.abs().add(10)).log10()).div(new Decimal(1e50).mul(upgradeEffect("pu", 22)))).log10().pow(player["p"].points.abs().add(10).log10().pow(0.5)))
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 33))
@@ -314,7 +334,7 @@ addLayer("u", {
         },
         34: {
             title: "'U' Upgrade 3.4",
-            description: "+ ^0.0008 'U' value every Warp Time bought <br> (Cap = + ^1)",
+            description: "+ ^0.0008 'U' value every Warp Time bought <br> Max = + ^1",
             cost: new Decimal(1e72),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -343,5 +363,118 @@ addLayer("u", {
             currencyLayer: "f",
             unlocked() {return hasUpgrade("p", 13)},
         },
+        41: {
+            title: "'U' Upgrade 4.1",
+            description: "Multiply 'U' value based on 'U'",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "f(t)",
+            currencyInternalName: "points",
+            currencyLayer: "f",
+            effect() {
+                eff = new Decimal(1)
+                if (hasUpgrade("u", 45)) {
+                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(2).log10().div(new Decimal(2).log10())))
+                }
+                else {
+                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(3).log10().div(new Decimal(3).log10())))
+                }
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("u", 41))
+            },
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        42: {
+            title: "'U' Upgrade 4.2",
+            description: "Multiply 'U' value based on g(t) value",
+            cost: new Decimal(2).pow(1536),
+            currencyDisplayName: "f(t)",
+            currencyInternalName: "points",
+            currencyLayer: "f",
+            effect() {
+                eff = new Decimal(1)
+                if (hasUpgrade("u", 42)) eff = eff.mul(new Decimal(1.2).pow((player["g"].points.abs().add(10)).log10()))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("u", 42))
+            },
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        43: {
+            title: "'U' Upgrade 4.3",
+            description: "Include 4th row and above 'U' Upgrades in 'U' Upgrade 3.1 and 'pU' Upgrades in 'U' Upgrade 3.2",
+            cost: new Decimal(2).pow(2304),
+            currencyDisplayName: "f(t)",
+            currencyInternalName: "points",
+            currencyLayer: "f",
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        44: {
+            title: "'U' Upgrade 4.4",
+            description: "+ ^0.001 'U' value every 'pU' Variable Upgrade bought <br> Max = + ^2",
+            cost: new Decimal(2).pow(3456),
+            currencyDisplayName: "f(t)",
+            currencyInternalName: "points",
+            currencyLayer: "f",
+            effect() {
+                eff = new Decimal(0)
+                if (hasUpgrade("u", 44)) eff = eff.add(getBuyableAmount("res", 22)).mul(0.001)
+                if (eff.lte(2)) {
+                    return eff
+                }
+                else if (eff.gte(2)) {
+                    eff = 2
+                    return eff
+                }
+            },
+            effectDisplay() {
+                return "+ ^" + format(upgradeEffect("u", 44))
+            },
+            unlocked() {return hasUpgrade("four", 12)},
+        },
+        45: {
+            title: "'U' Upgrade 4.5",
+            description: "Increase 'U' Upgrade 4.1 power",
+            cost: new Decimal(2).pow(5184),
+            currencyDisplayName: "f(t)",
+            currencyInternalName: "points",
+            currencyLayer: "f",
+            unlocked() {return hasUpgrade("four", 12)},
+        },
     },
+    update() {
+        player["u"].points = new Decimal(1)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[11].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[12].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[13].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[15].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[21].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[22].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[23].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[24].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[33].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[41].effect)
+        player["u"].points = player["u"].points.mul(tmp.u.upgrades[42].effect)
+        player["u"].points = player["u"].points.mul(buyableEffect("res", 21))
+        player["u"].points = player["u"].points.pow(new Decimal(1).add(tmp.u.upgrades[25].effect).add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect).add(tmp.u.upgrades[44].effect))
+    },
+    getResetGain() {
+        gain = new Decimal(0)
+        return gain
+    },
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1) 
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    exponent: 1,
+    position: 0, 
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    displayRow: 1,
+    branches: ["f"],
+    layerShown(){return player["f"].best.gte(10000) || player["p"].total.gte(1)}, 
 })
