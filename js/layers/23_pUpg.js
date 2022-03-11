@@ -128,7 +128,7 @@ addLayer("pu", {
         },
         22: {
             title: "'pU' Upgrade 2.2",
-            description: "Keep 'U' Upgrade 3.3 on reset and change it's max to 1e100",
+            description: "Keep 'U' Upgrade 3.3 on reset and change it's max to 1e150",
             cost: new Decimal(2).pow(2048),
             currencyDisplayName: "g(t)",
             currencyInternalName: "points",
@@ -136,7 +136,7 @@ addLayer("pu", {
             unlocked() {return hasUpgrade("four", 12)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("pu", 22)) eff = eff.mul(new Decimal(1e50))
+                if (hasUpgrade("pu", 22)) eff = eff.mul(new Decimal(1e100))
                 return eff
             },
         },
@@ -170,7 +170,7 @@ addLayer("pu", {
         },
         25: {
             title: "'pU' Upgrade 2.5",
-            description: "Remove Max Distortion",
+            description: "Remove Max Distortion and unlock 'Buy Max' in Distortion",
             cost: new Decimal(2).pow(16384),
             currencyDisplayName: "g(t)",
             currencyInternalName: "points",
@@ -190,7 +190,7 @@ addLayer("pu", {
         player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[13].effect)
         player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[21].effect)
         player["pu"].points = player["pu"].points.mul(buyableEffect("res", 22))
-        player["pu"].points = player["pu"].points.pow(new Decimal(1).add(tmp.pu.upgrades[14].effect))
+        player["pu"].points = player["pu"].points.pow(new Decimal(1).add(upgradeEffect("pu",14)))
     },
     getResetGain() {
         gain = new Decimal(0)

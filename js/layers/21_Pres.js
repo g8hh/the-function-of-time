@@ -139,7 +139,7 @@ addLayer("p", {
         },
         24: {
             title: "Pres-Upgrade 2.4",
-            description: "Multiply Distortion based on PP",
+            description: "Multiply Distortion based on PP <br> Max = 1.8e308",
             cost: new Decimal(2).pow(16000),
             currencyDisplayName: "PP",
             currencyInternalName: "points",
@@ -147,7 +147,13 @@ addLayer("p", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("p", 24)) eff = eff.mul(player["p"].points.abs().add(10).log10().pow(player["p"].points.abs().add(10).log10().div(2500).add(1)))
-                return eff
+                if (eff.lte(new Decimal(2).pow(1024))) {
+                    return eff
+                }
+                if (eff.gte(new Decimal(2).pow(1024))) {
+                    eff = new Decimal(2).pow(1024)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("p", 24))

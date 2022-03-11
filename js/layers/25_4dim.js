@@ -9,7 +9,18 @@ addLayer("four", {
                 "challenges",
                 "blank",
                 "clickables",
-                "buyables"
+                "buyables",
+                ["display-text", function() { 
+                    if (getBuyableAmount("four", 11).gte(1024)) {
+                        return "Cap is currently ^0.5" 
+                    }
+                    else if (getBuyableAmount("four", 11).gte(24)) {
+                        return "Cap is currently ^0.88. Next cap change is at 1024 Distortion Power." 
+                    }
+                    else {
+                        return "Cap change is at 24 Distortion Power." 
+                    }
+                },],
             ],
         },
         "4D-Upgrades": {
@@ -53,7 +64,7 @@ addLayer("four", {
                 else if (getClickableState("four", 11) == true) 
                     return {'background-color': '#FF7F7F',}
             },
-            unlocked() {return hasAchievement("A", 84)}
+            unlocked() {return hasUpgrade("pu", 25)}
         }
     },
     challenges: {
@@ -86,8 +97,8 @@ addLayer("four", {
                 }
                 else if (getClickableState("four", 11) == true) {
                     max = new Decimal(0)
-                    getMax(player["four"].points.abs(), this.cost(), 2)
-                    subCost(2, getBuyableAmount("four", 11), 1)
+                    getMax(player["four"].points.abs(), this.cost(), new Decimal(2))
+                    subCost(new Decimal(2), getBuyableAmount("four", 11), 1)
                     player["four"].points = player["four"].points.sub(new Decimal(sub))
                     setBuyableAmount("four", 11, getBuyableAmount("four", 11).add(new Decimal(max)))
                 }
@@ -95,17 +106,17 @@ addLayer("four", {
             effect() { 
                 eff = new Decimal(0.01)
                 if (getBuyableAmount("four", 11).gte(1024)) {
-                    eff = eff.add(0.24).add((new Decimal(1000).pow(0.88)).mul(0.01)).add(((getBuyableAmount("four", 11).sub(1024)).pow(0.5)).mul(0.01))
+                    eff = eff.add(new Decimal(0.01).mul(24)).add(new Decimal(0.01).mul(new Decimal(1000).pow(0.88))).add(new Decimal(0.01).mul(getBuyableAmount("four", 11).sub(1024).pow(new Decimal(0.5))))
                 }
                 else if (getBuyableAmount("four", 11).gte(24)) {
-                eff = eff.add(0.24).add(((getBuyableAmount("four", 11).sub(24)).pow(0.88)).mul(0.01))
+                    eff = eff.add(new Decimal(0.01).mul(24)).add(new Decimal(0.01).mul(getBuyableAmount("four", 11).sub(24).pow(0.88)))
                 }
                 else {
-                    eff = eff.add((getBuyableAmount("four", 11)).mul(0.01))
+                    eff = eff.add(new Decimal(0.01).mul(getBuyableAmount("four", 11)))
                 }
                 return eff
             },
-        }
+        },
     },
     upgrades: {
         11: {

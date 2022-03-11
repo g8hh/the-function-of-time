@@ -13,11 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4.n+",
-	name: "Transdimensional Update",
+	num: "1.5.55+",
+	name: "Another Research Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #FFE77B">v1.5.55+</h3><br>
+		- Fixed f(t) ~ 1e13,000 hard cap<br>
+		- Added 13 Achievements<br>
+		- Added 3 Study Points Converter<br>
+		- Completed 2 Study Points Converter<br>
+		- Added 25 studies<br>
+		- Completed 12 studies<br>
+		- Changed current endgame [ Study 5.1 ]<br><br>
+	<h3 style="color: #FFE77B">v1.5.0</h3><br>
+		- Added Study Tree<br><br>
+	<h2 style="color: #FFE77B">Another Research Update</h2><br><br>
 	<h3 style="color: #FF7F7F">v1.4.n+</h3><br>
 		- Added how many time fragments gained per second<br>
 		- Added Maxes and Caps in various upgrades and buyables<br>
@@ -143,7 +154,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player["four"].points.gte(new Decimal(10).pow(666))
+	return hasUpgrade("res",151)
 }
 
 

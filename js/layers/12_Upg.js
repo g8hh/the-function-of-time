@@ -24,7 +24,7 @@ addLayer("u", {
     doReset(resettingLayer) {
         let keep=[];
         if (layers[resettingLayer].row > this.row) {layerDataReset("u", keep);
-        if (player["p"].total.gte(1)) player[this.layer].upgrades = player[this.layer].upgrades.concat([14]);
+        if (hasAchievement("A", 51)) player[this.layer].upgrades = player[this.layer].upgrades.concat([14]);
         if (hasAchievement("A", 28)) player[this.layer].upgrades = player[this.layer].upgrades.concat([35]);
         if (hasUpgrade("pu", 22)) player[this.layer].upgrades = player[this.layer].upgrades.concat([33])
         }
@@ -83,7 +83,14 @@ addLayer("u", {
         },
         13: {
             title: "'U' Upgrade 1.3",
-            description: "x1.01 'U' value every 'a' Variable bought.",
+            description() {
+                if (hasAchievement("A", 91)) {
+                    return "x1.01 'U' value every 'a' Variable bought. <br> Max = x1e10,000" 
+                }
+                else {
+                    return "x1.01 'U' value every 'a' Variable bought." 
+                }
+            },
             cost: new Decimal(10000000),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -91,7 +98,13 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 13)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 11)))
-                return eff
+                if (eff.lte(new Decimal(10).pow(10000))) {
+                    return eff
+                }
+                else {
+                    eff = new Decimal(10).pow(10000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 13))
@@ -107,7 +120,14 @@ addLayer("u", {
         },
         15: {
             title: "'U' Upgrade 1.5",
-            description: "x1.01 'U' value every 'b' Variable bought.",
+            description() {
+                if (hasAchievement("A", 91)) {
+                    return "x1.01 'U' value every 'b' Variable bought. <br> Max = x1e10,000" 
+                }
+                else {
+                    return "x1.01 'U' value every 'b' Variable bought." 
+                }
+            },
             cost: new Decimal(1e9),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -116,7 +136,13 @@ addLayer("u", {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 12)))
                 if (inChallenge("inf", 22) && hasUpgrade("u", 15)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
-                return eff
+                if (eff.lte(new Decimal(10).pow(10000))) {
+                    return eff
+                }
+                else {
+                    eff = new Decimal(10).pow(10000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 15))
@@ -124,7 +150,14 @@ addLayer("u", {
         },
         21: {
             title: "'U' Upgrade 2.1",
-            description: "x1.002 'U' value every 'a, b, c & d' Variable Upgrade bought.",
+            description() {
+                if (hasAchievement("A", 91)) {
+                    return "x1.002 'U' value every 'a, b, c & d' Variable Upgrade bought. <br> Max = x1e10,000" 
+                }
+                else {
+                    return "x1.002 'U' value every 'a, b, c & d' Variable Upgrade bought." 
+                }
+            },
             cost: new Decimal(1e10),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -132,7 +165,13 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 21)) eff = eff.mul(new Decimal(1.002).pow((getBuyableAmount("res", 31).add(getBuyableAmount("res", 32)).add(getBuyableAmount("res", 41)).add(getBuyableAmount("res", 42)))))
-                return eff
+                if (eff.lte(new Decimal(10).pow(10000))) {
+                    return eff
+                }
+                else {
+                    eff = new Decimal(10).pow(10000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 21))
@@ -145,9 +184,13 @@ addLayer("u", {
                 if (inChallenge("inf", 21)) {
                     return "Multiply your 'U' value based on 'a, b, & d' Variable bought"
                 }
+                else if (hasAchievement("A", 91)) {
+                    return "x1.01 'U' value every 'c' Variable bought. <br> Max = x1e10,000" 
+                }
                 else {
-                    return "x1.01 'U' value every 'c' Variable bought."
-                }},
+                    return "x1.01 'U' value every 'c' Variable bought." 
+                }
+            },
             cost: new Decimal(1e11),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -157,7 +200,13 @@ addLayer("u", {
                 if (hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 21)))
                 if (inChallenge("inf", 21) && hasUpgrade("u", 22)) eff = eff.mul((new Decimal(1).add(getBuyableAmount("f", 11)).add(getBuyableAmount("f", 12)).add(getBuyableAmount("f", 22))).pow(3))
                 if (inChallenge("inf", 22) && hasUpgrade("u", 22)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
-                return eff
+                if (eff.lte(new Decimal(10).pow(10000))) {
+                    return eff
+                }
+                else {
+                    eff = new Decimal(10).pow(10000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 22))
@@ -199,7 +248,14 @@ addLayer("u", {
         },
         24: {
             title: "'U' Upgrade 2.4",
-            description: "x1.01 'U' value every 'd' Variable bought.",
+            description() {
+                if (hasAchievement("A", 91)) {
+                    return "x1.01 'U' value every 'd' Variable bought. <br> Max = x1e10,000" 
+                }
+                else {
+                    return "x1.01 'U' value every 'd' Variable bought." 
+                }
+            },
             cost: new Decimal(1e13),
             currencyDisplayName: "f(t)",
             currencyInternalName: "points",
@@ -208,7 +264,13 @@ addLayer("u", {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("f", 22)))
                 if (inChallenge("inf", 22) && hasUpgrade("u", 24)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("f", 11)).pow(5))
-                return eff
+                if (eff.lte(new Decimal(10).pow(10000))) {
+                    return eff
+                }
+                else {
+                    eff = new Decimal(10).pow(10000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("u", 24))
@@ -373,10 +435,10 @@ addLayer("u", {
             effect() {
                 eff = new Decimal(1)
                 if (hasUpgrade("u", 45)) {
-                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(2).log10().div(new Decimal(2).log10())))
+                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(new Decimal(2)).log10().div(new Decimal(2).log10())))
                 }
                 else {
-                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(3).log10().div(new Decimal(3).log10())))
+                    if (hasUpgrade("u", 41)) eff = eff.mul(player["u"].points.abs().add(10).log10().pow(player["u"].points.abs().add(10).log10().add(new Decimal(3)).log10().div(new Decimal(3).log10())))
                 }
                 return eff
             },
@@ -457,8 +519,10 @@ addLayer("u", {
         player["u"].points = player["u"].points.mul(tmp.u.upgrades[33].effect)
         player["u"].points = player["u"].points.mul(tmp.u.upgrades[41].effect)
         player["u"].points = player["u"].points.mul(tmp.u.upgrades[42].effect)
+        player["u"].points = player["u"].points.mul(tmp.res.upgrades[121].effect)
+        player["u"].points = player["u"].points.mul(tmp.res.upgrades[141].effect)
         player["u"].points = player["u"].points.mul(buyableEffect("res", 21))
-        player["u"].points = player["u"].points.pow(new Decimal(1).add(tmp.u.upgrades[25].effect).add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect).add(tmp.u.upgrades[44].effect))
+        player["u"].points = player["u"].points.pow(new Decimal(1).add(tmp.u.upgrades[25].effect).add(tmp.u.upgrades[31].effect).add(tmp.u.upgrades[32].effect).add(tmp.u.upgrades[34].effect).add(tmp.u.upgrades[44].effect).add(tmp.res.upgrades[131].effect))
     },
     getResetGain() {
         gain = new Decimal(0)

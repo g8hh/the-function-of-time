@@ -291,6 +291,18 @@ addLayer("A", {
             tooltip: "<b>The 'pU' Achievements are wierd af</b><br><br> 'pU' value is more than 1e1233.",
             style: {'height': '64px', 'width': '64px'}
         },
+        67: {
+            name: "weird ach",
+            done() { return player["pu"].best.gte(new Decimal(10).pow(10000))},
+            tooltip: "<b>🆗🆒</b><br><br> 'pU' value is more than 1e10,000.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        68: {
+            name: "another weird ach",
+            done() { return player["pu"].best.gte(new Decimal(10).pow(50000))},
+            tooltip: "<b>🆒🆒🆒🆒</b><br><br> 'pU' value is more than 1e50,000.",
+            style: {'height': '64px', 'width': '64px'}
+        },
         71: {
             name: "∞",
             done() { return player["f"].best.gte(new Decimal(2).pow(1024))},
@@ -315,6 +327,30 @@ addLayer("A", {
             tooltip: "<b>challenged 3</b><br><br> Complete all Function of Time Machine Automation Challenges",
             style: {'height': '64px', 'width': '64px'}
         },
+        75: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        76: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        77: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        78: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
         81: {
             name: "WOAH",
             done() { return inChallenge("four", 11)},
@@ -337,6 +373,48 @@ addLayer("A", {
             name: "GASPED",
             done() { return player["four"].points.gte(new Decimal(2).pow(1024))},
             tooltip: "<b>IMPOSSIBLE</b><br><br> Reach infinity Distortions",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        85: {
+            name: "this torch dead",
+            done() { return hasUpgrade("pu", 25)},
+            tooltip: "<b>Break Distorion</b><br><br> Break infinity distortion",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        86: {
+            name: "these two are dead",
+            done() { return player["four"].points.gte(new Decimal(10).pow(4200))},
+            tooltip: "<b>420 x 10</b><br><br> Reach 1e4200 distortion",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        87: {
+            name: "fish turtle",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        88: {
+            name: "distorted",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        91: {
+            name: "Age of Studying",
+            done() { return player["four"].points.gte(new Decimal(10).pow(666))},
+            tooltip: "<b>Much Smarter</b><br><br> Unlock Study Tree",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        92: {
+            name: "patience",
+            done() { return hasUpgrade("res",121)},
+            tooltip: "<b>wait</b><br><br> just wait",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        93: {
+            name: "E",
+            done() { return hasUpgrade("res",112)},
+            tooltip: "<b>e!!!</b><br><br> Unlock Euler's number",
             style: {'height': '64px', 'width': '64px'}
         },
     },
