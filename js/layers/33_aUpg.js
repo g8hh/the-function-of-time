@@ -183,7 +183,7 @@ addLayer("au", {
         },
         25: {
             title: "'aU' Upgrade 2.5",
-            description: "^1.05 'U' value.",
+            description: "^1.05 'aU' value.",
             cost: new Decimal(1e270),
             currencyDisplayName: "h(t)",
             currencyInternalName: "points",
