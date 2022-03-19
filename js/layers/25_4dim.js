@@ -128,13 +128,11 @@ addLayer("four", {
             currencyLayer: "four",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("four", 11)) {
-                    if (hasUpgrade("four", 11)) eff = eff.mul(1.1)
-                    if (hasUpgrade("four", 12)) eff = eff.mul(1.1)
-                    if (hasUpgrade("four", 13)) eff = eff.mul(1.1)
-                    if (hasUpgrade("four", 14)) eff = eff.mul(1.1)
-                    if (hasUpgrade("four", 15)) eff = eff.mul(1.1)
-                }
+                if (hasUpgrade("four", 11)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 12)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 13)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 14)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 15)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
                 return eff
             },
             effectDisplay() {
@@ -158,20 +156,18 @@ addLayer("four", {
             currencyLayer: "four",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("four", 13)) {
-                    if (hasChallenge("inf", 11)) eff = eff.mul(1.1)
-                    if (hasChallenge("inf", 12)) eff = eff.mul(1.2)
-                    if (hasChallenge("inf", 21)) eff = eff.mul(1.3)
-                    if (hasChallenge("inf", 22)) eff = eff.mul(1.4)
-                    if (hasChallenge("inf", 31)) eff = eff.mul(1.7)
-                    if (hasChallenge("inf", 41)) eff = eff.mul(1.8)
-                    if (hasChallenge("inf", 42)) eff = eff.mul(1.9)
-                    if (hasChallenge("inf", 51)) eff = eff.mul(2)
-                    if (hasChallenge("inf", 61)) eff = eff.mul(2.3)
-                    if (hasChallenge("inf", 62)) eff = eff.mul(2.4)
-                    if (hasChallenge("inf", 71)) eff = eff.mul(2.5)
-                    if (hasChallenge("inf", 72)) eff = eff.mul(2.6)
-                }
+                if (hasChallenge("inf", 11)) eff = eff.mul(1.1)
+                if (hasChallenge("inf", 12)) eff = eff.mul(1.2)
+                if (hasChallenge("inf", 21)) eff = eff.mul(1.3)
+                if (hasChallenge("inf", 22)) eff = eff.mul(1.4)
+                if (hasChallenge("inf", 31)) eff = eff.mul(1.7)
+                if (hasChallenge("inf", 41)) eff = eff.mul(1.8)
+                if (hasChallenge("inf", 42)) eff = eff.mul(1.9)
+                if (hasChallenge("inf", 51)) eff = eff.mul(2)
+                if (hasChallenge("inf", 61)) eff = eff.mul(2.3)
+                if (hasChallenge("inf", 62)) eff = eff.mul(2.4)
+                if (hasChallenge("inf", 71)) eff = eff.mul(2.5)
+                if (hasChallenge("inf", 72)) eff = eff.mul(2.6)
                 return eff
             },
             effectDisplay() {
@@ -195,7 +191,7 @@ addLayer("four", {
             currencyLayer: "four",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("four", 15)) eff = eff.mul(player.points.add(1).log10().add(1).log(10).add(1))
+                eff = eff.mul(player.points.add(1).log10().add(1).log(10).add(1))
                 return eff
             },
             effectDisplay() {
@@ -209,6 +205,9 @@ addLayer("four", {
                 return player["four"].points = new Decimal(2).pow(1024)
             }
         }
+        if (tmp.four.clickables[11].unlocked && getClickableState("auto", 11) == true) {
+            setClickableState("four", 11, true)
+        }
     },
     getResetGain() {
         gain = new Decimal(1)
@@ -219,15 +218,16 @@ addLayer("four", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(0) 
         if (inChallenge("four", 11)) mult = mult.add(player.points.add(1).pow(tmp.four.buyables[11].effect).sub(1))
-        mult = mult.mul(tmp.four.upgrades[13].effect)
-        mult = mult.mul(tmp.p.upgrades[24].effect)
+        if (hasMilestone("ab", 1)) mult = mult.mul(abMs1())
+        if (hasUpgrade("four", 13)) mult = mult.mul(tmp.four.upgrades[13].effect)
+        if (hasUpgrade("p", 24)) mult = mult.mul(tmp.p.upgrades[24].effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
     exponent: 1, 
-    position: 3,
+    position: 5,
     row: 1,
     displayRow: 2,
     branches: ["tmach"],
@@ -237,4 +237,17 @@ addLayer("four", {
         else
             {return false}
     }, 
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("four", keep);
+        if (hasAchievement("A", 101)) player[this.layer].upgrades = player[this.layer].upgrades.concat([12,14]);
+        }
+    },
 })
+
+function abMs1() {
+    boost = new Decimal(1)
+    if (hasMilestone("ab",1)) boost = boost.mul(player["h"].points.abs().add(10).log10())
+    if (hasUpgrade("ab",15)) boost = boost.pow(player["h"].points.abs().add(10).log10().div(player["h"].points.abs().add(10).log10().add(10).log10()))
+    return boost
+}

@@ -15,6 +15,7 @@ addLayer("res", {
             content:[
                 "main-display",
                 "blank",
+                ["clickables", [3]],
                 ["upgrades", [1,2,3]],
             ],
         },
@@ -24,8 +25,10 @@ addLayer("res", {
             content:[
                 ["display-text", function() { return "You Have <h1><span style='color:#FFE77B'>" + format(player["res"].sPoints) + " </h1>Study Points</span>" },],
                 "blank",
+                ["display-text", function() { return "<span style='color:red'> Note: Converting does not cost anything. Its only a Requirement (Req).</span>" },],
                 ["clickables", [2]],
                 ["buyables", [5]],
+                ["clickables", [4]],
                 "blank",
                 ["upgrades", [11]],
                 "blank",
@@ -69,12 +72,6 @@ addLayer("res", {
         sPoints: new Decimal(0),
     }},
     passiveGeneration() { return true },
-    doReset(resettingLayer) {
-        let keep=[];
-        if (layers[resettingLayer].row > this.row) {layerDataReset("res", keep);
-        if (hasAchievement("A", 51)) player[this.layer].upgrades = player[this.layer].upgrades.concat([15]);
-        }
-    },
     type: "normal", 
     clickables: {
         11: {
@@ -93,7 +90,7 @@ addLayer("res", {
                 else if (getClickableState("res", 11) == true) 
                     return {'background-color': '#234F1E',}
             },
-            unlocked() {return hasAchievement("A", 37)}
+            unlocked() {return hasAchievement("A", 34)}
         },
         21: {
             display() {return "Something Buy Max"},
@@ -111,7 +108,38 @@ addLayer("res", {
                 else if (getClickableState("res", 21) == true) 
                     return {'background-color': '#FFE77B',}
             },
-            unlocked() {return false}
+            unlocked() {return hasAchievement("A",101)}
+        },
+        31: {
+            display() {return "Buy All"},
+            canClick() {return true},
+            onClick() {
+                buyUpgrade("res", 11) & buyUpgrade("res", 12) & buyUpgrade("res", 13) & buyUpgrade("res", 14) & buyUpgrade("res", 15)
+                buyUpgrade("res", 21) & buyUpgrade("res", 22) & buyUpgrade("res", 23) & buyUpgrade("res", 24) & buyUpgrade("res", 25)
+                buyUpgrade("res", 31) & buyUpgrade("res", 32) & buyUpgrade("res", 33) & buyUpgrade("res", 34) & buyUpgrade("res", 35)
+            },
+            style() {return {'background-color': '#234F1E',}},
+            unlocked() {return hasAchievement("A",91)}
+        },
+        41: {
+            display() {return "Reset Tree <br> <b> Warning: resets layer 1"},
+            canClick() {return true},
+            onClick() {
+                player.points = player.points.pow(0)
+                player["g"].points = player["g"].points.pow(0)
+                player["pu"].points = player["pu"].points.pow(0)
+                let keep=[];
+                {layerDataReset("f", keep);}
+                {layerDataReset("u", keep);
+                if (hasAchievement("A", 51)) player["u"].upgrades = player["u"].upgrades.concat([14]);
+                if (hasAchievement("A", 28)) player["u"].upgrades = player["u"].upgrades.concat([35]);
+                if (hasUpgrade("pu", 22)) player["u"].upgrades = player["u"].upgrades.concat([33]);}
+                {layerDataReset("res", keep);
+                if (hasAchievement("A", 51)) player["res"].upgrades = player["res"].upgrades.concat([15]);}
+                {layerDataReset("tmach", keep);}
+            },
+            style() {return {'background-color': '#FFE77B',}},
+            unlocked() {return true}
         },
     },
     buyables: {
@@ -202,11 +230,13 @@ addLayer("res", {
             },
             effect() { 
                 eff = new Decimal(1)
+                base = new Decimal(2)
+                if (hasUpgrade("res", 22)) base = new Decimal(2).add(upgradeEffect("res", 22))
                 if (getBuyableAmount("res", 21).lte(1000)) {
-                    eff = eff.mul(new Decimal(2).add(upgradeEffect("res", 22))).pow(getBuyableAmount("res", 21))
+                    eff = eff.mul(new Decimal(base)).pow(getBuyableAmount("res", 21))
                 }
                 if (getBuyableAmount("res", 21).gte(1000)) {
-                    eff = eff.mul((new Decimal(2).add(upgradeEffect("res", 22))).pow(1000)).mul((new Decimal(2).add(upgradeEffect("res", 22)).pow(new Decimal(0.5).add(upgradeEffect("res",35)))).pow(getBuyableAmount("res", 21).sub(1000)))
+                    eff = eff.mul((new Decimal(base)).pow(1000)).mul((new Decimal(base).pow(new Decimal(0.5).add(upgradeEffect("res",35)))).pow(getBuyableAmount("res", 21).sub(1000)))
                 }
                 return eff
             },
@@ -278,8 +308,8 @@ addLayer("res", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(upgradeEffect("res", 21))
-                eff = eff.add(upgradeEffect("res", 24))
+                if (hasUpgrade("res", 21)) eff = eff.add(upgradeEffect("res", 21))
+                if (hasUpgrade("res", 24)) eff = eff.add(upgradeEffect("res", 24))
                 eff = eff.mul((getBuyableAmount("res", 31)).mul(0.01)).add(1)
                 return eff
             },
@@ -305,8 +335,8 @@ addLayer("res", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(upgradeEffect("res", 21))
-                eff = eff.add(upgradeEffect("res", 24))
+                if (hasUpgrade("res", 21)) eff = eff.add(upgradeEffect("res", 21))
+                if (hasUpgrade("res", 24)) eff = eff.add(upgradeEffect("res", 24))
                 eff = eff.mul((getBuyableAmount("res", 32)).mul(0.01)).add(1)
                 return eff
             },
@@ -336,8 +366,8 @@ addLayer("res", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(upgradeEffect("res", 21))
-                eff = eff.add(upgradeEffect("res", 24))
+                if (hasUpgrade("res", 21)) eff = eff.add(upgradeEffect("res", 21))
+                if (hasUpgrade("res", 24)) eff = eff.add(upgradeEffect("res", 24))
                 eff = eff.mul((getBuyableAmount("res", 41)).mul(0.01)).add(1)
                 return eff
             },
@@ -368,8 +398,8 @@ addLayer("res", {
             },
             effect() { 
                 eff = new Decimal(1)
-                eff = eff.add(upgradeEffect("res", 21))
-                eff = eff.add(upgradeEffect("res", 24))
+                if (hasUpgrade("res", 21)) eff = eff.add(upgradeEffect("res", 21))
+                if (hasUpgrade("res", 24)) eff = eff.add(upgradeEffect("res", 24))
                 eff = eff.mul((getBuyableAmount("res", 42)).mul(0.01)).add(1)
                 return eff
             },
@@ -385,8 +415,17 @@ addLayer("res", {
             display() { return "Convert Knowledge into a Study Point <br> + 1 Study Point <br> <br> <b> Req: " + format(this.cost()) + " Knowledge </b>"},
             canAfford() { return player["res"].points.gte(this.cost()) },
             buy() {
-                player["res"].sPoints = player["res"].sPoints.add(1)
-                setBuyableAmount("res", 51, getBuyableAmount("res", 51).add(1))
+                if (getClickableState("res", 21) == false) {
+                    player["res"].sPoints = player["res"].sPoints.add(1)
+                    setBuyableAmount("res", 51, getBuyableAmount("res", 51).add(1))
+                }
+                else if (getClickableState("res", 21) == true) {
+                    max = new Decimal(0)
+                    getMax(player["res"].points.abs(), this.cost(), new Decimal(10).pow(new Decimal(20000)))
+                    subCost(new Decimal(10).pow(new Decimal(20000)), getBuyableAmount("res", 51), new Decimal(10).pow(new Decimal(20000)))
+                    player["res"].sPoints = player["res"].sPoints.add(new Decimal(max))
+                    setBuyableAmount("res", 51, getBuyableAmount("res", 51).add(new Decimal(max)))
+                }
             },
             unlocked() {return true},
             style(){ 
@@ -400,12 +439,21 @@ addLayer("res", {
         },
         52: {
             title() {return "Distortion Conversion"},
-            cost(x) { return new Decimal(10).pow(new Decimal(1000).mul(2/3)).mul( new Decimal(10).pow(new Decimal(1000).mul(1/3)).pow(new Decimal(x)))},
+            cost(x) { return new Decimal(10).pow(new Decimal(1000).mul(2/3)).mul(new Decimal(10).pow(new Decimal(1000).mul(1/3)).pow(new Decimal(x)))},
             display() { return "Convert Distortion into a Study Point <br> + 1 Study Point <br> <br> <b> Req: " + format(this.cost()) + " Distortion </b>"},
             canAfford() { return player["four"].points.gte(this.cost()) },
             buy() {
-                player["res"].sPoints = player["res"].sPoints.add(1)
-                setBuyableAmount("res", 52, getBuyableAmount("res", 52).add(1))
+                if (getClickableState("res", 21) == false) {
+                    player["res"].sPoints = player["res"].sPoints.add(1)
+                    setBuyableAmount("res", 52, getBuyableAmount("res", 52).add(1))
+                }
+                else if (getClickableState("res", 21) == true) {
+                    max = new Decimal(0)
+                    getMax(player["four"].points.abs(), this.cost(), new Decimal(10).pow(new Decimal(1000).mul(1/3)))
+                    subCost(new Decimal(10).pow(new Decimal(1000).mul(1/3)), getBuyableAmount("res", 52), new Decimal(10).pow(new Decimal(1000).mul(2/3)))
+                    player["res"].sPoints = player["res"].sPoints.add(new Decimal(max))
+                    setBuyableAmount("res", 52, getBuyableAmount("res", 52).add(new Decimal(max)))
+                }
             },
             unlocked() {return true},
             style(){ 
@@ -418,19 +466,61 @@ addLayer("res", {
             }
         },
         53: {
-            title() {return "??? Conversion"},
-            cost(x) { return false},
-            display() { return "Convert ??? into a Study Point <br> + 1 Study Point <br> <br> <b> Req: " + format(this.cost()) + " ??? </b>"},
-            canAfford() { return false },
-            buy() {
+            title() {return "Life Conversion"},
+            cost(x) { return new Decimal(2).div(upgradeEffect("ab",12)).mul(new Decimal(2).pow(x))},
+            display() { 
+                if (hasUpgrade("ab",11)) return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> You have " + format(player.ab.total) + " Total Lives<br><br> <b> Req: " + format(this.cost()) + " Lives </b>"
+                else  return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> <b> Req: " + format(this.cost()) + " Lives </b>"
             },
-            unlocked() {return true},
-            style(){ 
-                if (false) {
-                    return {'background-color': '#FFE77B', "width": "180px", "height": "180px"}
+            canAfford() { 
+                if (hasUpgrade("ab",11)) return player["ab"].total.gte(this.cost())
+                else  player["ab"].points.gte(this.cost())
+            },
+            buy() {
+                if (hasUpgrade("ab",11)) {
+                    if (getClickableState("res", 21) == false) {
+                        player["res"].sPoints = player["res"].sPoints.add(1)
+                        setBuyableAmount("res", 53, getBuyableAmount("res", 53).add(1))
+                    }
+                    else if (getClickableState("res", 21) == true) {
+                        max = new Decimal(0)
+                        getMax(player["ab"].total, this.cost(), new Decimal(2))
+                        subCost(new Decimal(2), getBuyableAmount("res", 53), new Decimal(2).div(upgradeEffect("ab",12)))
+                        player["res"].sPoints = player["res"].sPoints.add(new Decimal(max))
+                        setBuyableAmount("res", 53, getBuyableAmount("res", 53).add(new Decimal(max)))
+                    }
                 }
                 else {
-                    return {"width": "180px", "height": "180px"}
+                    if (getClickableState("res", 21) == false) {
+                        player["res"].sPoints = player["res"].sPoints.add(1)
+                        setBuyableAmount("res", 53, getBuyableAmount("res", 53).add(1))
+                    }
+                    else if (getClickableState("res", 21) == true) {
+                        max = new Decimal(0)
+                        getMax(player["ab"].points, this.cost(), new Decimal(2))
+                        subCost(new Decimal(2), getBuyableAmount("res", 53), new Decimal(2).div(upgradeEffect("ab",12)))
+                        player["res"].sPoints = player["res"].sPoints.add(new Decimal(max))
+                        setBuyableAmount("res", 53, getBuyableAmount("res", 53).add(new Decimal(max)))
+                    }
+                }
+            },
+            unlocked() {return hasMilestone("ab",4)},
+            style(){ 
+                if (hasUpgrade("ab",11)) {
+                    if (player["ab"].total.gte(this.cost())) {
+                        return {'background-color': '#FFE77B', "width": "180px", "height": "180px"}
+                    }
+                    else {
+                        return {"width": "180px", "height": "180px"}
+                    }
+                }
+                else {
+                    if (player["ab"].points.gte(this.cost())) {
+                        return {'background-color': '#FFE77B', "width": "180px", "height": "180px"}
+                    }
+                    else {
+                        return {"width": "180px", "height": "180px"}
+                    }
                 }
             }
         },
@@ -442,7 +532,7 @@ addLayer("res", {
             cost: new Decimal(10),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 11)) eff = eff.mul(3)
+                eff = eff.mul(3)
                 return eff
             }
         },
@@ -452,7 +542,7 @@ addLayer("res", {
             cost: new Decimal(100),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 12)) eff = eff.mul((player.points.abs().add(10)).log10())
+                eff = eff.mul((player.points.abs().add(10)).log10())
                 if (hasUpgrade("res", 31)) eff = eff.pow(upgradeEffect("res", 31))
                 return eff
             },
@@ -466,7 +556,7 @@ addLayer("res", {
             cost: new Decimal(1000),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 13)) eff = eff.mul((player["f"].points.abs().add(10)).log10().pow(0.5))
+                eff = eff.mul((player["f"].points.abs().add(10)).log10().pow(0.5))
                 if (hasUpgrade("res", 31)) eff = eff.pow(upgradeEffect("res", 31))
                 return eff
             },
@@ -480,7 +570,7 @@ addLayer("res", {
             cost: new Decimal(10000),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 14)) eff = eff.mul((((player["res"].points.abs()).pow(0.8)).add(10)).log10())
+                eff = eff.mul((((player["res"].points.abs()).pow(0.8)).add(10)).log10())
                 if (hasUpgrade("res", 31)) eff = eff.pow(upgradeEffect("res", 31))
                 return eff
             },
@@ -499,13 +589,11 @@ addLayer("res", {
             cost: new Decimal(1000000),
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res", 21)) {
-                    if (hasUpgrade("res", 21)) eff = eff.add(1)
-                    if (hasUpgrade("res", 22)) eff = eff.add(1)
-                    if (hasUpgrade("res", 23)) eff = eff.add(1)
-                    if (hasUpgrade("res", 24)) eff = eff.add(1)
-                    if (hasUpgrade("res", 25)) eff = eff.add(1)
-                }
+                if (hasUpgrade("res", 21)) eff = eff.add(1)
+                if (hasUpgrade("res", 22)) eff = eff.add(1)
+                if (hasUpgrade("res", 23)) eff = eff.add(1)
+                if (hasUpgrade("res", 24)) eff = eff.add(1)
+                if (hasUpgrade("res", 25)) eff = eff.add(1)
                 return eff
             },
             effectDisplay() {
@@ -519,7 +607,7 @@ addLayer("res", {
             cost: new Decimal(10000000),
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res", 22)) eff = eff.add(0.5)
+                eff = eff.add(0.5)
                 return eff
             },
             unlocked() {return hasUpgrade("p", 11)},
@@ -530,7 +618,7 @@ addLayer("res", {
             cost: new Decimal(100000000),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 23)) eff = eff.mul((player["tmach"].points.abs().add(10)).log10())
+                eff = eff.mul((player["tmach"].points.abs().add(10)).log10())
                 if (hasUpgrade("res", 31)) eff = eff.pow(upgradeEffect("res", 31))
                 return eff
             },
@@ -545,7 +633,7 @@ addLayer("res", {
             cost: new Decimal(1000000000),
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res", 24)) eff = eff.add(getBuyableAmount("res", 21).mul(new Decimal(0.2)))
+                eff = eff.add(getBuyableAmount("res", 21).mul(new Decimal(0.2)))
                 return eff
             },
             effectDisplay() {
@@ -578,13 +666,11 @@ addLayer("res", {
             cost: new Decimal(2).pow(1024),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 31)) {
-                    if (hasUpgrade("res", 31)) eff = eff.add(3)
-                    if (hasUpgrade("res", 32)) eff = eff.add(3)
-                    if (hasUpgrade("res", 33)) eff = eff.add(3)
-                    if (hasUpgrade("res", 34)) eff = eff.add(3)
-                    if (hasUpgrade("res", 35)) eff = eff.add(3)
-                }
+                if (hasUpgrade("res", 31)) eff = eff.add(3)
+                if (hasUpgrade("res", 32)) eff = eff.add(3)
+                if (hasUpgrade("res", 33)) eff = eff.add(3)
+                if (hasUpgrade("res", 34)) eff = eff.add(3)
+                if (hasUpgrade("res", 35)) eff = eff.add(3)
                 if (hasUpgrade("res",132)) eff = eff.mul(upgradeEffect("res",132))
                 eff = eff
                 return eff
@@ -607,7 +693,7 @@ addLayer("res", {
             cost: new Decimal(2).pow(2304),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 32)) eff = eff.mul(player["four"].points.abs().pow(player["four"].points.abs().add(10).log10())).add(1)
+                eff = eff.mul(player["four"].points.abs().pow(player["four"].points.abs().add(10).log10())).add(1)
                 if (eff.lte(new Decimal(2).pow(1024))){
                     return eff
                 }
@@ -634,7 +720,7 @@ addLayer("res", {
             cost: new Decimal(2).pow(5184),
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 33)) eff = eff.mul(player["res"].points.abs().add(1))
+                eff = eff.mul(player["res"].points.abs().add(1))
                 if (eff.lte(new Decimal(10).pow(15000))) {
                     return eff
                 }
@@ -662,7 +748,7 @@ addLayer("res", {
             unlocked() {return hasUpgrade("four", 12)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res", 34)) eff = eff.mul(new Decimal(1.001).pow(getBuyableAmount("res",31).add(getBuyableAmount("res",32)).add(getBuyableAmount("res",41)).add(getBuyableAmount("res",42))))
+                eff = eff.mul(new Decimal(1.001).pow(getBuyableAmount("res",31).add(getBuyableAmount("res",32)).add(getBuyableAmount("res",41)).add(getBuyableAmount("res",42))))
                 if (eff.lte(new Decimal(2).pow(1024))){
                     return eff
                 }
@@ -737,8 +823,9 @@ addLayer("res", {
             currencyLayer: "res",
             canAfford() {return player["res"].sPoints.gte(new Decimal(1)) && hasUpgrade("res", 111)},
             effect() {
-                eff = new Decimal(1)
-                if (hasUpgrade("res",121)) eff = eff.mul(player["f"].pTime.abs().add(1).pow(player["f"].pTime.abs().add(1).pow(0.9)))
+                if (hasMilestone("ab",7)) eff = new Decimal(10).pow(10000)
+                else eff = new Decimal(1)
+                eff = eff.mul(player["f"].pTime.mul(16).abs().add(1).pow(player["f"].pTime.mul(16).abs().add(1).pow(0.9)))
                 if (eff.lte(new Decimal(10).pow(10000))) {
                     return eff
                 }
@@ -767,7 +854,7 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(2)) && hasUpgrade("res", 111)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",122)) eff = eff.mul(new Decimal(1.625).pow(player["g"].points.abs().add(10).log10()))
+                eff = eff.mul(new Decimal(1.625).pow(player["g"].points.abs().add(10).log10()))
                 if (eff.lte(new Decimal(10).pow(150000))) {
                     return eff
                 }
@@ -796,7 +883,7 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(1)) && hasUpgrade("res", 111)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",123)) eff = eff.mul(player["res"].points.add(1))
+                eff = eff.mul(player["res"].points.add(1))
                 if (inChallenge("four",11)) eff = eff.pow(0.125)
                 if (eff.lte(new Decimal(10).pow(150000))) {
                     return eff
@@ -818,7 +905,7 @@ addLayer("res", {
         },
         131: {
             title: "Study 3.1 <br> U",
-            description: "+ ^ 'U' variable value that decreases over time <br> Min = + ^0.1",
+            description: "+ ^0.15 'U' variable value",
             cost: new Decimal(2),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -826,20 +913,8 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(2)) && hasUpgrade("res", 121)},
             effect() {
                 eff = new Decimal(0)
-                if (hasUpgrade("res",131)) {
-                    eff = eff.add(new Decimal(0.25).mul(new Decimal(0.998).pow(player["f"].pTime.abs().add(1).pow(0.7))))
-                    if (eff.gte(0.1)) {
-                        return eff
-                    }
-                    if (eff.lte(0.1)) {
-                        eff = new Decimal(0.1)
-                        return eff
-                    }
-                }
-                else return eff
-            },
-            effectDisplay() {
-                return "+ ^" + format(upgradeEffect("res", 131))
+                eff = eff.add(0.15)
+                return eff
             },
             branches: [[121, "#FFFFFF"]],
             style(){ 
@@ -850,7 +925,7 @@ addLayer("res", {
         },
         132: {
             title: "Study 3.2 <br> R",
-            description: "Multiply Res-Upgrade 3.1 power based on study points converted",
+            description: "Multiply Res-Upgrade 3.1 power based on study points converted <br> Max = x250",
             cost: new Decimal(2),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -858,8 +933,14 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(2)) && hasUpgrade("res", 122)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",132)) eff = eff.mul(new Decimal(1).add(getBuyableAmount("res",51)).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53))).pow(1.625)
-                return eff
+                eff = eff.mul(new Decimal(1).add(getBuyableAmount("res",51)).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53))).pow(1.625)
+                if (eff.gte(250)) {
+                    eff = new Decimal(250)
+                    return eff
+                }
+                else {
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("res", 132))
@@ -893,7 +974,7 @@ addLayer("res", {
         },
         141: {
             title: "Study 4.1 <br> U",
-            description: "'pU' affects 'U' variable value",
+            description: "'pU' affects 'U' variable value <br> Max = x1e150,000",
             cost: new Decimal(3),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -901,8 +982,14 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(3)) && hasUpgrade("res", 131)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",141)) eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
-                return eff
+                eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
+                if (eff.lte(new Decimal(10).pow(150000))) {
+                    return eff
+                }
+                else if (eff.gte(new Decimal(10).pow(150000))) {
+                    eff = new Decimal(10).pow(150000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("res", 141))
@@ -916,7 +1003,7 @@ addLayer("res", {
         },
         142: {
             title: "Study 4.2 <br> R",
-            description: "'pU' affects Knowledge gain",
+            description: "'pU' affects Knowledge gain <br> Max = x1e150,000",
             cost: new Decimal(2),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -924,8 +1011,14 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(2)) && hasUpgrade("res", 132)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",142)) eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
-                return eff
+                eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
+                if (eff.lte(new Decimal(10).pow(150000))) {
+                    return eff
+                }
+                else if (eff.gte(new Decimal(10).pow(150000))) {
+                    eff = new Decimal(10).pow(150000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("res", 142))
@@ -939,7 +1032,7 @@ addLayer("res", {
         },
         143: {
             title: "Study 4.3 <br> TM",
-            description: "'pU' affects Time Fragments gain",
+            description: "'pU' affects Time Fragments gain <br> Max = x1e150,000",
             cost: new Decimal(3),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -947,8 +1040,14 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(3)) && hasUpgrade("res", 133)},
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("res",143)) eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
-                return eff
+                eff = eff.mul(new Decimal(2).pow(player["pu"].points.abs().add(10).log10()))
+                if (eff.lte(new Decimal(10).pow(150000))) {
+                    return eff
+                }
+                else if (eff.gte(new Decimal(10).pow(150000))) {
+                    eff = new Decimal(10).pow(150000)
+                    return eff
+                }
             },
             effectDisplay() {
                 return "x" + format(upgradeEffect("res", 143))
@@ -961,13 +1060,18 @@ addLayer("res", {
             unlocked() {return true},
         },
         151: {
-            title: "Study 5.1",
-            description: "Unlock ??? <br> current endgame",
+            title: "Study 5.1 <br> Ab & aU",
+            description: "Unlock Abdicate <br> x10 'aU' Value",
             cost: new Decimal(5),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
             canAfford() {return player["res"].sPoints.gte(new Decimal(5)) && (hasUpgrade("res", 141) && hasUpgrade("res", 142) && hasUpgrade("res", 143))},
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(10)
+                return eff
+            },
             branches: [[141, "#FF7F7F"],[142, "#FF7F7F"],[143, "#FF7F7F"]],
             style(){ 
                 if (tmp.res.upgrades[151].canAfford && !hasUpgrade("res",151)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
@@ -976,19 +1080,20 @@ addLayer("res", {
             unlocked() {return true},
         },
         161: {
-            title: "Study 6.1",
-            description: "---",
-            cost: new Decimal(666),
+            title: "Study 6.1 <br> f",
+            description: "g(t) in f(t) is raised based on g(t) value",
+            cost: new Decimal(15),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 151)},
+            canAfford() {return player["res"].sPoints.gte(new Decimal(15)) && hasUpgrade("res", 151)},
             effect() {
                 eff = new Decimal(1)
+                eff = eff.mul(player["g"].points.add(10).log10().add(10).log(10).pow(0.25))
                 return eff
             },
             effectDisplay() {
-                return "x" + format(upgradeEffect("res", 161))
+                return "^" + format(upgradeEffect("res", 161))
             },
             branches: [[151, "#FFFFFF"]],
             style(){ 
@@ -998,20 +1103,13 @@ addLayer("res", {
             unlocked() {return true},
         },
         162: {
-            title: "Study 6.2",
-            description: "---",
-            cost: new Decimal(666),
+            title: "Study 6.2 <br> g",
+            description: "Unlock 'φ'",
+            cost: new Decimal(15),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 151)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 162))
-            },
+            canAfford() {return player["res"].sPoints.gte(new Decimal(15)) && hasUpgrade("res", 151)},
             branches: [[151, "#FFFFFF"]],
             style(){ 
                 if (tmp.res.upgrades[162].canAfford && !hasUpgrade("res",162)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
@@ -1269,6 +1367,9 @@ addLayer("res", {
         if (tmp.res.clickables[11].unlocked && getClickableState("auto", 11) == true) {
             setClickableState("res", 11, true)
         }
+        if (tmp.res.clickables[21].unlocked && getClickableState("auto", 11) == true) {
+            setClickableState("res", 21, true)
+        }
         if (inChallenge("inf", 72)) {
             player["res"].points = player["res"].points.mul(player["res"].points.pow(-0.38)).add(1)
         }
@@ -1284,15 +1385,15 @@ addLayer("res", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1) 
         mult = mult.mul(tmp.res.buyables[12].effect)
-        mult = mult.mul(tmp.res.upgrades[11].effect)
-        mult = mult.mul(tmp.res.upgrades[12].effect)
-        mult = mult.mul(tmp.res.upgrades[13].effect)
-        mult = mult.mul(tmp.res.upgrades[14].effect)
-        mult = mult.mul(tmp.res.upgrades[23].effect)
-        mult = mult.mul(tmp.res.upgrades[32].effect)
-        mult = mult.mul(tmp.res.upgrades[34].effect)
-        mult = mult.mul(tmp.res.upgrades[122].effect)
-        mult = mult.mul(tmp.res.upgrades[142].effect)
+        if (hasUpgrade("res", 11)) mult = mult.mul(tmp.res.upgrades[11].effect)
+        if (hasUpgrade("res", 12)) mult = mult.mul(tmp.res.upgrades[12].effect)
+        if (hasUpgrade("res", 13)) mult = mult.mul(tmp.res.upgrades[13].effect)
+        if (hasUpgrade("res", 14)) mult = mult.mul(tmp.res.upgrades[14].effect)
+        if (hasUpgrade("res", 23)) mult = mult.mul(tmp.res.upgrades[23].effect)
+        if (hasUpgrade("res", 32)) mult = mult.mul(tmp.res.upgrades[32].effect)
+        if (hasUpgrade("res", 34)) mult = mult.mul(tmp.res.upgrades[34].effect)
+        if (hasUpgrade("res",122)) mult = mult.mul(tmp.res.upgrades[122].effect)
+        if (hasUpgrade("res",142)) mult = mult.mul(tmp.res.upgrades[142].effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -1300,7 +1401,7 @@ addLayer("res", {
         return exp
     },
     exponent: 1, 
-    position: 1, 
+    position: 4, 
     row: 0, 
     displayRow: 1,
     branches: ["f"],
@@ -1309,4 +1410,10 @@ addLayer("res", {
         else if (hasUpgrade("u", 14) || hasAchievement("A", 31)) return true
         else return false
     }, 
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("res", keep);
+        if (hasAchievement("A", 51)) player[this.layer].upgrades = player[this.layer].upgrades.concat([15]);
+        }
+    },
 })

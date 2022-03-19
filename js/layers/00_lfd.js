@@ -2,7 +2,7 @@
 addLayer("ln1", {
     name: "ln1", 
     symbol: "", 
-    position: 3,
+    position: 4,
     canclick(){return false},
     row: 2,
     color: "#000000",
@@ -19,7 +19,7 @@ addLayer("ln1", {
 addLayer("ln2", {
     name: "ln2", 
     symbol: "", 
-    position: 2,
+    position: 5,
     canclick(){return false},
     row: 1,
     color: "#000000",
@@ -31,18 +31,68 @@ addLayer("ln2", {
     }
 })
 
-addLayer("ln3", {
-    name: "ln3", 
+addLayer("ln31", {
+    name: "ln31", 
     symbol: "", 
-    position: 0,
+    position: 3,
     canclick(){return false},
     row: 0,
     color: "#000000",
     layerShown() {return (tmp["inf"].layerShown)?"ghost":false;}
 })
 
+addLayer("ln32", {
+    name: "ln32", 
+    symbol: "", 
+    position: 2,
+    canclick(){return false},
+    row: 0,
+    color: "#000000",
+    layerShown() {return (tmp["inf"].layerShown)?"ghost":false;}
+})
+
+addLayer("ln4", {
+    name: "ln4", 
+    symbol: "", 
+    position: 4,
+    canclick(){return false},
+    row: 3,
+    color: "#000000",
+    layerShown() {return (tmp["h"].layerShown)?"ghost":false;}
+})
+
+addLayer("ln5", {
+    name: "ln5", 
+    symbol: "", 
+    position: 3,
+    canclick(){return false},
+    row: 1,
+    color: "#000000",
+    layerShown() {return (tmp["res"].layerShown)?"ghost":false;}
+})
+
+addLayer("ln6", {
+    name: "ln6", 
+    symbol: "", 
+    position: 4,
+    canclick(){return false},
+    row: 2,
+    color: "#000000",
+    layerShown() {return (tmp["g"].layerShown)?"ghost":false;}
+})
+
+addLayer("ln7", {
+    name: "ln7", 
+    symbol: "", 
+    position: 5,
+    canclick(){return false},
+    row: 3,
+    color: "#000000",
+    layerShown() {return (tmp["au"].layerShown)?"ghost":false;}
+})
+
 function getMax(points, cost, expo) {
-    max = max.add(Decimal.floor((((points.div(cost).mul(new Decimal(expo).sub(1)).add(1)).log10()).div(new Decimal(expo).log10()))))
+    max = max.add(Decimal.floor((((new Decimal(points).div(cost).mul(new Decimal(expo).sub(1)).add(1)).log10()).div(new Decimal(expo).log10()))))
     return max
 }
 

@@ -16,6 +16,8 @@ addLayer("inf", {
                     "blank",
                     ["challenges", [1,2]],
                     "blank",
+                    ["display-text", function() { return "Complete all of f(t) automation challenges to unlock ???" },],
+                    "blank",
                 ]
             },
             "Research": {
@@ -261,4 +263,9 @@ addLayer("inf", {
 		points: new Decimal(0),
     }},
     passiveGeneration() { return true },
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("inf", keep=["challenges", [1,2,3,4,5,6,7]]);
+        }
+    },
 })

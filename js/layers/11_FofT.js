@@ -6,19 +6,22 @@ addLayer("f", {
                 ["display-text", function() { return "You Are Gaining <h2><b>" + format(getResetGain("f")) + "</b></h2> f(t) Per Second" },],
                 "blank",
                 ["display-text", function() {
+                if (hasUpgrade("res",161)) {
+                    return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)^" + format(tmp.res.upgrades[161].effect) 
+                }
                 if (hasUpgrade("res",112)) {
                     return "f(time+WT) = f(time) + abcd(e^" + format(getBuyableAmount("f", 31)) + ")⋅U⋅WT⋅g(t)" 
                 }
-                if (player["f"].best.gte(100000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(100000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(10000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abc⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(1000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(1000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abc⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(10) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + ab⋅WT⋅g(t)" 
                 }
                 else if (player["p"].total.gte(1)) {
@@ -242,8 +245,8 @@ addLayer("f", {
     automate() {
         return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false)
     },
-    update() {
-        player["f"].pTime = player["f"].pTime.add(1)
+    update(diff) {
+        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(diff))
         if (tmp.f.clickables[11].unlocked && getClickableState("auto", 11) == true) {
             setClickableState("f", 11, true)
         }
@@ -266,7 +269,7 @@ addLayer("f", {
         mult = mult.mul(new Decimal(2.71828).pow(tmp.f.buyables[31].effect))
         mult = mult.mul(player["u"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
-        mult = mult.mul(player["g"].points)
+        mult = mult.mul(player["g"].points.pow(gtPow()))
         if (inChallenge("inf", 12)) mult = mult.mul(0.001)
         return mult
     },
@@ -277,8 +280,14 @@ addLayer("f", {
         return exp
     },
     exponent: 1, 
-    position: 1, 
+    position: 2, 
     row: 0,
-    displayRow: 0,
+    displayRow: 1,
     layerShown(){return true},
 })
+
+function gtPow() {
+    pow = new Decimal(1)
+    if (hasUpgrade("res", 161)) pow = pow.mul(upgradeEffect("res",161))
+    return pow
+}

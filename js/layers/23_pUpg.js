@@ -5,6 +5,7 @@ addLayer("pu", {
                 "main-display",
                 ["display-text", function() { return "You Have <h2><b>" + format(player["g"].points) + " g(t)</b></h2>" },],
                 "blank",
+                ["clickables", [1]],
                 "upgrades",
             ],
         },
@@ -22,10 +23,22 @@ addLayer("pu", {
     }},
     passiveGeneration() { return true },
     type: "normal",
+    clickables: {
+        11: {
+            display() {return "Buy All"},
+            canClick() {return true},
+            onClick() {
+                buyUpgrade("pu", 11) & buyUpgrade("pu", 12) & buyUpgrade("pu", 13) & buyUpgrade("pu", 14) & buyUpgrade("pu", 15)
+                buyUpgrade("pu", 21) & buyUpgrade("pu", 22) & buyUpgrade("pu", 23) & buyUpgrade("pu", 24) & buyUpgrade("pu", 25)
+            },
+            style() {return {'background-color': '#970439',}},
+            unlocked() {return hasMilestone("ab",8)}
+        },
+    },
     upgrades: {
         11: {
             title: "'pU' Upgrade 1.1",
-            description: "Unlock 'Buy Max' in Time Machine. You lazy goose...",
+            description: "The 'Buy Max' in Time Machine will work on Warp Warp Time and T.M.G.E. You lazy lazy lazy goose...",
             cost: new Decimal(1e24),
             currencyDisplayName: "g(t)",
             currencyInternalName: "points",
@@ -53,7 +66,7 @@ addLayer("pu", {
             currencyLayer: "g",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("pu", 13)) eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("g", 11).add(getBuyableAmount("g", 12)).add(getBuyableAmount("g", 21)).add(getBuyableAmount("g", 22))))
+                eff = eff.mul(new Decimal(1.01).pow(getBuyableAmount("g", 11).add(getBuyableAmount("g", 12)).add(getBuyableAmount("g", 21)).add(getBuyableAmount("g", 22))))
                 if (eff.lte(1e80)){
                     return eff
                 }
@@ -178,19 +191,13 @@ addLayer("pu", {
             unlocked() {return hasUpgrade("four", 12)},
         },
     },
-    doReset(resettingLayer) {
-        let keep=[];
-        if (layers[resettingLayer].row > this.row) {layerDataReset("pu", keep);
-        }
-        player["pu"].points = player["pu"].points.pow(0)
-    },
     update() {
         player["pu"].points = new Decimal(1)
-        player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[12].effect)
-        player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[13].effect)
-        player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[21].effect)
+        if (hasUpgrade("pu", 11)) player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[12].effect)
+        if (hasUpgrade("pu", 13)) player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[13].effect)
+        if (hasUpgrade("pu", 21)) player["pu"].points = player["pu"].points.mul(tmp.pu.upgrades[21].effect)
         player["pu"].points = player["pu"].points.mul(buyableEffect("res", 22))
-        player["pu"].points = player["pu"].points.pow(new Decimal(1).add(upgradeEffect("pu",14)))
+        player["pu"].points = player["pu"].points.pow(new Decimal(puPow()))
     },
     getResetGain() {
         gain = new Decimal(0)
@@ -209,4 +216,17 @@ addLayer("pu", {
     displayRow: 2,
     branches: ["g"],
     layerShown(){return hasUpgrade("u", 35) || hasAchievement("A", 28)}, 
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("pu", keep);
+        if (hasAchievement("A", 101)) player[this.layer].upgrades = player[this.layer].upgrades.concat([11,15,25]);
+        }
+        player["pu"].points = player["pu"].points.pow(0)
+    },
 })
+
+function puPow(){
+    pow = new Decimal(1)
+    if (hasUpgrade("pu", 14)) pow = pow.add(upgradeEffect("pu",14))
+    return pow
+}

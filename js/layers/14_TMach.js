@@ -66,7 +66,7 @@ addLayer("tmach", {
     clickables: {
         11: {
             display() {
-                if (hasUpgrade("p", 21)) {return "Buy Max"}
+                if (hasUpgrade("pu", 11)) {return "Buy Max"}
                 else {return "Buy Max <br> (Only Time Machine Generator and Time Warp)"}
             },
             canClick() {return true},
@@ -83,7 +83,7 @@ addLayer("tmach", {
                     return {'background-color': '#D0B49F',}
             },
             unlocked() {
-                return hasUpgrade("pu", 11)
+                return hasAchievement("A", 48)
             }
         }
     },
@@ -133,8 +133,8 @@ addLayer("tmach", {
             effect() { 
                 eff = new Decimal(1)
                 eff = eff.add(getBuyableAmount("tmach", 12))
-                eff = eff.mul(tmp.four.upgrades[11].effect)
-                eff = eff.mul(tmp.four.upgrades[15].effect)
+                if (hasUpgrade("four", 11)) eff = eff.mul(tmp.four.upgrades[11].effect)
+                if (hasUpgrade("four", 15)) eff = eff.mul(tmp.four.upgrades[15].effect)
                 eff = eff.pow(tmp.tmach.buyables[21].effect)
                 return eff
             },
@@ -152,10 +152,10 @@ addLayer("tmach", {
             },
             canAfford() { return getBuyableAmount("tmach", 12).gte(this.cost()) },
             buy() {
-                if ((getClickableState("tmach", 11) == false) && hasUpgrade("p", 21)) {
+                if ((getClickableState("tmach", 11) == false) && hasUpgrade("pu", 11)) {
                     setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(1))
                 }
-                else if ((getClickableState("tmach", 11) == true) && hasUpgrade("p", 21)) {
+                else if ((getClickableState("tmach", 11) == true) && hasUpgrade("pu", 11)) {
                     max = new Decimal(0)
                     max = max.add((Decimal.floor(getBuyableAmount("tmach", 12).sub(this.cost()).div(5))).add(1))
                     setBuyableAmount("tmach", 21, getBuyableAmount("tmach", 21).add(max))
@@ -200,10 +200,10 @@ addLayer("tmach", {
             },
             canAfford() { return getBuyableAmount("tmach", 11).gte(this.cost()) },
             buy() {
-                if ((getClickableState("tmach", 11) == false) && hasUpgrade("p", 21)) {
+                if ((getClickableState("tmach", 11) == false) &&  hasUpgrade("pu", 11)) {
                     setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(1))
                 }
-                else if ((getClickableState("tmach", 11) == true) && hasUpgrade("p", 21)) {
+                else if ((getClickableState("tmach", 11) == true) &&  hasUpgrade("pu", 11)) {
                     max = new Decimal(0)
                     max = max.add((Decimal.floor(getBuyableAmount("tmach", 11).sub(this.cost()).div(6))).add(1))
                     setBuyableAmount("tmach", 22, getBuyableAmount("tmach", 22).add(max))
@@ -252,8 +252,8 @@ addLayer("tmach", {
         gain = new Decimal(0)
         gain = gain.add(tmp.tmach.buyables[11].effect)
         gain = gain.pow(tmp.tmach.gainExp)
-        gain = gain.mul(upgradeEffect("res",123))
-        gain = gain.mul(upgradeEffect("res",143))
+        if (hasUpgrade("res",123)) gain = gain.mul(upgradeEffect("res",123))
+        if (hasUpgrade("res",143)) gain = gain.mul(upgradeEffect("res",143))
         if (inChallenge("inf", 61)) gain = gain.mul(0)
         return gain
     },
@@ -266,10 +266,10 @@ addLayer("tmach", {
         return exp
     },
     exponent: 1, 
-    position: 2, 
+    position: 5, 
     row: 0,
     displayRow: 1,
-    branches: ["f"],
+    branches: ["res"],
     layerShown(){
         if (inChallenge("inf", 61)) return false
         else if (hasUpgrade("res", 15) || hasAchievement("A", 41)) return true

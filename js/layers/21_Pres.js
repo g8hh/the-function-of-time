@@ -12,6 +12,7 @@ addLayer("p", {
             content:[
                 "main-display",
                 "blank",
+                ["clickables", [1]],
                 "upgrades",
             ],
         },
@@ -30,7 +31,8 @@ addLayer("p", {
     baseAmount() {return player["f"].points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 1, // Prestige currency exponent
-    update() {
+    update(diff) {
+        if (hasMilestone("ab", 1)) player["p"].points = player["p"].points.add(new Decimal(1).mul(diff))
     },
     getNextAt(canMax=true) {
         canMax = new Decimal(1e21)
@@ -47,18 +49,33 @@ addLayer("p", {
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        mult = mult.mul(upgradeEffect("res", 33))
+        if (hasUpgrade("res", 33)) mult = mult.mul(upgradeEffect("res", 33))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         exp = new Decimal(1)
         return exp
     },
-    passiveGeneration() { return  false },
+    passiveGeneration() { 
+        if (hasMilestone("ab",10)) return true 
+        else return false
+    },
     row: 1, // Row the layer is in on the tree (0 is the first row)
     displayRow: 2,
-    layerShown(){return player["f"].best.gte(1e18) || player["p"].total.gte(1)},
+    layerShown(){return player["f"].best.gte(1e18) || hasAchievement("A", 51)},
     branches: ["f"],
+    clickables: {
+        11: {
+            display() {return "Buy All"},
+            canClick() {return true},
+            onClick() {
+                buyUpgrade("p", 11) & buyUpgrade("p", 12) & buyUpgrade("p", 13) & buyUpgrade("p", 14) & buyUpgrade("p", 15)
+                buyUpgrade("p", 21) & buyUpgrade("p", 22) & buyUpgrade("p", 23) & buyUpgrade("p", 24) & buyUpgrade("p", 25)
+            },
+            style() {return {'background-color': '#BF40BF',}},
+            unlocked() {return hasMilestone("ab",8)}
+        },
+    },
     upgrades: {
         11: {
             title: "Pres-Upgrade 1.1",
@@ -93,7 +110,7 @@ addLayer("p", {
             currencyLayer: "p",
             effect() {
                 eff = new Decimal(0.01)
-                    if (hasUpgrade("p", 14)) eff = eff.pow(0)
+                if (hasUpgrade("p", 14)) eff = eff.pow(0)
                 return eff
             },
         },
@@ -106,18 +123,23 @@ addLayer("p", {
             currencyLayer: "p",
             effect() {
                 eff = new Decimal(1.5)
-                    if (hasUpgrade("p", 15)) eff = eff.add(0.2)
+                if (hasUpgrade("p", 15)) eff = eff.add(0.2)
                 return eff
             },
         },
         21: {
             title: "Pres-Upgrade 2.1",
-            description: "The 'Buy Max' in Time Machine will work on Warp Warp Time and T.M.G.E. You lazy lazy lazy goose...",
+            description: "4D-Upgrade 1.1 is a little bit powered (+ x0.025)",
             cost: new Decimal(2).pow(1024),
             currencyDisplayName: "PP",
             currencyInternalName: "points",
             currencyLayer: "p",
             unlocked() {return hasUpgrade("four", 12)},
+            effect() {
+                eff = new Decimal(0)
+                if (hasUpgrade("p", 21)) eff = eff.add(0.025)
+                return eff
+            },
         },
         22: {
             title: "Pres-Upgrade 2.2",
@@ -146,7 +168,7 @@ addLayer("p", {
             currencyLayer: "p",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("p", 24)) eff = eff.mul(player["p"].points.abs().add(10).log10().pow(player["p"].points.abs().add(10).log10().div(2500).add(1)))
+                eff = eff.mul(player["p"].points.abs().add(10).log10().pow(player["p"].points.abs().add(10).log10().div(2500).add(1)))
                 if (eff.lte(new Decimal(2).pow(1024))) {
                     return eff
                 }
@@ -169,5 +191,12 @@ addLayer("p", {
             currencyLayer: "p",
             unlocked() {return hasUpgrade("four", 12)},
         },
+    },
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("p", keep);
+        if (hasAchievement("A", 101)) player[this.layer].upgrades = player[this.layer].upgrades.concat([11,13,22,23]);
+        }
+        player["pu"].points = player["pu"].points.pow(0)
     },
 })
