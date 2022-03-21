@@ -467,10 +467,10 @@ addLayer("res", {
         },
         53: {
             title() {return "Life Conversion"},
-            cost(x) { return new Decimal(2).div(upgradeEffect("ab",12)).mul(new Decimal(2).pow(x))},
+            cost(x) { return (new Decimal(2).div(upgradeEffect("ab",12)).mul(new Decimal(2).pow(x))).sub(0.1)},
             display() { 
-                if (hasUpgrade("ab",11)) return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> You have " + format(player.ab.total) + " Total Lives<br><br> <b> Req: " + format(this.cost()) + " Lives </b>"
-                else  return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> <b> Req: " + format(this.cost()) + " Lives </b>"
+                if (hasUpgrade("ab",11)) return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> You have " + format(player.ab.total) + " Total Lives<br><br> <b> Req: " + format(this.cost().add(0.1)) + " Lives </b>"
+                else  return "Convert Lives into a Study Point <br> + 1 Study Point <br><br> <b> Req: " + format(this.cost().add(0.1)) + " Lives </b>"
             },
             canAfford() { 
                 if (hasUpgrade("ab",11)) return player["ab"].total.gte(this.cost())
@@ -484,7 +484,7 @@ addLayer("res", {
                     }
                     else if (getClickableState("res", 21) == true) {
                         max = new Decimal(0)
-                        getMax(player["ab"].total, this.cost(), new Decimal(2))
+                        getMax(player["ab"].total, this.cost().sub(0.1), new Decimal(2))
                         subCost(new Decimal(2), getBuyableAmount("res", 53), new Decimal(2).div(upgradeEffect("ab",12)))
                         player["res"].sPoints = player["res"].sPoints.add(new Decimal(max))
                         setBuyableAmount("res", 53, getBuyableAmount("res", 53).add(new Decimal(max)))
@@ -816,7 +816,7 @@ addLayer("res", {
         },
         121: {
             title: "Study 2.1 <br> U",
-            description: "Multiply 'U' variable value based on real time from last reset. <br> Max = x1e10,000",
+            description: "Multiply 'U' variable value based on real time from last reset. <br> Faster based on total Study Points <br> Max = x1e10,000",
             cost: new Decimal(1),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",

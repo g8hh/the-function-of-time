@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.0.70",
+	num: "2.0.71",
 	name: "h(t) & Abdicate Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.0.71</h3><br>
+		- Buffed Study 2.1<br><br>
 	<h3 style="color: #808080">v2.0.70</h3><br>
 		- Added 22 achievements<br>
 		- Completed 3rd Study Points Converter<br>

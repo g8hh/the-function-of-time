@@ -246,7 +246,7 @@ addLayer("f", {
         return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false)
     },
     update(diff) {
-        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(diff))
+        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(getBuyableAmount("res",51).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53)).add(1)).mul(diff))
         if (tmp.f.clickables[11].unlocked && getClickableState("auto", 11) == true) {
             setClickableState("f", 11, true)
         }

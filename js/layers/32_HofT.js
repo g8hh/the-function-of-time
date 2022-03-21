@@ -3,7 +3,7 @@ addLayer("h", {
         "Variables": {
             content:[
                 "main-display",
-                ["display-text", function() {         
+                ["display-text", function() {
                     if (player["h"].points.gte(new Decimal(2).pow(1024))) {
                         return "<h1>INFINITY</h1>"
                     }
@@ -21,7 +21,18 @@ addLayer("h", {
                 }],
                 "blank",
                 "clickables",
-                "buyables"
+                ["buyables", [1,2,3,4,5,6,7,8]],
+            ],
+        },
+        "Var-Infinity": {
+            content:[
+                ["display-text", function() { return "You Have <h1><span style='color:#808080'>" + format(player["h"].infpoints) + " </h1>IP</span>" },],
+                "blank",
+                ["display-text", function() { 
+                    if (player["h"].points.gte(new Decimal(2).pow(1024))) {
+                        return "You Have <h2> INFINITY </h2> h(t)"
+                    }
+                    else return "You Have <h2>" + format(player["h"].points) + "</h2> h(t)" },],
             ],
         },
     },
@@ -43,6 +54,7 @@ addLayer("h", {
 		fpoints: new Decimal(0),
 		gpoints: new Decimal(0),
 	    hpoints: new Decimal(0),
+        infpoints: new Decimal(0)
     }},
     passiveGeneration() { return true }, 
     type: "normal",
