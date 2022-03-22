@@ -475,6 +475,7 @@ addLayer("res", {
             canAfford() { 
                 if (hasUpgrade("ab",11)) return player["ab"].total.gte(this.cost())
                 else  player["ab"].points.gte(this.cost())
+                else return player["ab"].points.gte(this.cost())
             },
             buy() {
                 if (hasUpgrade("ab",11)) {
