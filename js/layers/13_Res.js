@@ -633,7 +633,7 @@ addLayer("res", {
             cost: new Decimal(1000000000),
             effect() {
                 eff = new Decimal(0)
-                eff = eff.add(getBuyableAmount("res", 21).mul(new Decimal(0.2)))
+                if (hasUpgrade("res", 24)) eff = eff.add(getBuyableAmount("res", 21).mul(new Decimal(0.2)))
                 return eff
             },
             effectDisplay() {
