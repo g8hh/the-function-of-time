@@ -511,6 +511,12 @@ addLayer("u", {
             unlocked() {return hasUpgrade("four", 12)},
         },
     },
+    automate() {
+        return (getClickableState("auto", 92) ? (buyUpgrade("u", 11) & buyUpgrade("u", 12) & buyUpgrade("u", 13) & buyUpgrade("u", 14) & buyUpgrade("u", 15)) : false),
+        (getClickableState("auto", 92) ? (buyUpgrade("u", 21) & buyUpgrade("u", 22) & buyUpgrade("u", 23) & buyUpgrade("u", 24) & buyUpgrade("u", 25)) : false),
+        (getClickableState("auto", 92) ? (buyUpgrade("u", 31) & buyUpgrade("u", 32) & buyUpgrade("u", 33) & buyUpgrade("u", 34) & buyUpgrade("u", 35)) : false),
+        (getClickableState("auto", 92) ? (buyUpgrade("u", 41) & buyUpgrade("u", 42) & buyUpgrade("u", 43) & buyUpgrade("u", 44) & buyUpgrade("u", 45)) : false)
+    },
     update() {
         player["u"].points = new Decimal(1)
         if (hasUpgrade("u", 11)) player["u"].points = player["u"].points.mul(tmp.u.upgrades[11].effect)
@@ -528,6 +534,7 @@ addLayer("u", {
         if (hasUpgrade("res",141)) player["u"].points = player["u"].points.mul(tmp.res.upgrades[141].effect)
         player["u"].points = player["u"].points.mul(buyableEffect("res", 21))
         player["u"].points = player["u"].points.pow(new Decimal(uPow()))
+        if (inChallenge("inf", 81)) player["u"].points = player["u"].points.pow(0.25)
     },
     getResetGain() {
         gain = new Decimal(0)

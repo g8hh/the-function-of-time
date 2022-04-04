@@ -8,7 +8,7 @@ addLayer("four", {
                 "blank",
                 "challenges",
                 "blank",
-                "clickables",
+                ["clickables", [1]],
                 "buyables",
                 ["display-text", function() { 
                     if (getBuyableAmount("four", 11).gte(1024)) {
@@ -27,6 +27,7 @@ addLayer("four", {
             content:[
                 "main-display",
                 "blank",
+                ["clickables", [2]],
                 "upgrades",
             ],
         },
@@ -65,6 +66,16 @@ addLayer("four", {
                     return {'background-color': '#FF7F7F',}
             },
             unlocked() {return hasUpgrade("pu", 25)}
+        },
+        21: {
+            display() {return "Buy All"},
+            canClick() {return true},
+            onClick() {
+                buyUpgrade("four", 11) & buyUpgrade("four", 12) & buyUpgrade("four", 13) & buyUpgrade("four", 14) & buyUpgrade("four", 15)
+                buyUpgrade("four", 21) & buyUpgrade("four", 22) & buyUpgrade("four", 23) & buyUpgrade("four", 24) & buyUpgrade("four", 25)
+            },
+            style() {return {'background-color': '#FF7F7F',}},
+            unlocked() {return hasUpgrade("ab",23)}
         }
     },
     challenges: {
@@ -75,12 +86,7 @@ addLayer("four", {
             canComplete: function() {return false},
             rewardDescription: "Gain Distortion.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "15px 15px 15px 15px", "width": "540px", "height": "300px"}
         },
     },
@@ -133,6 +139,11 @@ addLayer("four", {
                 if (hasUpgrade("four", 13)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
                 if (hasUpgrade("four", 14)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
                 if (hasUpgrade("four", 15)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 21)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 22)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 23)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 24)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
+                if (hasUpgrade("four", 25)) eff = eff.mul(new Decimal(1.1).add(upgradeEffect("p",21)))
                 return eff
             },
             effectDisplay() {
@@ -168,6 +179,10 @@ addLayer("four", {
                 if (hasChallenge("inf", 62)) eff = eff.mul(2.4)
                 if (hasChallenge("inf", 71)) eff = eff.mul(2.5)
                 if (hasChallenge("inf", 72)) eff = eff.mul(2.6)
+                if (hasChallenge("inf", 81)) eff = eff.mul(2.7)
+                if (hasChallenge("inf", 91)) eff = eff.mul(2.8)
+                if (hasChallenge("inf", 92)) eff = eff.mul(2.9)
+                if (hasChallenge("inf", 101)) eff = eff.mul(3)
                 return eff
             },
             effectDisplay() {
@@ -198,6 +213,94 @@ addLayer("four", {
                 return "x" + format(upgradeEffect("four", 15))
             }
         },
+        21: {
+            title: "4D-Upgrade 2.1",
+            description: "Multiply time speed based on Lives",
+            cost: new Decimal(10).pow(10000),
+            currencyDisplayName: "Distortion",
+            currencyInternalName: "points",
+            currencyLayer: "four",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["ab"].points.add(1).pow(1/3))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("four", 21))
+            },
+            unlocked() {return hasUpgrade("ab",22)}
+        },
+        22: {
+            title: "4D-Upgrade 2.2",
+            description: "Multiply time speed based on h(t)",
+            cost: new Decimal(10).pow(13500),
+            currencyDisplayName: "Distortion",
+            currencyInternalName: "points",
+            currencyLayer: "four",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["h"].points.abs().add(10).log10().pow(0.25))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("four", 22))
+            },
+            unlocked() {return hasUpgrade("ab",22)}
+        },
+        23: {
+            title: "4D-Upgrade 2.3",
+            description: "Multiply time speed based on total Study Points",
+            cost: new Decimal(10).pow(17000),
+            currencyDisplayName: "Distortion",
+            currencyInternalName: "points",
+            currencyLayer: "four",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul((getBuyableAmount("res",51).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53))).pow(1/3))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("four", 23))
+            },
+            unlocked() {return hasUpgrade("ab",22)}
+        },
+        24: {
+            title: "4D-Upgrade 2.4",
+            description: "Multiply time speed based on g(t)",
+            cost: new Decimal(10).pow(20500),
+            currencyDisplayName: "Distortion",
+            currencyInternalName: "points",
+            currencyLayer: "four",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["g"].points.abs().add(10).log10().div(100000).add(1).pow(2/3))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("four", 24))
+            },
+            unlocked() {return hasUpgrade("ab",22)}
+        },
+        25: {
+            title: "4D-Upgrade 2.5",
+            description: "Multiply time speed based on f(t)",
+            cost: new Decimal(10).pow(24000),
+            currencyDisplayName: "Distortion",
+            currencyInternalName: "points",
+            currencyLayer: "four",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["f"].points.abs().log10().div(500000).add(1).pow(3/4))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("four", 25))
+            },
+            unlocked() {return hasUpgrade("ab",22)}
+        },
+    },
+    automate() {
+        return (getClickableState("auto", 111) ? buyBuyable("four", 11) : false)
     },
     update() {
         if (player["four"].points.gte(new Decimal(2).pow(1024))) {
@@ -217,6 +320,7 @@ addLayer("four", {
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(0) 
+        if (hasUpgrade("ab", 21)) mult = mult.add(player.points.add(1).pow(tmp.four.buyables[11].effect.div(3)).sub(1))
         if (inChallenge("four", 11)) mult = mult.add(player.points.add(1).pow(tmp.four.buyables[11].effect).sub(1))
         if (hasMilestone("ab", 1)) mult = mult.mul(abMs1())
         if (hasUpgrade("four", 13)) mult = mult.mul(tmp.four.upgrades[13].effect)
@@ -224,7 +328,9 @@ addLayer("four", {
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+        exp = new Decimal(1)
+        if (inChallenge("inf", 101)) exp = exp.mul(0.25)
+        return exp
     },
     exponent: 1, 
     position: 5,

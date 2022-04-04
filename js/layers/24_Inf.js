@@ -1,20 +1,28 @@
 addLayer("inf", {
     tabFormat: {
-        "Automation Challenges": {
+        "Layer 1 AC": {
             content:[
                 ["display-text", function() { return "<h3>Do challenges to unlock automations." },],
-                ["microtabs", "stuff"],
+                ["microtabs", "stuff1"],
             ],
+        },
+        "Layer 2 AC": {
+            content:[
+                ["display-text", function() { return "<h3>Do challenges to unlock automations." },],
+                ["microtabs", "stuff2"],
+            ],
+            unlocked() {return hasMilestone("ab",13)},
         },
     },
     microtabs: {
-        stuff: {
+        stuff1: {
             "Function of 'f'": {
                 buttonStyle() { return {'border-color': '#63C5DA'} },
                 content: [
                     ["display-text", function() { return "<h3>f(t) automation challenges.</h3><br>Note: When entering a challenge, prestige is done but note that it will not give you the PP." },],
                     "blank",
                     ["challenges", [1,2]],
+                    ["challenges", [8]],
                     "blank",
                     ["display-text", function() { return "Complete all of f(t) automation challenges to unlock ???" },],
                     "blank",
@@ -41,6 +49,28 @@ addLayer("inf", {
                 ]
             },
         },
+        stuff2: {
+            "Function of 'g'": {
+                buttonStyle() { return {'border-color': '#BF40BF'} },
+                unlocked() {return hasMilestone("ab",13)},
+                content: [
+                    ["display-text", function() { return "<h3>g(t) automation challenges.</h3><br>Note: When entering a challenge, abdicate is done but note that it will not give you the Lives." },],
+                    "blank",
+                    ["challenges", [9]],
+                    "blank",
+                ]
+            },
+            "4th Distortion": {
+                buttonStyle() { return {'border-color': '#FF7F7F'} },
+                unlocked() {return hasMilestone("ab",13)},
+                content: [
+                    ["display-text", function() { return "<h3>4th Distortion automation challenges.</h3><br>Note: When entering a challenge, abdicate is done but note that it will not give you the Lives.<br>" },],
+                    "blank",
+                    ["challenges", [10 ]],
+                    "blank",
+                ]
+            },
+        },
     },
     name: "Infinity",
     symbol: "∞",
@@ -48,7 +78,7 @@ addLayer("inf", {
         unlocked: true,
     }},
     type: "normal",
-    row: 1,
+    row: "side",
     displayRow: 0,
     position: 2,
     color: "#FFFFFF",
@@ -69,12 +99,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock 'a' Variable autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "15px 0px 0px 0px", "width": "270px", "height": "270px"}
         },
         12: {
@@ -84,12 +109,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock 'b' Variable autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
         21: {
@@ -99,12 +119,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock 'c' Variable autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         22: {
@@ -114,12 +129,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock 'd' Variable autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 0px 15px 0px", "width": "270px", "height": "270px"}
         },
         31: {
@@ -129,12 +139,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1000))},
             rewardDescription: "Unlock 'Research Upgrades autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "15px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
         41: {
@@ -144,12 +149,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(2000))},
             rewardDescription: "Unlock 'U' Variable Upgrade autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "15px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         42: {
@@ -159,12 +159,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1500))},
             rewardDescription: "Unlock 'pU' Variable Upgrade autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 15px 15px 0px", "width": "270px", "height": "270px"}
         },
         51: {
@@ -174,12 +169,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(1000))},
             rewardDescription: "Unlock 'a, b, c & d' Variable Upgrade autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 0px 15px 15px", "width": "270px", "height": "270px"}
         },
         61: {
@@ -189,12 +179,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(500))},
             rewardDescription: "Unlock Time Machine Generator autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "15px 0px 0px 0px", "width": "270px", "height": "270px"}
         },
         62: {
@@ -204,12 +189,7 @@ addLayer("inf", {
             canComplete: function() {return player["tmach"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock Warp Time autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 15px 0px 0px", "width": "270px", "height": "270px"}
         },
         71: {
@@ -219,12 +199,7 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(500))},
             rewardDescription: "Unlock Warp Warp Time autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 0px 0px 15px", "width": "270px", "height": "270px"}
         },
         72: {
@@ -234,13 +209,52 @@ addLayer("inf", {
             canComplete: function() {return player["f"].points.gte(new Decimal(2).pow(1024))},
             rewardDescription: "Unlock T.M.G.E. autobuyer.",
             completionLimit: 1,
-            onEnter() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                return layerDataReset("f"), layerDataReset("u", keep=[upgrades]), layerDataReset("res",  keep=[upgrades]), layerDataReset("tmach"), layerDataReset("g", keep=[buyables])
-            },
+            onEnter() { layer1reset() },
             style: {"border-radius": "0px 0px 15px 0px", "width": "270px", "height": "270px"}
+        },
+        81: {
+            name: "Euler's number",
+            challengeDescription: "What if 4th dimension affect all of Layer 1?",
+            goalDescription: "Reach f(t) = 1e400,000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(400000))},
+            rewardDescription: "Unlock Euler's number autobuyer.",
+            completionLimit: 1,
+            onEnter() { layer1reset() },
+            unlocked() {return hasMilestone("ab",13)},
+            style: {"border-radius": "0px 0px 15px 15px", "width": "270px", "height": "270px"}
+        },
+        91: {
+            name: "'w, x, y & z' Variable",
+            challengeDescription: "No no no no no no no g(t)",
+            goalDescription: "Have 31 Study Points, strange",
+            canComplete: function() {return player["res"].sPoints.gte(31)},
+            rewardDescription: "Unlock 'w, x, y & z' Variable autobuyer.",
+            completionLimit: 1,
+            onEnter() { layer2reset() },
+            unlocked() {return hasMilestone("ab",13)},
+            style: {"border-radius": "15px 0px 0px 15px", "width": "270px", "height": "270px"}
+        },
+        92: {
+            name: "Golden ratio",
+            challengeDescription: "No more specials <br> Euler's number and Golden ratio does not exist",
+            goalDescription: "Reach f(t) = e4,000,000",
+            canComplete: function() {return player["f"].points.gte(new Decimal(10).pow(4000000))},
+            rewardDescription: "Unlock Golden Ratio autobuyer.",
+            completionLimit: 1,
+            onEnter() { layer2reset() },
+            unlocked() {return hasMilestone("ab",13)},
+            style: {"border-radius": "0px 15px 15px 0px", "width": "270px", "height": "270px"}
+        },
+        101: {
+            name: "Distortion Power",
+            challengeDescription: "4th Dimension in 4th Dimension? <br> ^0.25 Distortion gain",
+            goalDescription: "Reach 1e3000 Distortion",
+            canComplete: function() {return player["four"].points.gte(new Decimal(10).pow(3000))},
+            rewardDescription: "Unlock Distortion Power autobuyer.",
+            completionLimit: 1,
+            onEnter() { layer2reset() },
+            unlocked() {return hasMilestone("ab",13)},
+            style: {"border-radius": "15px 15px 15px 15px", "width": "270px", "height": "270px"}
         },
     },
     getResetGain() {
@@ -265,7 +279,7 @@ addLayer("inf", {
     passiveGeneration() { return true },
     doReset(resettingLayer) {
         let keep=[];
-        if (layers[resettingLayer].row > this.row) {layerDataReset("inf", keep=["challenges", [1,2,3,4,5,6,7]]);
+        if (layers[resettingLayer].row > this.row) {layerDataReset("inf", keep=["challenges", [1,2,3,4,5,6,7,8]]);
         }
     },
 })

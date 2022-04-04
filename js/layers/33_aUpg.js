@@ -140,6 +140,11 @@ addLayer("au", {
                 if (hasUpgrade("ab", 13)) eff = eff.mul(3)
                 if (hasUpgrade("ab", 14)) eff = eff.mul(3)
                 if (hasUpgrade("ab", 15)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 21)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 22)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 23)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 24)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 25)) eff = eff.mul(3)
                 return eff
             },
             effectDisplay() {
@@ -183,7 +188,7 @@ addLayer("au", {
         },
         25: {
             title: "'aU' Upgrade 2.5",
-            description: "^1.05 'aU' value.",
+            description: "+ ^0.05 'aU' value.",
             cost: new Decimal(1e270),
             currencyDisplayName: "h(t)",
             currencyInternalName: "points",
@@ -238,5 +243,6 @@ addLayer("au", {
 function auPow() {
     pow = new Decimal(1)
     if (hasUpgrade("au", 25)) pow = pow.add(tmp.u.upgrades[25].effect)
+    if (hasUpgrade("res", 171)) pow = pow.add(tmp.res.upgrades[171].effect)
     return pow
 }

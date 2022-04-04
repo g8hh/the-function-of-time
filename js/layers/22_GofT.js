@@ -188,10 +188,14 @@ addLayer("g", {
                 return eff
             },
             unlocked() {
-                if (hasUpgrade("res",162)) return true
+                if (inChallenge("inf",92)) return false 
+                else if (hasUpgrade("res",162)) return true
                 else return false
             }
         },
+    },
+    automate() {
+        return (getClickableState("auto", 101) ? (buyBuyable("g", 11),buyBuyable("g", 12),buyBuyable("g", 21),buyBuyable("g", 22)) : false), (getClickableState("auto", 102) ? buyBuyable("g", 31) : false)
     },
     update() {
         if (tmp.g.clickables[11].unlocked && getClickableState("auto", 11) == true) {
@@ -215,17 +219,21 @@ addLayer("g", {
         mult = mult.mul(player["pu"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
         mult = mult.mul(player["h"].points.pow(htPow()))
+        if (inChallenge("inf",91)) mult = mult.mul(0)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
     exponent: 1, 
-    position: 1, 
+    position: 2, 
     row: 1, 
     displayRow: 2,
     branches: ["p","f"],
-    layerShown() {return player["f"].best.gte(1e18) || hasAchievement("A", 51)},
+    layerShown() {
+        if (inChallenge("inf", 91)) return false
+        else return player["f"].best.gte(1e18) || hasAchievement("A", 51)
+    },
     doReset(resettingLayer) {
         let keep=[];
         if (layers[resettingLayer].row > this.row) {layerDataReset("g", keep);

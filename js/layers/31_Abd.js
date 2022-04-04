@@ -17,6 +17,7 @@ addLayer("ab", {
                 "main-display",
                 "blank",
                 "upgrades",
+                "buyables",
             ],
         },
     },
@@ -36,7 +37,7 @@ addLayer("ab", {
     milestones: {
         1: {
             requirementDescription: "1 Total Life (1)",
-            effectDescription() { return "Gain +1 PP per second; x log(h(t)+10) Distortion gained <br> Currently = x" + format(new Decimal(abMs1()))} ,
+            effectDescription() { return "Gain +1 PP per second <br>x log(h(t)+10) Distortion gained <br> Currently = x" + format(new Decimal(abMs1()))} ,
             done() { return player.ab.total.gte(1) }
         },
         2: {
@@ -75,14 +76,34 @@ addLayer("ab", {
             done() { return player.ab.total.gte(25) }
         },
         9: {
-            requirementDescription: "∞ Total Lives (9)",
-            effectDescription() { return "--- <br> <b> LOCKED</b>"} ,
-            done() { return false }
+            requirementDescription: "50 Total Lives (9)",
+            effectDescription() { return "Unlock second row of 'Abdi-Upgrades'"} ,
+            done() { return player.ab.total.gte(50) }
         },
         10: {
-            requirementDescription: "∞ Total Lives (10)",
-            effectDescription() { return "Passively gain PP <br> <b> LOCKED</b>"} ,
-            done() { return false }
+            requirementDescription: "100 Total Lives (10)",
+            effectDescription() { return "Passively gain PP & Autobuy Study Points"} ,
+            done() { return player.ab.total.gte(100) }
+        },
+        11: {
+            requirementDescription: "250 Total Lives (11)",
+            effectDescription() { return "hInfinity will no longer reset"} ,
+            done() { return player.ab.total.gte(250) }
+        },
+        12: {
+            requirementDescription: "500 Total Lives (12)",
+            effectDescription() { return "Unlock the 2nd row of hInf-Upgrades and reset hInfinity data"} ,
+            done() { return player.ab.total.gte(500) }
+        },
+        13: {
+            requirementDescription: "1,000 Total Lives (13)",
+            effectDescription() { return "Unlock Layer 2 Automation Challenges and Euler's Number Automation Challenge"} ,
+            done() { return player.ab.total.gte(1000) }
+        },
+        14: {
+            requirementDescription: "2,500 Total Lives (14)",
+            effectDescription() { return "Unlock nth row and third row of 'Abdi-Upgrades'"} ,
+            done() { return player.ab.total.gte(2500) }
         },
     },
     upgrades: {
@@ -120,7 +141,7 @@ addLayer("ab", {
         },
         14: {
             title: "Abdi-Upgrade 1.4",
-            description: "log(WT+9) is raised to sqrt(log(log(WT+9)+10))",
+            description: "<span style='font-size: 9px'>log(WT+9) is raised to sqrt(log(log(WT+9)+10))</span>",
             cost: new Decimal(5),
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
@@ -136,12 +157,128 @@ addLayer("ab", {
             currencyLayer: "ab",
             unlocked() {return hasMilestone("ab",5)},
         },
+        21: {
+            title: "Abdi-Upgrade 2.1",
+            description: "Passively gain Distortions but is weaker",
+            cost: new Decimal(50),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",9)},
+        },
+        22: {
+            title: "Abdi-Upgrade 2.2",
+            description: "Unlock second row of 4D-Upgrades",
+            cost: new Decimal(50),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",9)},
+        },
+        23: {
+            title: "Abdi-Upgrade 2.3",
+            description: "Buy All button on 4D-Upgrades",
+            cost: new Decimal(50),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",9)},
+        },
+        24: {
+            title: "Abdi-Upgrade 2.4",
+            description: "Autobuy 'U' Upgrades",
+            cost: new Decimal(50),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",9)},
+        },
+        25: {
+            title: "Abdi-Upgrade 2.5",
+            description: "Autobuy Res-Upgrades",
+            cost: new Decimal(50),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",9)},
+        },
+        31: {
+            title: "Abdi-Upgrade 3.1",
+            description: "---",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",14)},
+        },
+        32: {
+            title: "Abdi-Upgrade 3.2",
+            description: "---",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",14)},
+        },
+        33: {
+            title: "Abdi-Upgrade 3.3",
+            description: "---",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",14)},
+        },
+        34: {
+            title: "Abdi-Upgrade 3.4",
+            description: "---",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",14)},
+        },
+        35: {
+            title: "Abdi-Upgrade 3.5",
+            description: "---",
+            cost: new Decimal(2).pow(1024),
+            currencyDisplayName: "Lives",
+            currencyInternalName: "points",
+            currencyLayer: "ab",
+            unlocked() {return hasMilestone("ab",14)},
+        },
+    },
+    buyables: {
+        11: {
+            title() {return "Abdi-Upgrade n.1"},
+            cost(x) { return new Decimal(10).mul(new Decimal(10).pow(x))},
+            display() { return "x2 gained Lives <br> Currently: x" + format(tmp.ab.buyables[11].effect) + "<br> (bought:" + format(getBuyableAmount("ab", 11)) + ")<br> Cost: " + format(this.cost(getBuyableAmount("ab", 11))) + " Lives"},
+            canAfford() { return player["ab"].points.gte(this.cost()) },
+            buy() {
+                player["ab"].points = player["ab"].points.sub(this.cost())
+                setBuyableAmount("ab", 11, getBuyableAmount("ab", 11).add(1))
+            },
+            effect() { 
+                eff = new Decimal(2)
+                eff = eff.pow(getBuyableAmount("ab", 11))
+                return eff
+            },
+            style(){ 
+                if (player["ab"].points.gte(this.cost())) {
+                    return {'background-color': '#808080', "border-radius": "20px 20px 20px 20px", "width": "600px", "height": "120px"}
+                }
+                else {
+                    return {"border-radius": "20px 20px 20px 20px", "width": "600px", "height": "120px"}
+                }
+            },
+            unlocked() {return hasMilestone("ab",14)}
+        }
     },
     update() {
     },
     getNextAt(canMax=true) {
         canMax = new Decimal(10).pow(600000)
-        canMax = canMax.mul(new Decimal(10).pow(new Decimal(150000).mul(tmp.ab.getResetGain.pow(0.75))))
+        canMax = canMax.mul(new Decimal(10).pow(new Decimal(150000).mul(tmp.ab.getResetGain.div(tmp.ab.gainMult).pow(0.75))))
         return canMax
     },
     getResetGain() {
@@ -150,12 +287,15 @@ addLayer("ab", {
             gain = gain.add((player["p"].points.log10().sub(600000).div(150000).pow(new Decimal(1).div(0.75))).add(1))
             gain = Decimal.floor(gain)
             gain = gain.mul(tmp.ab.gainMult)
+            gain = Decimal.floor(gain)
             return gain
         }
         else return gain
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("res",173)) mult = mult.mul(upgradeEffect("res",173))
+        mult = mult.mul(buyableEffect("ab",11))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

@@ -29,6 +29,7 @@ addLayer("res", {
                 ["clickables", [2]],
                 ["buyables", [5]],
                 ["clickables", [4]],
+                ["display-text", function() { return "<span style='color:#FFFFFF'>Normal Branch</span><br><span style='color:#FF7F7F'>Requires Branch</span><br><span style='color:#FFA500'>Decision Branch</span>" },],
                 "blank",
                 ["upgrades", [11]],
                 "blank",
@@ -124,20 +125,7 @@ addLayer("res", {
         41: {
             display() {return "Reset Tree <br> <b> Warning: resets layer 1"},
             canClick() {return true},
-            onClick() {
-                player.points = player.points.pow(0)
-                player["g"].points = player["g"].points.pow(0)
-                player["pu"].points = player["pu"].points.pow(0)
-                let keep=[];
-                {layerDataReset("f", keep);}
-                {layerDataReset("u", keep);
-                if (hasAchievement("A", 51)) player["u"].upgrades = player["u"].upgrades.concat([14]);
-                if (hasAchievement("A", 28)) player["u"].upgrades = player["u"].upgrades.concat([35]);
-                if (hasUpgrade("pu", 22)) player["u"].upgrades = player["u"].upgrades.concat([33]);}
-                {layerDataReset("res", keep);
-                if (hasAchievement("A", 51)) player["res"].upgrades = player["res"].upgrades.concat([15]);}
-                {layerDataReset("tmach", keep);}
-            },
+            onClick() { layer1reset() },
             style() {return {'background-color': '#FFE77B',}},
             unlocked() {return true}
         },
@@ -1118,19 +1106,17 @@ addLayer("res", {
             unlocked() {return true},
         },
         171: {
-            title: "Study 7.1",
-            description: "---",
-            cost: new Decimal(666),
+            title: "Study 7.1 <br> aU",
+            description: "+ ^0.1 'aU' value.",
+            cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 161)},
+            canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && hasUpgrade("res", 161) && !hasUpgrade("res", 172)},
             effect() {
-                eff = new Decimal(1)
+                eff = new Decimal(0)
+                eff = eff.add(0.1)
                 return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 171))
             },
             branches: [[161, "#FFA500"]],
             style(){ 
@@ -1140,20 +1126,13 @@ addLayer("res", {
             unlocked() {return true},
         },
         172: {
-            title: "Study 7.2",
-            description: "---",
-            cost: new Decimal(666),
+            title: "Study 7.2 <br> h",
+            description: "+ ^0.5 hInf-Upgrade 1.2 power",
+            cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 161)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 172))
-            },
+            canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && hasUpgrade("res", 161) && !hasUpgrade("res", 171)},
             branches: [[161, "#FFA500"]],
             style(){ 
                 if (tmp.res.upgrades[172].canAfford && !hasUpgrade("res",172)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
@@ -1162,19 +1141,17 @@ addLayer("res", {
             unlocked() {return true},
         },
         173: {
-            title: "Study 7.3",
-            description: "---",
-            cost: new Decimal(666),
+            title: "Study 7.3 <br> Ab",
+            description: "x1.5 gained Lives",
+            cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 162)},
+            canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && hasUpgrade("res", 162)},
             effect() {
                 eff = new Decimal(1)
+                eff = eff.mul(1.5)
                 return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 173))
             },
             branches: [[162, "#FFFFFF"]],
             style(){ 
@@ -1185,19 +1162,12 @@ addLayer("res", {
         },
         181: {
             title: "Study 8.1",
-            description: "---",
-            cost: new Decimal(666),
+            description: "x4 gained IP",
+            cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && (hasUpgrade("res", 171) || hasUpgrade("res", 172))},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 181))
-            },
+            canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && (hasUpgrade("res", 171) || hasUpgrade("res", 172))},
             branches: [[171, "#FFFFFF"],[172, "#FFFFFF"]],
             style(){ 
                 if (tmp.res.upgrades[181].canAfford && !hasUpgrade("res",181)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
@@ -1207,19 +1177,12 @@ addLayer("res", {
         },
         182: {
             title: "Study 8.2",
-            description: "---",
-            cost: new Decimal(666),
+            description: "Increase base of h(t) variables multiplier base (+0.02)",
+            cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
             currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res",173)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 182))
-            },
+            canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && hasUpgrade("res",173)},
             branches: [[173, "#FFFFFF"]],
             style(){ 
                 if (tmp.res.upgrades[182].canAfford && !hasUpgrade("res",182)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
@@ -1227,141 +1190,37 @@ addLayer("res", {
             },
             unlocked() {return true},
         },
-        191: {
-            title: "Study 9.1",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 181)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 191))
-            },
-            branches: [[181, "#FFFFFF"]],
-            style(){ 
-                if (tmp.res.upgrades[191].canAfford && !hasUpgrade("res",191)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
-        192: {
-            title: "Study 9.2",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 182)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 192))
-            },
-            branches: [[182, "#FFA500"]],
-            style(){ 
-                if (tmp.res.upgrades[192].canAfford && !hasUpgrade("res",192)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
-        193: {
-            title: "Study 9.3",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 182)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 193))
-            },
-            branches: [[182, "#FFA500"]],
-            style(){ 
-                if (tmp.res.upgrades[193].canAfford && !hasUpgrade("res",193)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
-        201: {
-            title: "Study 10.1",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && hasUpgrade("res", 191)},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 201))
-            },
-            branches: [[191, "#FFFFFF"]],
-            style(){ 
-                if (tmp.res.upgrades[201].canAfford && !hasUpgrade("res",201)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
-        202: {
-            title: "Study 10.2",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && (hasUpgrade("res", 192) || hasUpgrade("res", 193))},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 202))
-            },
-            branches: [[192, "#FFFFFF"],[193, "#FFFFFF"]],
-            style(){ 
-                if (tmp.res.upgrades[202].canAfford && !hasUpgrade("res",202)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
-        211: {
-            title: "Study 11.1",
-            description: "---",
-            cost: new Decimal(666),
-            currencyDisplayName: "Study Points",
-            currencyInternalName: "sPoints",
-            currencyLayer: "res",
-            canAfford() {return player["res"].sPoints.gte(new Decimal(666)) && (hasUpgrade("res", 201) || hasUpgrade("res", 202))},
-            effect() {
-                eff = new Decimal(1)
-                return eff
-            },
-            effectDisplay() {
-                return "x" + format(upgradeEffect("res", 211))
-            },
-            branches: [[201, "#FFFFFF"],[202, "#FFFFFF"]],
-            style(){ 
-                if (tmp.res.upgrades[211].canAfford && !hasUpgrade("res",211)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
-            },
-            unlocked() {return true},
-        },
     },
     automate() {
-        return (getClickableState("auto", 31) ? (buyBuyable("res", 11),buyBuyable("res", 12)) : false), (getClickableState("auto", 32) ? buyBuyable("res", 21) : false), (getClickableState("auto", 33) ? buyBuyable("res", 22) : false), (getClickableState("auto", 34) ? (buyBuyable("res", 31),buyBuyable("res", 32),buyBuyable("res", 41),buyBuyable("res", 42)) : false)
+        return (getClickableState("auto", 31) ? (buyBuyable("res", 11),buyBuyable("res", 12)) : false), 
+        (getClickableState("auto", 32) ? buyBuyable("res", 21) : false), 
+        (getClickableState("auto", 33) ? buyBuyable("res", 22) : false), 
+        (getClickableState("auto", 34) ? (buyBuyable("res", 31),buyBuyable("res", 32),buyBuyable("res", 41),buyBuyable("res", 42)) : false), 
+        (getClickableState("auto", 81) ? buyBuyable("res", 51) : false), 
+        (getClickableState("auto", 82) ? buyBuyable("res", 52) : false), 
+        (getClickableState("auto", 83) ? buyBuyable("res", 53) : false),
+        (buyTreeBol(1011) ? buyUpgrade("res", 111) : false),
+        (buyTreeBol(1012) ? buyUpgrade("res", 112) : false),
+        (buyTreeBol(1021) ? buyUpgrade("res", 121) : false),
+        (buyTreeBol(1022) ? buyUpgrade("res", 122) : false),
+        (buyTreeBol(1023) ? buyUpgrade("res", 123) : false),
+        (buyTreeBol(1031) ? buyUpgrade("res", 131) : false),
+        (buyTreeBol(1032) ? buyUpgrade("res", 132) : false),
+        (buyTreeBol(1033) ? buyUpgrade("res", 133) : false),
+        (buyTreeBol(1041) ? buyUpgrade("res", 141) : false),
+        (buyTreeBol(1042) ? buyUpgrade("res", 142) : false),
+        (buyTreeBol(1043) ? buyUpgrade("res", 143) : false),
+        (buyTreeBol(1051) ? buyUpgrade("res", 151) : false),
+        (buyTreeBol(1061) ? buyUpgrade("res", 161) : false),
+        (buyTreeBol(1062) ? buyUpgrade("res", 162) : false),
+        (buyTreeBol(1071) ? buyUpgrade("res", 171) : false),
+        (buyTreeBol(1072) ? buyUpgrade("res", 172) : false),
+        (buyTreeBol(1073) ? buyUpgrade("res", 173) : false),
+        (buyTreeBol(1081) ? buyUpgrade("res", 181) : false),
+        (buyTreeBol(1082) ? buyUpgrade("res", 182) : false),       
+        (getClickableState("auto", 84) ? (buyUpgrade("res", 11) & buyUpgrade("res", 12) & buyUpgrade("res", 13) & buyUpgrade("res", 14) & buyUpgrade("res", 15)) : false),
+        (getClickableState("auto", 84) ? (buyUpgrade("res", 21) & buyUpgrade("res", 22) & buyUpgrade("res", 23) & buyUpgrade("res", 24) & buyUpgrade("res", 25)) : false),
+        (getClickableState("auto", 84) ? (buyUpgrade("res", 31) & buyUpgrade("res", 32) & buyUpgrade("res", 33) & buyUpgrade("res", 34) & buyUpgrade("res", 35)) : false)
     },
     update() {
         if (tmp.res.clickables[11].unlocked && getClickableState("auto", 11) == true) {
@@ -1398,6 +1257,7 @@ addLayer("res", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         exp = new Decimal(1)
+        if (inChallenge("inf", 81)) exp = exp.mul(0.25)
         return exp
     },
     exponent: 1, 
@@ -1417,3 +1277,8 @@ addLayer("res", {
         }
     },
 })
+
+function buyTreeBol(x) {
+    bol = getClickableState("auto", 1001) && getClickableState("auto", x)
+    return bol
+}

@@ -59,7 +59,7 @@ addLayer("pu", {
         },
         13: {
             title: "'pU' Upgrade 1.3",
-            description: "x1.01 'pU' value every 'w, x, y & z' Variable bought <br> Cap = x1e80",
+            description: "x1.01 'pU' value every 'w, x, y & z' Variable bought <br> Cap = x1e80 <br> Max = x1e15,000",
             cost: new Decimal(1e36),
             currencyDisplayName: "g(t)",
             currencyInternalName: "points",
@@ -73,7 +73,13 @@ addLayer("pu", {
                 else if (eff.gte(1e80)){
                     eff = new Decimal(1e80)
                     eff = eff.mul((new Decimal(1.01).pow(getBuyableAmount("g", 11).add(getBuyableAmount("g", 12)).add(getBuyableAmount("g", 21)).add(getBuyableAmount("g", 22)))).div(1e80).pow(0.1))
-                    return eff
+                    if (eff.lte(new Decimal(10).pow(15000))) {
+                        return eff
+                    }
+                    else {
+                        eff = new Decimal(10).pow(15000)
+                        return eff
+                    }
                 }
             },
             effectDisplay() {
@@ -118,7 +124,7 @@ addLayer("pu", {
             currencyLayer: "g",
             effect() {
                 eff = new Decimal(1)
-                if (hasUpgrade("pu", 21)) eff = eff.mul(player["four"].points.abs().pow(player["four"].points.add(4).log10().div(new Decimal(4).log10()))).add(1)
+                eff = eff.mul(player["four"].points.abs().pow(player["four"].points.add(4).log10().div(new Decimal(4).log10()))).add(1)
                 if (eff.lte(1e80)){
                     return eff
                 }
@@ -211,7 +217,7 @@ addLayer("pu", {
         return new Decimal(1)
     },
     exponent: 1,
-    position: 0, 
+    position: 1, 
     row: 1, 
     displayRow: 2,
     branches: ["g"],

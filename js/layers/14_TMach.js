@@ -135,6 +135,11 @@ addLayer("tmach", {
                 eff = eff.add(getBuyableAmount("tmach", 12))
                 if (hasUpgrade("four", 11)) eff = eff.mul(tmp.four.upgrades[11].effect)
                 if (hasUpgrade("four", 15)) eff = eff.mul(tmp.four.upgrades[15].effect)
+                if (hasUpgrade("four", 21)) eff = eff.mul(tmp.four.upgrades[21].effect)
+                if (hasUpgrade("four", 22)) eff = eff.mul(tmp.four.upgrades[22].effect)
+                if (hasUpgrade("four", 23)) eff = eff.mul(tmp.four.upgrades[23].effect)
+                if (hasUpgrade("four", 24)) eff = eff.mul(tmp.four.upgrades[24].effect)
+                if (hasUpgrade("four", 25)) eff = eff.mul(tmp.four.upgrades[25].effect)
                 eff = eff.pow(tmp.tmach.buyables[21].effect)
                 return eff
             },
@@ -263,6 +268,7 @@ addLayer("tmach", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         exp = new Decimal(1)
+        if (inChallenge("inf", 81)) exp = exp.mul(0.25)
         return exp
     },
     exponent: 1, 

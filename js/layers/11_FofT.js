@@ -237,16 +237,17 @@ addLayer("f", {
                 return eff
             },
             unlocked() {
-                if (hasUpgrade("res",112)) {return true} 
+                if (inChallenge("inf",92)) {return false} 
+                else if (hasUpgrade("res",112)) {return true} 
                 else {return false}
             }
         },
     },
     automate() {
-        return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false)
+        return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false), (getClickableState("auto", 91) ? buyBuyable("f", 31) : false)
     },
     update(diff) {
-        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(getBuyableAmount("res",51).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53)).add(1)).mul(diff))
+        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(getBuyableAmount("res",51).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53)).add(1)).pow(0.5).mul(diff))
         if (tmp.f.clickables[11].unlocked && getClickableState("auto", 11) == true) {
             setClickableState("f", 11, true)
         }
@@ -277,6 +278,7 @@ addLayer("f", {
         exp = new Decimal(1)
         if (inChallenge("four", 11)) exp = exp.mul(0.25)
         if (inChallenge("inf", 31)) exp = exp.mul(0.75)
+        if (inChallenge("inf", 81)) exp = exp.mul(0.25)
         return exp
     },
     exponent: 1, 

@@ -323,14 +323,14 @@ addLayer("A", {
         },
         74: {
             name: "Layer 1 Auto",
-            done() { return hasChallenge("inf", 61) && hasChallenge("inf", 62) && hasChallenge("inf", 71) && hasChallenge("inf", 72)},
-            tooltip: "<b>challenged 3</b><br><br> Complete all Function of Time Machine Automation Challenges",
+            done() { return hasAchievement("A",72) && hasAchievement("A",73) && hasChallenge("inf", 61) && hasChallenge("inf", 62) && hasChallenge("inf", 71) && hasChallenge("inf", 72)},
+            tooltip: "<b>challenged 3</b><br><br> Automate the Layer 1",
             style: {'height': '64px', 'width': '64px'}
         },
         75: {
-            name: "Something auto - mation",
-            done() { return false},
-            tooltip: "<b>Locked</b>",
+            name: "Layer 2 Auto",
+            done() { return hasChallenge("inf", 81) && hasChallenge("inf", 91) && hasChallenge("inf", 92) && hasChallenge("inf", 101)},
+            tooltip: "<b>challenged 4</b><br><br> Automate the Layer 2</b>",
             style: {'height': '64px', 'width': '64px'}
         },
         76: {
@@ -424,10 +424,10 @@ addLayer("A", {
             style: {'height': '64px', 'width': '64px'}
         },
         95: {
-            name: "Nerd stuffs",
-            done() { return false },
-            tooltip: "<b>Locked</b>",
-            style: {'height': '64px', 'width': '64px'}
+            name: "Semi-nior",
+            done() { return player["res"].sPoints.gte(30) },
+            tooltip: "<b>BUILD BUILD BUILD</b><br><br> i hate clicking, have 30 Study Points<br><br>Reward: Unlock Study Tree Auto Build in Automation",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         96: {
             name: "Nerd stuffs",
@@ -462,19 +462,19 @@ addLayer("A", {
         103: {
             name: "∞ Again",
             done() { return player["h"].points.gte(new Decimal(2).pow(1024))},
-            tooltip: "<b>Wow...</b><br><br>not amazed tbh, this always happened. <br> Have h(t) = ∞",
-            style: {'height': '64px', 'width': '64px'}
+            tooltip: "<b>Wow...</b><br><br>not amazed tbh, this always happened. <br> Have h(t) = ∞ <br><br> Unlock hInfinity",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         104: {
-            name: "Life Things",
-            done() { return false},
-            tooltip: "<b>Locked</b>",
-            style: {'height': '64px', 'width': '64px'}
+            name: "Auto again",
+            done() { return (hasUpgrade("h",111)&&hasUpgrade("h",112)&&hasUpgrade("h",113)&&hasUpgrade("h",114)&&hasUpgrade("h",121)&&hasUpgrade("h",122)&&hasUpgrade("h",123)&&hasUpgrade("h",124))},
+            tooltip: "<b>Great!</b><br><br>blah blah automate h(t) variables blah blah<br><br>Reward: Unlock Automate Upgrade 3.1 and hInf-Upgrade n.1",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         105: {
-            name: "Life Things",
-            done() { return false},
-            tooltip: "<b>Locked</b>",
+            name: "Vatican (2019)",
+            done() { return player.ab.total.gte(825)},
+            tooltip: "<b>825 Lives</b> <br><br> population of Vatican city",
             style: {'height': '64px', 'width': '64px'}
         },
         106: {

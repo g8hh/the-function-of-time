@@ -13,11 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.0.71",
-	name: "h(t) & Abdicate Update",
+	num: "2.1.h",
+	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.1.h</h3><br>
+		- Added 5 4D-Upgrades<br>
+		- Added 9 hInf-Upgrades<br>
+		- Added 9 Automate upgrades for the hInfinity<br>
+		- Completed 6 Abdication miliestones<br>
+		- Added 6 Abdi-Upgrades<br>
+		- Added 5 more studies<br>
+		- Added 4 Automation Challenges<br><br>
+	<h3 style="color: #808080">v2.1.0</h3><br>
+		- Added hInfinity<br><br>
+	<h2 style="color: #808080">h(t) & Abdicate Update II: <br> hInfinity Update</h2><br><br>
 	<h3 style="color: #808080">v2.0.71</h3><br>
 		- Buffed Study 2.1<br><br>
 	<h3 style="color: #808080">v2.0.70</h3><br>
@@ -38,7 +49,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added 'aU' Upgrades.<br>
 		- Added h(t) Layer.<br>
 		- Added Abdicate Layer.<br><br>
-	<h2 style="color: #808080">h(t) & Abdicate Update</h2><br><br>
+	<h2 style="color: #808080">h(t) & Abdicate Update I</h2><br><br>
 	<h3 style="color: #FFE77B">v1.5.55+</h3><br>
 		- Fixed f(t) ~ 1e13,000 hard cap<br>
 		- Added 13 Achievements<br>
