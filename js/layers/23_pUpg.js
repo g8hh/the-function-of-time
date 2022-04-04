@@ -124,13 +124,13 @@ addLayer("pu", {
             currencyLayer: "g",
             effect() {
                 eff = new Decimal(1)
-                eff = eff.mul(player["four"].points.abs().pow(player["four"].points.add(4).log10().div(new Decimal(4).log10()))).add(1)
+                eff = eff.mul(player["four"].points.abs().pow(player["four"].points.abs().add(4).log10().div(new Decimal(4).log10()))).add(1)
                 if (eff.lte(1e80)){
                     return eff
                 }
                 else if (eff.gte(1e80)){
                     eff = new Decimal(1e80)
-                    eff = eff.mul(((player["four"].points.abs().pow(player["four"].points.add(4).log10().div(new Decimal(4).log10()))).add(1).div(1e80)).pow(0.0225))
+                    eff = eff.mul(((player["four"].points.abs().pow(player["four"].points.abs().add(4).log10().div(new Decimal(4).log10()))).add(1).div(1e80)).pow(0.0225))
                     if (eff.lte(new Decimal(2).pow(1024))){
                         return eff
                     }

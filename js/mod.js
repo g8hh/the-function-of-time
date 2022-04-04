@@ -13,12 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.1.h+1",
+	num: "2.1.h+2",
 	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
-	<h3 style="color: #808080">v2.1.h+1</h3><br>
+	<h3 style="color: #808080">v2.1.h+2</h3><br>
+		- Fixed 'pU' Upgrade 2.1 bug<br>
 		- Changed current endgame [ 16,384 Total Lives ]<br><br>
 	<h3 style="color: #808080">v2.1.h</h3><br>
 		- Added 5 4D-Upgrades<br>
