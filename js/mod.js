@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.1.h",
+	num: "2.1.h+1",
 	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.1.h+1</h3><br>
+		- Changed current endgame [ 16,384 Total Lives ]<br><br>
 	<h3 style="color: #808080">v2.1.h</h3><br>
 		- Added 5 4D-Upgrades<br>
 		- Added 9 hInf-Upgrades<br>
@@ -186,7 +188,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasAchievement("A", 103)
+	return player.ab.total.gte(16348)
 }
 
 
