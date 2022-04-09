@@ -204,8 +204,15 @@ addLayer("ab", {
         },
         31: {
             title: "Abdi-Upgrade 3.1",
-            description: "---",
-            cost: new Decimal(2).pow(1024),
+            description: "h(t) will not max at Infinity",
+            cost() {
+                cost = new Decimal(10000)
+                if (hasUpgrade("ab",32)) cost = cost.add(10000)
+                if (hasUpgrade("ab",33)) cost = cost.add(10000)
+                if (hasUpgrade("ab",34)) cost = cost.add(10000)
+                if (hasUpgrade("ab",35)) cost = cost.add(10000)
+                return cost
+            },
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
             currencyLayer: "ab",
@@ -213,8 +220,15 @@ addLayer("ab", {
         },
         32: {
             title: "Abdi-Upgrade 3.2",
-            description: "---",
-            cost: new Decimal(2).pow(1024),
+            description: "hInf-Upgrade 1.4 is much stronger",
+            cost() {
+                cost = new Decimal(10000)
+                if (hasUpgrade("ab",31)) cost = cost.add(10000)
+                if (hasUpgrade("ab",33)) cost = cost.add(10000)
+                if (hasUpgrade("ab",34)) cost = cost.add(10000)
+                if (hasUpgrade("ab",35)) cost = cost.add(10000)
+                return cost
+            },
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
             currencyLayer: "ab",
@@ -222,8 +236,15 @@ addLayer("ab", {
         },
         33: {
             title: "Abdi-Upgrade 3.3",
-            description: "---",
-            cost: new Decimal(2).pow(1024),
+            description: "^1.5 time speed",
+            cost() {
+                cost = new Decimal(10000)
+                if (hasUpgrade("ab",31)) cost = cost.add(10000)
+                if (hasUpgrade("ab",32)) cost = cost.add(10000)
+                if (hasUpgrade("ab",34)) cost = cost.add(10000)
+                if (hasUpgrade("ab",35)) cost = cost.add(10000)
+                return cost
+            },
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
             currencyLayer: "ab",
@@ -231,8 +252,15 @@ addLayer("ab", {
         },
         34: {
             title: "Abdi-Upgrade 3.4",
-            description: "---",
-            cost: new Decimal(2).pow(1024),
+            description: "Autobuy 'pU' Upgrades, Pres-Upgrades, and 4D-Upgrades",
+            cost() {
+                cost = new Decimal(10000)
+                if (hasUpgrade("ab",31)) cost = cost.add(10000)
+                if (hasUpgrade("ab",32)) cost = cost.add(10000)
+                if (hasUpgrade("ab",33)) cost = cost.add(10000)
+                if (hasUpgrade("ab",35)) cost = cost.add(10000)
+                return cost
+            },
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
             currencyLayer: "ab",
@@ -240,8 +268,15 @@ addLayer("ab", {
         },
         35: {
             title: "Abdi-Upgrade 3.5",
-            description: "---",
-            cost: new Decimal(2).pow(1024),
+            description: "Unlock third row of 'aU' Upgrades",
+            cost() {
+                cost = new Decimal(10000)
+                if (hasUpgrade("ab",31)) cost = cost.add(10000)
+                if (hasUpgrade("ab",32)) cost = cost.add(10000)
+                if (hasUpgrade("ab",33)) cost = cost.add(10000)
+                if (hasUpgrade("ab",34)) cost = cost.add(10000)
+                return cost
+            },
             currencyDisplayName: "Lives",
             currencyInternalName: "points",
             currencyLayer: "ab",
@@ -295,6 +330,7 @@ addLayer("ab", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade("res",173)) mult = mult.mul(upgradeEffect("res",173))
+        if (hasUpgrade("res",191)) mult = mult.mul(4)
         mult = mult.mul(buyableEffect("ab",11))
         return mult
     },

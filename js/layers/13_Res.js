@@ -1107,7 +1107,7 @@ addLayer("res", {
         },
         171: {
             title: "Study 7.1 <br> aU",
-            description: "+ ^0.1 'aU' value.",
+            description: "+ ^0.25 'aU' value.",
             cost: new Decimal(30),
             currencyDisplayName: "Study Points",
             currencyInternalName: "sPoints",
@@ -1115,7 +1115,7 @@ addLayer("res", {
             canAfford() {return player["res"].sPoints.gte(new Decimal(30)) && hasUpgrade("res", 161) && !hasUpgrade("res", 172)},
             effect() {
                 eff = new Decimal(0)
-                eff = eff.add(0.1)
+                eff = eff.add(0.25)
                 return eff
             },
             branches: [[161, "#FFA500"]],
@@ -1161,7 +1161,7 @@ addLayer("res", {
             unlocked() {return true},
         },
         181: {
-            title: "Study 8.1",
+            title: "Study 8.1 <br> h",
             description: "x4 gained IP",
             cost: new Decimal(30),
             currencyDisplayName: "Study Points",
@@ -1176,7 +1176,7 @@ addLayer("res", {
             unlocked() {return true},
         },
         182: {
-            title: "Study 8.2",
+            title: "Study 8.2 <br> h",
             description: "Increase base of h(t) variables multiplier base (+0.02)",
             cost: new Decimal(30),
             currencyDisplayName: "Study Points",
@@ -1186,6 +1186,21 @@ addLayer("res", {
             branches: [[173, "#FFFFFF"]],
             style(){ 
                 if (tmp.res.upgrades[182].canAfford && !hasUpgrade("res",182)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
+                else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
+            },
+            unlocked() {return true},
+        },
+        191: {
+            title: "Study 9.1 <br> ??? & Ab",
+            description: "Unlock ??? <br> x4 gained Lives",
+            cost: new Decimal(450),
+            currencyDisplayName: "Study Points",
+            currencyInternalName: "sPoints",
+            currencyLayer: "res",
+            canAfford() {return player["res"].sPoints.gte(new Decimal(450)) && (hasUpgrade("res",181)&&hasUpgrade("res",182))},
+            branches: [[181, "#FF7F7F"],[182, "#FF7F7F"]],
+            style(){ 
+                if (tmp.res.upgrades[191].canAfford && !hasUpgrade("res",191)) return {'background-color': '#FFE77B', 'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
                 else return {'margin-left': '15px', 'margin-right': '15px', 'height': '140px', 'width': '140px'} 
             },
             unlocked() {return true},
@@ -1217,7 +1232,8 @@ addLayer("res", {
         (buyTreeBol(1072) ? buyUpgrade("res", 172) : false),
         (buyTreeBol(1073) ? buyUpgrade("res", 173) : false),
         (buyTreeBol(1081) ? buyUpgrade("res", 181) : false),
-        (buyTreeBol(1082) ? buyUpgrade("res", 182) : false),       
+        (buyTreeBol(1082) ? buyUpgrade("res", 182) : false),
+        (buyTreeBol(1091) ? buyUpgrade("res", 191) : false),
         (getClickableState("auto", 84) ? (buyUpgrade("res", 11) & buyUpgrade("res", 12) & buyUpgrade("res", 13) & buyUpgrade("res", 14) & buyUpgrade("res", 15)) : false),
         (getClickableState("auto", 84) ? (buyUpgrade("res", 21) & buyUpgrade("res", 22) & buyUpgrade("res", 23) & buyUpgrade("res", 24) & buyUpgrade("res", 25)) : false),
         (getClickableState("auto", 84) ? (buyUpgrade("res", 31) & buyUpgrade("res", 32) & buyUpgrade("res", 33) & buyUpgrade("res", 34) & buyUpgrade("res", 35)) : false)

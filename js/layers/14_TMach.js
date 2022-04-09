@@ -140,6 +140,7 @@ addLayer("tmach", {
                 if (hasUpgrade("four", 23)) eff = eff.mul(tmp.four.upgrades[23].effect)
                 if (hasUpgrade("four", 24)) eff = eff.mul(tmp.four.upgrades[24].effect)
                 if (hasUpgrade("four", 25)) eff = eff.mul(tmp.four.upgrades[25].effect)
+                if (hasUpgrade("ab", 33)) eff = eff.pow(1.5)
                 eff = eff.pow(tmp.tmach.buyables[21].effect)
                 return eff
             },

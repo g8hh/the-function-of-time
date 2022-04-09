@@ -300,7 +300,9 @@ addLayer("four", {
         },
     },
     automate() {
-        return (getClickableState("auto", 111) ? buyBuyable("four", 11) : false)
+        return (getClickableState("auto", 111) ? buyBuyable("four", 11) : false),
+        (getClickableState("auto", 123) ? (buyUpgrade("four", 11) & buyUpgrade("four", 12) & buyUpgrade("four", 13) & buyUpgrade("four", 14) & buyUpgrade("four", 15)) : false),
+        (getClickableState("auto", 123) ? (buyUpgrade("four", 21) & buyUpgrade("four", 22) & buyUpgrade("four", 23) & buyUpgrade("four", 24) & buyUpgrade("four", 25)) : false)
     },
     update() {
         if (player["four"].points.gte(new Decimal(2).pow(1024))) {

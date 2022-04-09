@@ -23,6 +23,7 @@ addLayer("p", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
+        aTime: new Decimal(0),
     }},
     color: "#BF40BF",
     requires: new Decimal(1e21), // Can be a function that takes requirement increases into account
@@ -33,6 +34,7 @@ addLayer("p", {
     exponent: 1, // Prestige currency exponent
     update(diff) {
         if (hasMilestone("ab", 1)) player["p"].points = player["p"].points.add(new Decimal(1).mul(diff))
+        player["p"].aTime = player["p"].aTime.add(new Decimal(1).mul(diff))
     },
     getNextAt(canMax=true) {
         canMax = new Decimal(1e21)
@@ -191,6 +193,10 @@ addLayer("p", {
             currencyLayer: "p",
             unlocked() {return hasUpgrade("four", 12)},
         },
+    },
+    automate() {
+        return (getClickableState("auto", 122) ? (buyUpgrade("p", 11) & buyUpgrade("p", 12) & buyUpgrade("p", 13) & buyUpgrade("p", 14) & buyUpgrade("p", 15)) : false),
+        (getClickableState("auto", 122) ? (buyUpgrade("p", 21) & buyUpgrade("p", 22) & buyUpgrade("p", 23) & buyUpgrade("p", 24) & buyUpgrade("p", 25)) : false)
     },
     doReset(resettingLayer) {
         let keep=[];

@@ -61,6 +61,7 @@ addLayer("auto", {
                     "blank",
                     ["clickables", [10]],
                     ["clickables", [11]],
+                    ["clickables", [12]],
                     "blank",
                 ]
             },
@@ -639,6 +640,57 @@ addLayer("auto", {
             },
             unlocked() {return hasChallenge("inf", 101)}
         },
+        121: {
+            display() {return "Toggle Autobuy 'pU' Upgrades"},
+            canClick() {return true},
+            onClick() {
+                if (getClickableState("auto", 121) == false) 
+                    {setClickableState("auto", 121, true)}
+                else if (getClickableState("auto", 121) == true) 
+                    {setClickableState("auto", 121, false)}
+                },
+            style() {
+                if (getClickableState("auto", 121) == false) 
+                    return {'background-color': 'red',}
+                else if (getClickableState("auto", 121) == true) 
+                    return {'background-color': '#FFFFFF',}
+            },
+            unlocked() {return hasUpgrade("ab",34)}
+        },
+        122: {
+            display() {return "Toggle Autobuy Pres-Upgrades"},
+            canClick() {return true},
+            onClick() {
+                if (getClickableState("auto", 122) == false) 
+                    {setClickableState("auto", 122, true)}
+                else if (getClickableState("auto", 122) == true) 
+                    {setClickableState("auto", 122, false)}
+                },
+            style() {
+                if (getClickableState("auto", 122) == false) 
+                    return {'background-color': 'red',}
+                else if (getClickableState("auto", 122) == true) 
+                    return {'background-color': '#FFFFFF',}
+            },
+            unlocked() {return hasUpgrade("ab",34)}
+        },
+        123: {
+            display() {return "Toggle Autobuy 4D-Upgrades"},
+            canClick() {return true},
+            onClick() {
+                if (getClickableState("auto", 123) == false) 
+                    {setClickableState("auto", 123, true)}
+                else if (getClickableState("auto", 123) == true) 
+                    {setClickableState("auto", 123, false)}
+                },
+            style() {
+                if (getClickableState("auto", 123) == false) 
+                    return {'background-color': 'red',}
+                else if (getClickableState("auto", 123) == true) 
+                    return {'background-color': '#FFFFFF',}
+            },
+            unlocked() {return hasUpgrade("ab",34)}
+        },
         //Study tree auto build
         1001: {
             display() {return "Toggle Autobuy Tree"},
@@ -1018,6 +1070,25 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1073, "#FFFFFF"]],
+            unlocked() {return hasMilestone("ab", 9)}
+        },
+        1091: {
+            display() {return "Toggle Autobuy Study 9.1"},
+            canClick() {return true},
+            onClick() {
+                if (getClickableState("auto", 1091) == false) 
+                    {setClickableState("auto", 1091, true)}
+                    
+                else if (getClickableState("auto", 1091) == true) 
+                    {setClickableState("auto", 1091, false)}
+                },
+            style() {
+                if (getClickableState("auto", 1091) == false) 
+                    return {'background-color': 'red', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
+                else if (getClickableState("auto", 1091) == true) 
+                    return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
+            },
+            branches: [[1081, "#FF7F7F"],[1082, "#FF7F7F"]],
             unlocked() {return hasMilestone("ab", 9)}
         },
     },

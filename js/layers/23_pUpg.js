@@ -205,6 +205,10 @@ addLayer("pu", {
         player["pu"].points = player["pu"].points.mul(buyableEffect("res", 22))
         player["pu"].points = player["pu"].points.pow(new Decimal(puPow()))
     },
+    automate() {
+        return (getClickableState("auto", 121) ? (buyUpgrade("pu", 11) & buyUpgrade("pu", 12) & buyUpgrade("pu", 13) & buyUpgrade("pu", 14) & buyUpgrade("pu", 15)) : false),
+        (getClickableState("auto", 121) ? (buyUpgrade("pu", 21) & buyUpgrade("pu", 22) & buyUpgrade("pu", 23) & buyUpgrade("pu", 24) & buyUpgrade("pu", 25)) : false)
+    },
     getResetGain() {
         gain = new Decimal(0)
         return gain

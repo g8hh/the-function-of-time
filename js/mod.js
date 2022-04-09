@@ -13,11 +13,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.1.h+2",
+	num: "2.1.h+17",
 	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.1.h+17</h3><br>
+		- Added 5 Abdi-Upgrades<br>
+		- Added 5 'aU' Upgrades<br>
+		- Added 4 hInf-Upgrades<br>
+		- Changed current endgame [ Study 9.1 ]<br><br>
 	<h3 style="color: #808080">v2.1.h+2</h3><br>
 		- Fixed 'pU' Upgrade 2.1 bug<br>
 		- Changed current endgame [ 16,384 Total Lives ]<br><br>
@@ -153,7 +158,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added f(t) Layer.<br><br>
 	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `Deserved! I guessed you have reached infinity h(t), good for you!`
+let winText = `Deserved! Good for you!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -189,7 +194,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.ab.total.gte(16348)
+	return hasUpgrade("res",191)
 }
 
 

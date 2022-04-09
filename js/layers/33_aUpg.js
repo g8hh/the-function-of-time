@@ -55,6 +55,11 @@ addLayer("au", {
                 if (hasUpgrade("au", 23)) eff = eff.mul(1.5)
                 if (hasUpgrade("au", 24)) eff = eff.mul(1.5)
                 if (hasUpgrade("au", 25)) eff = eff.mul(1.5)
+                if (hasUpgrade("au", 31)) eff = eff.mul(1.5)
+                if (hasUpgrade("au", 32)) eff = eff.mul(1.5)
+                if (hasUpgrade("au", 33)) eff = eff.mul(1.5)
+                if (hasUpgrade("au", 34)) eff = eff.mul(1.5)
+                if (hasUpgrade("au", 35)) eff = eff.mul(1.5)
                 return eff
             },
             effectDisplay() {
@@ -128,7 +133,7 @@ addLayer("au", {
         },
         22: {
             title: "'aU' Upgrade 2.2",
-            description: "x3 'aU' Value every 'Abdi-Upgrades bought",
+            description: "x3 'aU' Value every Abdi-Upgrades bought",
             cost: new Decimal(1e135),
             currencyDisplayName: "h(t)",
             currencyInternalName: "points",
@@ -145,6 +150,11 @@ addLayer("au", {
                 if (hasUpgrade("ab", 23)) eff = eff.mul(3)
                 if (hasUpgrade("ab", 24)) eff = eff.mul(3)
                 if (hasUpgrade("ab", 25)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 31)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 32)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 33)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 34)) eff = eff.mul(3)
+                if (hasUpgrade("ab", 35)) eff = eff.mul(3)
                 return eff
             },
             effectDisplay() {
@@ -200,6 +210,92 @@ addLayer("au", {
             },
             unlocked() {return hasMilestone("ab",6)},
         },
+        31: {
+            title: "'aU' Upgrade 3.1",
+            description: "Multiply 'aU' value based on Lives",
+            cost: new Decimal(10).pow(1567),
+            currencyDisplayName: "h(t)",
+            currencyInternalName: "points",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.add(player["ab"].points.abs())
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("au", 31))
+            },
+            unlocked() {return hasUpgrade("ab",35)},
+        },
+        32: {
+            title: "'aU' Upgrade 3.2",
+            description: "Unlock third row of hInf-Upgrades and Multiply 'aU' value based on IP",
+            cost: new Decimal(10).pow(1678),
+            currencyDisplayName: "h(t)",
+            currencyInternalName: "points",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.add(player["h"].infpoints.abs().pow(1/3))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("au", 32))
+            },
+            unlocked() {return hasUpgrade("ab",35)},
+        },
+        33: {
+            title: "'aU' Upgrade 3.3",
+            description: "Multiply 'aU' value based on sine value of time spent in this Abdicate",
+            cost: new Decimal(10).pow(1900),
+            currencyDisplayName: "h(t)",
+            currencyInternalName: "points",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(50.5)
+                eff = eff.add(player["p"].aTime.div(4).sin().mul(49.5))
+                if (hasUpgrade("au",34)) eff = eff.pow(new Decimal(1).add(upgradeEffect("au",34)))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("au", 33))
+            },
+            unlocked() {return hasUpgrade("ab",35)},
+        },
+        34: {
+            title: "'aU' Upgrade 3.4",
+            description: "Increase 'aU' Upgrade 3.3 power based on IP",
+            cost: new Decimal(10).pow(2233),
+            currencyDisplayName: "h(t)",
+            currencyInternalName: "points",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(0)
+                eff = eff.add(player["h"].infpoints.abs().log10().pow(0.275))
+                return eff
+            },
+            effectDisplay() {
+                return "+ ^" + format(upgradeEffect("au", 34))
+            },
+            unlocked() {return hasUpgrade("ab",35)},
+        },
+        35: {
+            title: "'aU' Upgrade 3.5",
+            description: "+ ^0.01 'aU' value every hInf-Upgrade n.1 and Abdi-Upgrade n.1",
+            cost: new Decimal(10).pow(2677),
+            currencyDisplayName: "h(t)",
+            currencyInternalName: "points",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(0)
+                eff = eff.add(new Decimal(0.01).mul(getBuyableAmount("ab",11).add(getBuyableAmount("h",101))))
+                return eff
+            },
+            effectDisplay() {
+                return "+ ^" + format(upgradeEffect("au", 35))
+            },
+            unlocked() {return hasUpgrade("ab",35)},
+        },
     },
     update() {
         player["au"].points = new Decimal(1)
@@ -211,6 +307,9 @@ addLayer("au", {
         if (hasUpgrade("au", 22)) player["au"].points = player["au"].points.mul(upgradeEffect("au",22))
         if (hasUpgrade("au", 23)) player["au"].points = player["au"].points.mul(upgradeEffect("au",23))
         if (hasUpgrade("au", 24)) player["au"].points = player["au"].points.mul(upgradeEffect("au",24))
+        if (hasUpgrade("au", 31)) player["au"].points = player["au"].points.mul(upgradeEffect("au",31))
+        if (hasUpgrade("au", 32)) player["au"].points = player["au"].points.mul(upgradeEffect("au",32))
+        if (hasUpgrade("au", 33)) player["au"].points = player["au"].points.mul(upgradeEffect("au",33))
         if (hasUpgrade("res", 151)) player["au"].points = player["au"].points.mul(upgradeEffect("res",151))
         player["au"].points = player["au"].points.pow(new Decimal(auPow()))
     },
@@ -243,6 +342,7 @@ addLayer("au", {
 function auPow() {
     pow = new Decimal(1)
     if (hasUpgrade("au", 25)) pow = pow.add(tmp.u.upgrades[25].effect)
+    if (hasUpgrade("au", 35)) pow = pow.add(tmp.u.upgrades[35].effect)
     if (hasUpgrade("res", 171)) pow = pow.add(tmp.res.upgrades[171].effect)
     return pow
 }

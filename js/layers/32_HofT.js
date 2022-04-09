@@ -66,7 +66,7 @@ addLayer("h", {
                 buttonStyle() { return {'border-color': '#808080'} },
                 content: [
                     "blank",
-                    ["upgrades", [1,2]],
+                    ["upgrades", [1,2,3]],
                     ["buyables", [10]],
                     "blank",
                 ]
@@ -398,7 +398,7 @@ addLayer("h", {
         91: {
             title() {return "hInfinity <br> Reset for Infinity Point (IP)"},
             cost(x) { return new Decimal(2).pow(infinity())},
-            display() { return "+ " + format(hinfReset()) + " IP <br> hInfinitied:" + format(getBuyableAmount("h", 91)) + "<br> Cost: INFINITY h(t)"},
+            display() { return "+ " + format(hinfReset()) + " IP <br> hInfinitied:" + format(getBuyableAmount("h", 91)) + "<br> Cost: INFINITY (" + format(new Decimal(2).pow(infinity())) + ") h(t)"},
             canAfford() { return player["h"].points.gte(this.cost()) },
             buy() {
                 if (!hasMilestone("ab",11)) {
@@ -545,6 +545,7 @@ addLayer("h", {
             effect() {
                 eff = new Decimal(1)
                 eff = eff.mul(getBuyableAmount("h",91).add(1))
+                if (hasUpgrade("ab",32)) eff = eff.pow(getBuyableAmount("h",91).add(10).log10())
                 return eff
             },
             effectDisplay() {
@@ -571,6 +572,10 @@ addLayer("h", {
                 if (hasUpgrade("h", 22)) eff = eff.add(0.001)
                 if (hasUpgrade("h", 23)) eff = eff.add(0.001)
                 if (hasUpgrade("h", 24)) eff = eff.add(0.001)
+                if (hasUpgrade("h", 31)) eff = eff.add(0.001)
+                if (hasUpgrade("h", 32)) eff = eff.add(0.001)
+                if (hasUpgrade("h", 33)) eff = eff.add(0.001)
+                if (hasUpgrade("h", 34)) eff = eff.add(0.001)
                 eff = eff.add(new Decimal(0.001).mul(getBuyableAmount("h",101)))
                 return eff
             },
@@ -601,7 +606,7 @@ addLayer("h", {
         },
         23: {
             title: "hInf-Upgrade 2.3",
-            description: "Multiply IP gain based on unspent IP",
+            description: "Multiply IP gain based on unspent IP <br> Cap = x10",
             cost() {
                 cost = new Decimal(1000000)
                 return cost
@@ -635,6 +640,86 @@ addLayer("h", {
             currencyInternalName: "infpoints",
             currencyLayer: "h",
             unlocked() {return hasMilestone("ab",12)}
+        },
+        31: {
+            title: "hInf-Upgrade 3.1",
+            description: "Multiply IP gain based on 'aU' value",
+            cost() {
+                cost = new Decimal(1e10)
+                return cost
+            },
+            currencyDisplayName: "IP",
+            currencyInternalName: "infpoints",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["au"].points.abs().add(10).log10())
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("h", 31))
+            },
+            unlocked() {return hasUpgrade("au",32)}
+        },
+        32: {
+            title: "hInf-Upgrade 3.2",
+            description: "Multiply IP gain based on cosine value of time spent in this Abdicate",
+            cost() {
+                cost = new Decimal(1e11)
+                return cost
+            },
+            currencyDisplayName: "IP",
+            currencyInternalName: "infpoints",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(13)
+                eff = eff.add(player["p"].aTime.div(4).cos().mul(12))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("h", 32))
+            },
+            unlocked() {return hasUpgrade("au",32)}
+        },
+        33: {
+            title: "hInf-Upgrade 3.3",
+            description: "Multiply IP gain based on negative cosine value of time spent in this Abdicate",
+            cost() {
+                cost = new Decimal(1e12)
+                return cost
+            },
+            currencyDisplayName: "IP",
+            currencyInternalName: "infpoints",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(13)
+                eff = eff.add(player["p"].aTime.div(4).cos().mul(-12))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("h", 33))
+            },
+            unlocked() {return hasUpgrade("au",32)}
+        },
+        34: {
+            title: "hInf-Upgrade 3.4",
+            description: "Multiply IP gain based Lives",
+            cost() {
+                cost = new Decimal(1e15)
+                return cost
+            },
+            currencyDisplayName: "IP",
+            currencyInternalName: "infpoints",
+            currencyLayer: "h",
+            effect() {
+                eff = new Decimal(1)
+                eff = eff.mul(player["ab"].points.abs().add(10).log10().pow(player["ab"].points.abs().add(10).log10().pow(0.5)))
+                return eff
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect("h", 34))
+            },
+            unlocked() {return hasUpgrade("au",32)}
         },
         //Automate
         111: {
@@ -817,6 +902,7 @@ addLayer("h", {
         setBuyableAmount("h", 81, getBuyableAmount("h", 81).mul(0))
     },
     update(diff) {
+        if (hasUpgrade("h",24)) player["h"].infpoints = player["h"].infpoints.add(hinfReset().mul(diff))
         player["h"].apoints = player["h"].apoints.add((player["h"].bpoints.mul(buyableEffect("h", 21)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
         player["h"].bpoints = player["h"].bpoints.add((player["h"].cpoints.mul(buyableEffect("h", 31)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
         player["h"].cpoints = player["h"].cpoints.add((player["h"].dpoints.mul(buyableEffect("h", 41)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
@@ -824,8 +910,7 @@ addLayer("h", {
         player["h"].epoints = player["h"].epoints.add((player["h"].fpoints.mul(buyableEffect("h", 61)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
         player["h"].fpoints = player["h"].fpoints.add((player["h"].gpoints.mul(buyableEffect("h", 71)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
         player["h"].gpoints = player["h"].gpoints.add((player["h"].hpoints.mul(buyableEffect("h", 81)).mul(new Decimal(othersh())).mul(new Decimal(abMs2())).mul(diff)))
-        if (player["h"].points.gte(new Decimal(2).pow(infinity()))) player["h"].points = new Decimal(2).pow(infinity())
-        if (hasUpgrade("h",24)) player["h"].infpoints = player["h"].infpoints.add(hinfReset().mul(diff))
+        if (!(hasUpgrade("ab",31)) && player["h"].points.gte(new Decimal(2).pow(infinity()))) player["h"].points = new Decimal(2).pow(infinity())
     },
     automate() {
        return (getClickableState("auto", 51) ? buyBuyable("h", 11) : false), (getClickableState("auto", 52) ? buyBuyable("h", 21) : false), (getClickableState("auto", 53) ? buyBuyable("h", 31) : false), (getClickableState("auto", 54) ? buyBuyable("h", 41) : false), (getClickableState("auto", 61) ? buyBuyable("h", 51) : false), (getClickableState("auto", 62) ? buyBuyable("h", 61) : false), (getClickableState("auto", 63) ? buyBuyable("h", 71) : false), (getClickableState("auto", 64) ? buyBuyable("h", 81) : false), (getClickableState("auto", 71) ? buyBuyable("h", 91) : false)
@@ -890,6 +975,10 @@ function hinfReset() {
     if (hasUpgrade("h",22)) res = res.mul(upgradeEffect("h",22))
     if (hasUpgrade("h",23)) res = res.mul(upgradeEffect("h",23))
     if (hasUpgrade("h",24)) res = res.mul(new Decimal(10))
+    if (hasUpgrade("h",31)) res = res.mul(upgradeEffect("h",31))
+    if (hasUpgrade("h",32)) res = res.mul(upgradeEffect("h",32))
+    if (hasUpgrade("h",33)) res = res.mul(upgradeEffect("h",33))
+    if (hasUpgrade("h",34)) res = res.mul(upgradeEffect("h",34))
     return res
 }
 
