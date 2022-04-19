@@ -708,7 +708,7 @@ addLayer("auto", {
                 else if (getClickableState("auto", 1001) == true) 
                     return {'background-color': '#FFFFFF',}
             },
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1011: {
             display() {return "Toggle Autobuy Study 1.1"},
@@ -726,7 +726,7 @@ addLayer("auto", {
                 else if (getClickableState("auto", 1011) == true) 
                     return {'background-color': '#FFFFFF', 'margin-left': '180px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1012: {
             display() {return "Toggle Autobuy Study 1.n"},
@@ -745,7 +745,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1011, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1021: {
             display() {return "Toggle Autobuy Study 2.1"},
@@ -764,7 +764,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1011, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1022: {
             display() {return "Toggle Autobuy Study 2.2"},
@@ -783,7 +783,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1011, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1023: {
             display() {return "Toggle Autobuy Study 2.3"},
@@ -802,7 +802,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1011, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1031: {
             display() {return "Toggle Autobuy Study 3.1"},
@@ -821,7 +821,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1021, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1032: {
             display() {return "Toggle Autobuy Study 3.2"},
@@ -840,7 +840,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1022, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1033: {
             display() {return "Toggle Autobuy Study 3.3"},
@@ -859,7 +859,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1023, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1041: {
             display() {return "Toggle Autobuy Study 4.1"},
@@ -878,7 +878,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1031, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1042: {
             display() {return "Toggle Autobuy Study 4.2"},
@@ -897,7 +897,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1032, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1043: {
             display() {return "Toggle Autobuy Study 4.3"},
@@ -916,7 +916,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1033, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1051: {
             display() {return "Toggle Autobuy Study 5.1"},
@@ -935,7 +935,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1041, "#FF7F7F"],[1042, "#FF7F7F"],[1043, "#FF7F7F"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1061: {
             display() {return "Toggle Autobuy Study 6.1"},
@@ -954,7 +954,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1051, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1062: {
             display() {return "Toggle Autobuy Study 6.2"},
@@ -973,7 +973,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1051, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1071: {
             display() {return "Toggle Autobuy Study 7.1"},
@@ -993,7 +993,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1061, "#FFA500"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1072: {
             display() {return "Toggle Autobuy Study 7.2"},
@@ -1013,7 +1013,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1061, "#FFA500"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1073: {
             display() {return "Toggle Autobuy Study 7.3"},
@@ -1032,7 +1032,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1062, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1081: {
             display() {return "Toggle Autobuy Study 8.1"},
@@ -1051,7 +1051,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1071, "#FFFFFF"],[1072, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1082: {
             display() {return "Toggle Autobuy Study 8.2"},
@@ -1070,7 +1070,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1073, "#FFFFFF"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
         1091: {
             display() {return "Toggle Autobuy Study 9.1"},
@@ -1089,7 +1089,7 @@ addLayer("auto", {
                     return {'background-color': '#FFFFFF', 'margin-left': '15px', 'margin-right': '15px', 'height': '120px', 'width': '120px'}
             },
             branches: [[1081, "#FF7F7F"],[1082, "#FF7F7F"]],
-            unlocked() {return hasMilestone("ab", 9)}
+            unlocked() {return hasAchievement("A",95)}
         },
     },
     update(diff) {

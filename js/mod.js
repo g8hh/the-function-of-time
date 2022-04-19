@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "2.1.h+17",
+	num: "2.1.h+18",
 	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.1.h+18</h3><br>
+		- Fixed Study Tree Auto Build<br><br>
 	<h3 style="color: #808080">v2.1.h+17</h3><br>
 		- Added 5 Abdi-Upgrades<br>
 		- Added 5 'aU' Upgrades<br>
