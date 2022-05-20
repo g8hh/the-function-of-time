@@ -61,7 +61,7 @@ addLayer("A", {
             name: "h",
             done() { return player["f"].best.gte(1e14) },
             tooltip: "<b>unnecessary</b><br><br> Have f(t) = 1e14<br><br>Reward: Unlock f(t) variables 'Buy Max'",
-            style: {'height': '64px', 'width': '64px'}
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         21: {
             name: "U",
@@ -72,8 +72,8 @@ addLayer("A", {
         22: {
             name: "more 'U'",
             done() { return hasUpgrade("u", 11) && hasUpgrade("u", 12) && hasUpgrade("u", 13) && hasUpgrade("u", 14) && hasUpgrade("u", 15) },
-            tooltip: "<b>more more more more more...</b><br><br> Buy all of the 'U' upgrades in the first row.",
-            style: {'height': '64px', 'width': '64px'}
+            tooltip: "<b>more more more more more...</b><br><br> Buy all of the 'U' upgrades in the first row.<br><br>Reward: Unlock second row of 'U' Upgrades",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         23: {
             name: "h-U-ndred",
@@ -132,8 +132,8 @@ addLayer("A", {
         34: {
             name: "very smort",
             done() { return player["res"].best.gte(1000000) },
-            tooltip: "<b>yet again no smart enough</b><br><br> Have 1,000,000 Knowledge.",
-            style: {'height': '64px', 'width': '64px'}
+            tooltip: "<b>yet again no smart enough</b><br><br> Have 1,000,000 Knowledge.<br><br>Reward: Unlock Research 'Buy Max'",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         35: {
             name: "very very smort",
@@ -150,7 +150,7 @@ addLayer("A", {
         37: {
             name: "very very very very",
             done() { return player["res"].best.gte(1e24) },
-            tooltip: "<b>and again, and but yet again no smart enough</b><br><br> Have 1e24 Knowledge.<br><br>Reward: Unlock Research 'Buy Max'",
+            tooltip: "<b>and again, and but yet again no smart enough</b><br><br> Have 1e24 Knowledge.",
             style: {'height': '64px', 'width': '64px'}
         },
         38: {
@@ -204,8 +204,8 @@ addLayer("A", {
         48: {
             name: "capped",
             done() { return getBuyableAmount("tmach", 21).gte(32) && getBuyableAmount("tmach", 22).gte(32)},
-            tooltip: "<b>as for now</b><br><br> Get the second cap of Warp Warp Time and T.M.G.E.",
-            style: {'height': '64px', 'width': '64px'}
+            tooltip: "<b>as for now</b><br><br> Get the second cap of Warp Warp Time and T.M.G.E.<br><br>Reward: Unlock Time Machine 'Buy Max'",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         51: {
             name: "PP???",
@@ -241,7 +241,7 @@ addLayer("A", {
             name: "prestiged",
             done() { return hasUpgrade("p", 11) && hasUpgrade("p", 12) && hasUpgrade("p", 13) && hasUpgrade("p", 14) && hasUpgrade("p", 15) },
             tooltip: "<b>more more more more more?</b><br><br> Buy all first row of Pres-Upgrades<br><br>Reward: Unlock g(t) variables 'Buy Max'",
-            style: {'height': '64px', 'width': '64px'}
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         57: {
             name: "the prestiged",
@@ -291,11 +291,23 @@ addLayer("A", {
             tooltip: "<b>The 'pU' Achievements are wierd af</b><br><br> 'pU' value is more than 1e1233.",
             style: {'height': '64px', 'width': '64px'}
         },
+        67: {
+            name: "weird ach",
+            done() { return player["pu"].best.gte(new Decimal(10).pow(10000))},
+            tooltip: "<b>🆗🆒</b><br><br> 'pU' value is more than 1e10,000.",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        68: {
+            name: "another weird ach",
+            done() { return player["pu"].best.gte(new Decimal(10).pow(50000))},
+            tooltip: "<b>🆒🆒🆒🆒</b><br><br> 'pU' value is more than 1e50,000.",
+            style: {'height': '64px', 'width': '64px'}
+        },
         71: {
             name: "∞",
             done() { return player["f"].best.gte(new Decimal(2).pow(1024))},
-            tooltip: "<b>WOW</b><br><br> reach f(t) = 1.79e308",
-            style: {'height': '64px', 'width': '64px'}
+            tooltip: "<b>WOW</b><br><br> reach f(t) = 1.79e308 <br><br> Reward: ∞ Layer",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
         72: {
             name: "ez",
@@ -311,8 +323,32 @@ addLayer("A", {
         },
         74: {
             name: "Layer 1 Auto",
-            done() { return hasChallenge("inf", 61) && hasChallenge("inf", 62) && hasChallenge("inf", 71) && hasChallenge("inf", 72)},
-            tooltip: "<b>challenged 3</b><br><br> Complete all Function of Time Machine Automation Challenges",
+            done() { return hasAchievement("A",72) && hasAchievement("A",73) && hasChallenge("inf", 61) && hasChallenge("inf", 62) && hasChallenge("inf", 71) && hasChallenge("inf", 72)},
+            tooltip: "<b>challenged 3</b><br><br> Automate the Layer 1",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        75: {
+            name: "Layer 2 Auto",
+            done() { return hasChallenge("inf", 81) && hasChallenge("inf", 91) && hasChallenge("inf", 92) && hasChallenge("inf", 101)},
+            tooltip: "<b>challenged 4</b><br><br> Automate the Layer 2</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        76: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        77: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        78: {
+            name: "Something auto - mation",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
             style: {'height': '64px', 'width': '64px'}
         },
         81: {
@@ -338,6 +374,174 @@ addLayer("A", {
             done() { return player["four"].points.gte(new Decimal(2).pow(1024))},
             tooltip: "<b>IMPOSSIBLE</b><br><br> Reach infinity Distortions",
             style: {'height': '64px', 'width': '64px'}
+        },
+        85: {
+            name: "this torch dead",
+            done() { return hasUpgrade("pu", 25)},
+            tooltip: "<b>Break Distorion</b><br><br> Break infinity distortion",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        86: {
+            name: "these two are dead",
+            done() { return player["four"].points.gte(new Decimal(10).pow(4200))},
+            tooltip: "<b>420 x 10</b><br><br> Reach 1e4200 distortion",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        87: {
+            name: "fish turtle",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        88: {
+            name: "distorted",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        91: {
+            name: "Age of Studying",
+            done() { return player["four"].points.gte(new Decimal(10).pow(666))},
+            tooltip: "<b>Much Smarter</b><br><br> Unlock Study Tree<br><br>Reward: Unlock 'Buy All' button on 'U' Upgrades and Res-Upgrades",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
+        },
+        92: {
+            name: "patience",
+            done() { return hasUpgrade("res",121)},
+            tooltip: "<b>wait</b><br><br> just wait",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        93: {
+            name: "E",
+            done() { return hasUpgrade("res",112)},
+            tooltip: "<b>e!!!</b><br><br> Unlock Euler's number",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        94: {
+            name: "Life Conversion sounds weird",
+            done() { return getBuyableAmount("res", 53).gte(1)},
+            tooltip: "<b>Weird</b><br><br> I noticed that i like saying weird",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        95: {
+            name: "Semi-nior",
+            done() { return player["res"].sPoints.gte(30) },
+            tooltip: "<b>BUILD BUILD BUILD</b><br><br> i hate clicking, have 30 Study Points<br><br>Reward: Unlock Study Tree Auto Build in Automation",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
+        },
+        96: {
+            name: "Nerd stuffs",
+            done() { return false },
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        97: {
+            name: "Nerd stuffs",
+            done() { return false },
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        98: {
+            name: "Nerd stuffs",
+            done() { return false },
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        101: {
+            name: "How is this related?",
+            done() { return hasUpgrade("res",151)},
+            tooltip: "<b>What is this?</b><br><br> Unlock Abdicate<br><br> Reward: Unlock 'Buy Max' button in converting study points",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
+        },
+        102: {
+            name: "I hate patience",
+            done() { return hasMilestone("ab",7) && hasUpgrade("res",121)},
+            tooltip: "<b>won't wait</b><br><br>just won't wait",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        103: {
+            name: "∞ Again",
+            done() { return player["h"].points.gte(new Decimal(2).pow(1024))},
+            tooltip: "<b>Wow...</b><br><br>not amazed tbh, this always happened. <br> Have h(t) = ∞ <br><br> Unlock hInfinity",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
+        },
+        104: {
+            name: "Auto again",
+            done() { return (hasUpgrade("h",111)&&hasUpgrade("h",112)&&hasUpgrade("h",113)&&hasUpgrade("h",114)&&hasUpgrade("h",121)&&hasUpgrade("h",122)&&hasUpgrade("h",123)&&hasUpgrade("h",124))},
+            tooltip: "<b>Great!</b><br><br>blah blah automate h(t) variables blah blah<br><br>Reward: Unlock Automate Upgrade 3.1 and hInf-Upgrade n.1",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
+        },
+        105: {
+            name: "Vatican (2019)",
+            done() { return player.ab.total.gte(825)},
+            tooltip: "<b>825 Lives</b> <br><br> population of Vatican city",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        106: {
+            name: "Life Things",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        107: {
+            name: "Life Things",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        108: {
+            name: "Life Things",
+            done() { return false},
+            tooltip: "<b>Locked</b>",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        111: {
+            name: "What's next 'i(t)'?",
+            done() { return getBuyableAmount("h", 11).gte(1)},
+            tooltip: "<b>Ahhhhhhhhhhhhh</b><br><br> Buy 'Aₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        112: {
+            name: "i love bₕ-acon",
+            done() { return getBuyableAmount("h", 21).gte(1)},
+            tooltip: "<b>bₕ-acon</b><br><br> Buy 'Bₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        113: {
+            name: "se-cₕ-ond plus 1 h(t) achievement",
+            done() { return getBuyableAmount("h", 31).gte(1)},
+            tooltip: "<b>cₕ-anon</b><br><br> Buy 'Cₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        114: {
+            name: "thir-dₕ plus 1 h(t) achievement",
+            done() { return getBuyableAmount("h", 41).gte(1)},
+            tooltip: "<b>dₕ-ance</b><br><br> Buy 'Dₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        115: {
+            name: "m-eₕ just another achievement",
+            done() { return getBuyableAmount("h", 51).gte(1)},
+            tooltip: "<b>Eₕ...</b><br><br> Buy 'Eₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        116: {
+            name: "hehe fₕ-art",
+            done() { return getBuyableAmount("h", 61).gte(1)},
+            tooltip: "<b>fₕ-art</b><br><br> Buy 'Fₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        117: {
+            name: "I hate making these puns",
+            done() { return getBuyableAmount("h", 71).gte(1)},
+            tooltip: "<b>gₕ-oat</b><br><br> Buy 'Gₕ' Variable",
+            style: {'height': '64px', 'width': '64px'}
+        },
+        118: {
+            name: "hhhhhhhh hhhhhhhh hhhhhhhh hhhhhhhh",
+            done() { return getBuyableAmount("h", 81).gte(1)},
+            tooltip: "<b>H</b><br><br> Buy 'Hₕ' Variable<br><br> Reward: Unlock h(t) variables 'Buy Max'",
+            style: {'height': '64px', 'width': '64px', "color": "#680CA6"}
         },
     },
 })

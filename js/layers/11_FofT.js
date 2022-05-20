@@ -6,22 +6,22 @@ addLayer("f", {
                 ["display-text", function() { return "You Are Gaining <h2><b>" + format(getResetGain("f")) + "</b></h2> f(t) Per Second" },],
                 "blank",
                 ["display-text", function() {
-                if (inChallenge("inf", 21)) {
-                    return "f(time+WT) = f(time) + abd⋅U⋅WT⋅g(t)"
+                if (hasUpgrade("res",161)) {
+                    return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)^" + format(tmp.res.upgrades[161].effect) 
                 }
-                else if (inChallenge("inf", 12)) {
-                    return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)⋅0.001"
+                if (hasUpgrade("res",112)) {
+                    return "f(time+WT) = f(time) + abcd(e^" + format(getBuyableAmount("f", 31)) + ")⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(100000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(100000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abcd⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(10000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abc⋅U⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(1000) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(1000) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + abc⋅WT⋅g(t)" 
                 }
-                else if (player["f"].best.gte(10) && player["p"].total.gte(1)) {
+                else if (player["f"].best.gte(10) && hasAchievement("A", 51)) {
                     return "f(time+WT) = f(time) + ab⋅WT⋅g(t)" 
                 }
                 else if (player["p"].total.gte(1)) {
@@ -65,6 +65,14 @@ addLayer("f", {
     name: "f of t", 
     symbol: "f",
     color: "#63C5DA", 
+    nodeStyle() {
+        if (inChallenge("four", 11)) {
+            return {"background": "radial-gradient(#63C5DA, #797EF6)", "background-origin": "border-box"}
+        }
+        else {
+            return {"background": "#63C5DA", "background-origin": "border-box"}
+        }
+    },
     resource: "f(t)",
     baseResource: "time",
     requires: new Decimal(1),
@@ -72,6 +80,7 @@ addLayer("f", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(1.001),
+        pTime: new Decimal(0),
     }},
     passiveGeneration() { return true },
     type: "normal", 
@@ -204,11 +213,41 @@ addLayer("f", {
                 else {return player["f"].best.gte(100000)}
             }
         },
+        31: {
+            title() {return "Euler's number"},
+            cost(x) { return new Decimal(1).mul(new Decimal(1000).pow(x))},
+            display() { return "Increase the exponent of 'e' <br> Currently = " + format(tmp.f.buyables[31].effect) + " (bought:" + format(getBuyableAmount("f", 31)) + ") <br> Value = " + format(new Decimal(2.71828).pow(tmp.f.buyables[31].effect)) + "<br> Cost: -f(t) = " + format(this.cost(getBuyableAmount("f", 31)))},
+            canAfford() { return player["f"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("f", 11) == false) {
+                    player["f"].points = player["f"].points.sub(this.cost())
+                    setBuyableAmount("f", 31, getBuyableAmount("f", 31).add(1))
+                }
+                else if (getClickableState("f", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["f"].points.abs(), this.cost(), 1000)
+                    subCost(1000, getBuyableAmount("f", 31), 1)
+                    player["f"].points = player["f"].points.sub(new Decimal(sub))
+                    setBuyableAmount("f", 31, getBuyableAmount("f", 31).add(new Decimal(max)))
+                }
+            },
+            effect() { 
+                eff = new Decimal(0)
+                eff = eff.add(getBuyableAmount("f", 31))
+                return eff
+            },
+            unlocked() {
+                if (inChallenge("inf",92)) {return false} 
+                else if (hasUpgrade("res",112)) {return true} 
+                else {return false}
+            }
+        },
     },
     automate() {
-        return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false)
+        return (getClickableState("auto", 21) ? buyBuyable("f", 11) : false), (getClickableState("auto", 22) ? buyBuyable("f", 12) : false), (getClickableState("auto", 23) ? buyBuyable("f", 21) : false), (getClickableState("auto", 24) ? buyBuyable("f", 22) : false), (getClickableState("auto", 91) ? buyBuyable("f", 31) : false)
     },
-    update() {
+    update(diff) {
+        player["f"].pTime = player["f"].pTime.add(new Decimal(1).mul(getBuyableAmount("res",51).add(getBuyableAmount("res",52)).add(getBuyableAmount("res",53)).add(1)).pow(0.5).mul(diff))
         if (tmp.f.clickables[11].unlocked && getClickableState("auto", 11) == true) {
             setClickableState("f", 11, true)
         }
@@ -228,9 +267,10 @@ addLayer("f", {
         mult = mult.mul(tmp.f.buyables[12].effect)
         mult = mult.mul(tmp.f.buyables[21].effect)
         mult = mult.mul(tmp.f.buyables[22].effect)
+        mult = mult.mul(new Decimal(2.71828).pow(tmp.f.buyables[31].effect))
         mult = mult.mul(player["u"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
-        mult = mult.mul(player["g"].points)
+        mult = mult.mul(player["g"].points.pow(gtPow()))
         if (inChallenge("inf", 12)) mult = mult.mul(0.001)
         return mult
     },
@@ -238,11 +278,18 @@ addLayer("f", {
         exp = new Decimal(1)
         if (inChallenge("four", 11)) exp = exp.mul(0.25)
         if (inChallenge("inf", 31)) exp = exp.mul(0.75)
+        if (inChallenge("inf", 81)) exp = exp.mul(0.25)
         return exp
     },
     exponent: 1, 
-    position: 1, 
+    position: 2, 
     row: 0,
-    displayRow: 0,
+    displayRow: 1,
     layerShown(){return true},
 })
+
+function gtPow() {
+    pow = new Decimal(1)
+    if (hasUpgrade("res", 161)) pow = pow.mul(upgradeEffect("res",161))
+    return pow
+}
