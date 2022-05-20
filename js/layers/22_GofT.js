@@ -8,13 +8,25 @@ addLayer("g", {
                 ["display-text", function() { return "You Have <h2><b>" + format(player["p"].points) + " PP</b></h2>" },],
                 "blank",
                 ["display-text", function() {
-                    if (hasUpgrade("u", 35)) {
-                        return "g(time+WT) = f(time) + wxyz⋅pU⋅WT" 
+                    if (hasUpgrade("res",162) && hasUpgrade("au",15)) {
+                        return "g(time+WT) = g(time) + wxyz(φ^" + format(getBuyableAmount("g", 31)) + ")⋅pU⋅WT⋅h(t)^" + format(tmp.au.upgrades[15].effect)
+                    }
+                    else if (hasUpgrade("res",162)) {
+                        return "g(time+WT) = g(time) + wxyz(φ^" + format(getBuyableAmount("g", 31)) + ")⋅pU⋅WT⋅h(t)"
+                    }
+                    else if (hasUpgrade("au",15)) {
+                        return "g(time+WT) = g(time) + wxyz⋅pU⋅WT⋅h(t)^" + format(tmp.au.upgrades[15].effect)
+                    }
+                    else if (hasAchievement("A", 101)) {
+                        return "g(time+WT) = g(time) + wxyz⋅pU⋅WT⋅h(t)" 
+                    }
+                    else if (hasUpgrade("u", 35)) {
+                        return "g(time+WT) = g(time) + wxyz⋅pU⋅WT" 
                     }
                     else if (hasUpgrade("p", 14)) {
-                        return "g(time+WT) = f(time) + wxyz⋅WT" 
+                        return "g(time+WT) = g(time) + wxyz⋅WT" 
                     }
-                    return "g(time+WT) = f(time) + wxyz⋅WT⋅0.01"
+                    return "g(time+WT) = g(time) + wxyz⋅WT⋅0.01"
                 }],
                 "blank",
                 "clickables",
@@ -152,12 +164,38 @@ addLayer("g", {
                 return eff
             },
         },
+        31: {
+            title() {return "Golden ratio"},
+            cost(x) { return new Decimal(1).mul(new Decimal(1000).pow(x))},
+            display() { return "Increase the exponent of 'φ' <br> Currently = " + format(tmp.g.buyables[31].effect) + " (bought:" + format(getBuyableAmount("g", 31)) + ") <br> Value = " + format(new Decimal(1.61803).pow(tmp.g.buyables[31].effect)) + "<br> Cost: " + format(this.cost(getBuyableAmount("g", 31))) + " PP"},
+            canAfford() { return player["p"].points.gte(this.cost()) },
+            buy() {
+                if (getClickableState("g", 11) == false) {
+                    player["p"].points = player["p"].points.sub(this.cost())
+                    setBuyableAmount("g", 31, getBuyableAmount("g", 31).add(1))
+                }
+                else if (getClickableState("g", 11) == true) {
+                    max = new Decimal(0)
+                    getMax(player["p"].points.abs(), this.cost(), 1000)
+                    subCost(1000, getBuyableAmount("g", 31), 1)
+                    player["p"].points = player["p"].points.sub(new Decimal(sub))
+                    setBuyableAmount("g", 31, getBuyableAmount("g", 31).add(new Decimal(max)))
+                }
+            },
+            effect() { 
+                eff = new Decimal(0)
+                eff = eff.add(getBuyableAmount("g", 31))
+                return eff
+            },
+            unlocked() {
+                if (inChallenge("inf",92)) return false 
+                else if (hasUpgrade("res",162)) return true
+                else return false
+            }
+        },
     },
-    doReset(resettingLayer) {
-        let keep=[];
-        if (layers[resettingLayer].row > this.row) {layerDataReset("g", keep);
-        }
-        player["g"].points = player["g"].points.pow(0)
+    automate() {
+        return (getClickableState("auto", 101) ? (buyBuyable("g", 11),buyBuyable("g", 12),buyBuyable("g", 21),buyBuyable("g", 22)) : false), (getClickableState("auto", 102) ? buyBuyable("g", 31) : false)
     },
     update() {
         if (tmp.g.clickables[11].unlocked && getClickableState("auto", 11) == true) {
@@ -177,17 +215,35 @@ addLayer("g", {
         mult = mult.mul(tmp.g.buyables[12].effect)
         mult = mult.mul(tmp.g.buyables[21].effect)
         mult = mult.mul(tmp.g.buyables[22].effect)
+        if (hasUpgrade("res",162)) mult = mult.mul(new Decimal(1.61803).pow(tmp.g.buyables[31].effect))
         mult = mult.mul(player["pu"].points)
         mult = mult.mul(tmp.tmach.buyables[12].effect)
+        mult = mult.mul(player["h"].points.pow(htPow()))
+        if (inChallenge("inf",91)) mult = mult.mul(0)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
     exponent: 1, 
-    position: 1, 
+    position: 2, 
     row: 1, 
     displayRow: 2,
     branches: ["p","f"],
-    layerShown() {return player["f"].best.gte(1e18) || player["p"].total.gte(1)},
+    layerShown() {
+        if (inChallenge("inf", 91)) return false
+        else return player["f"].best.gte(1e18) || hasAchievement("A", 51)
+    },
+    doReset(resettingLayer) {
+        let keep=[];
+        if (layers[resettingLayer].row > this.row) {layerDataReset("g", keep);
+        }
+        player["g"].points = player["g"].points.pow(0)
+    },
 })
+
+function htPow() {
+    pow = new Decimal(1)
+    if (hasUpgrade("au", 15)) pow = pow.mul(upgradeEffect("au",15))
+    return pow
+}

@@ -13,11 +13,64 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4.n+",
-	name: "Transdimensional Update",
+	num: "2.1.h+18",
+	name: "h(t) & Abdicate Update II: hInfinity Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3 style="color: #808080">v2.1.h+18</h3><br>
+		- Fixed Study Tree Auto Build<br><br>
+	<h3 style="color: #808080">v2.1.h+17</h3><br>
+		- Added 5 Abdi-Upgrades<br>
+		- Added 5 'aU' Upgrades<br>
+		- Added 4 hInf-Upgrades<br>
+		- Changed current endgame [ Study 9.1 ]<br><br>
+	<h3 style="color: #808080">v2.1.h+2</h3><br>
+		- Fixed 'pU' Upgrade 2.1 bug<br>
+		- Changed current endgame [ 16,384 Total Lives ]<br><br>
+	<h3 style="color: #808080">v2.1.h</h3><br>
+		- Added 5 4D-Upgrades<br>
+		- Added 9 hInf-Upgrades<br>
+		- Added 9 Automate upgrades for the hInfinity<br>
+		- Completed 6 Abdication miliestones<br>
+		- Added 6 Abdi-Upgrades<br>
+		- Added 5 more studies<br>
+		- Added 4 Automation Challenges<br><br>
+	<h3 style="color: #808080">v2.1.0</h3><br>
+		- Added hInfinity<br><br>
+	<h2 style="color: #808080">h(t) & Abdicate Update II: <br> hInfinity Update</h2><br><br>
+	<h3 style="color: #808080">v2.0.71</h3><br>
+		- Buffed Study 2.1<br><br>
+	<h3 style="color: #808080">v2.0.70</h3><br>
+		- Added 22 achievements<br>
+		- Completed 3rd Study Points Converter<br>
+		- Added 2 more studies<br>
+		- Added reset tree on study tree<br>
+		- Added 7 buy all and buy max button in various tabs<br>
+		- Added 10 'aU' Upgrades<br>
+		- Added 5 Abdi-Upgrades<br>
+		- Added 8 new variables<br>
+		- Added 10 Miliestones for the new layer<br>
+		- Removed the excruciating pain of mindless clicking<br>
+		- Fixed the thing where the boost only shows when upgrade is bought<br>
+		- Rearranged the tree<br>
+		- Changed current endgame [ h(t) = 1.80e308 ]<br><br>
+	<h3 style="color: #808080">v2.0.0</h3><br>
+		- Added 'aU' Upgrades.<br>
+		- Added h(t) Layer.<br>
+		- Added Abdicate Layer.<br><br>
+	<h2 style="color: #808080">h(t) & Abdicate Update I</h2><br><br>
+	<h3 style="color: #FFE77B">v1.5.55+</h3><br>
+		- Fixed f(t) ~ 1e13,000 hard cap<br>
+		- Added 13 Achievements<br>
+		- Added 3 Study Points Converter<br>
+		- Completed 2 Study Points Converter<br>
+		- Added 25 studies<br>
+		- Completed 12 studies<br>
+		- Changed current endgame [ Study 5.1 ]<br><br>
+	<h3 style="color: #FFE77B">v1.5.0</h3><br>
+		- Added Study Tree<br><br>
+	<h2 style="color: #FFE77B">Another Research Update</h2><br><br>
 	<h3 style="color: #FF7F7F">v1.4.n+</h3><br>
 		- Added how many time fragments gained per second<br>
 		- Added Maxes and Caps in various upgrades and buyables<br>
@@ -70,7 +123,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 	<h3 style="color: #BF40BF">v1.0.0</h3><br>
 		- Added g(t) Layer.<br>
 		- Added Prestige Layer.<br><br>
-	<h2 style="color: #BF40BF">Function of 'g' <br> and Prestige Update</h2><br><br>
+	<h2 style="color: #BF40BF">g(t) & Prestige Update I</h2><br><br>
 	<h3 style="color: #FFE4B5">v0.4.21</h3><br>
 		- Added 21 achievements.<br><br>
 	<h3 style="color: #FFE4B5">v0.4.0</h3><br>
@@ -107,7 +160,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Added f(t) Layer.<br><br>
 	<h2 style="color: #63C5DA">The Beginning</h2><br><br>`
 
-let winText = `Deserved!!!`
+let winText = `Deserved! Good for you!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -143,7 +196,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player["four"].points.gte(new Decimal(10).pow(666))
+	return hasUpgrade("res",191)
 }
 
 
