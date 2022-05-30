@@ -392,7 +392,7 @@ var cnItems = {
     "Unlock the 2nd row of hInf-Upgrades and reset hInfinity data": "解锁第 2 行 hInf-升级 并重置 hInfinity 数据",
     "x log(h(t)+10) Distortion gained": "x log(h(t)+10) 获得的失真",
     "x1.5 'aU' Value every 'aU' Upgrades bought": "x1.5 'aU' 价值每购买 'aU' 升级",
-    "": "",
+    "^0.001 'U' value every 'pU' Variable Upgrade bought": "^0.001 'U' 值每个购买的“pU”变量升级",
     "": "",
     "": "",
     "": "",
